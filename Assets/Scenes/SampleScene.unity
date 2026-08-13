@@ -159,7 +159,7 @@ MonoBehaviour:
     Controllers:
     - Name: Look Orbit X
       Owner: {fileID: 215589068}
-      Enabled: 1
+      Enabled: 0
       Input:
         InputAction: {fileID: -5630151704836100654, guid: 052faaac586de48259a63d0c4782560b, type: 3}
         Gain: 5
@@ -170,7 +170,7 @@ MonoBehaviour:
         DecelTime: 0.2
     - Name: Look Orbit Y
       Owner: {fileID: 215589068}
-      Enabled: 1
+      Enabled: 0
       Input:
         InputAction: {fileID: -5630151704836100654, guid: 052faaac586de48259a63d0c4782560b, type: 3}
         Gain: -1
@@ -277,9 +277,9 @@ MonoBehaviour:
     Range: {x: -180, y: 180}
     Wrap: 1
     Recentering:
-      Enabled: 0
-      Wait: 1
-      Time: 2
+      Enabled: 1
+      Wait: 0.15
+      Time: 0.45
     Restrictions: 0
   VerticalAxis:
     Value: 17.5
@@ -913,7 +913,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 33a8ae82a7df0f84ba6b06bfe2de2e60, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::NewMonoBehaviourScript
+  m_EditorClassIdentifier: Assembly-CSharp::ThirdPersonController
   walkSpeed: 2.5
   runSpeed: 5
   rotationSmoothTime: 0.1
