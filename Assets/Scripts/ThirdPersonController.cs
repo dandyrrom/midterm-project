@@ -11,6 +11,8 @@ public class ThirdPersonController : MonoBehaviour
 
     [Header("Jump")]
     public float jumpHeight = 1.2f;
+    [Tooltip("Seconds to play the crouch/takeoff on the ground before the capsule hops.")]
+    public float jumpTakeoffDelay = 0.4f;
 
     CharacterController controller;
     Animator animator;
@@ -27,6 +29,8 @@ public class ThirdPersonController : MonoBehaviour
     readonly float gravity = -9.81f;
     bool isDead;
     float hitUntil;
+    bool jumpPending;
+    float jumpTakeoffAt;
 
     static readonly int SpeedHash = Animator.StringToHash("Speed");
     static readonly int JumpHash = Animator.StringToHash("Jump");
@@ -97,9 +101,10 @@ public class ThirdPersonController : MonoBehaviour
         Vector3 direction = new Vector3(input.x, 0f, input.y).normalized;
         bool isSprinting = sprintAction != null && sprintAction.IsPressed();
         bool isHitLocked = Time.time < hitUntil;
+        bool isJumpLocked = jumpPending;
 
         float targetSpeed = isSprinting ? runSpeed : walkSpeed;
-        if (input.magnitude < 0.1f || isHitLocked)
+        if (input.magnitude < 0.1f || isHitLocked || isJumpLocked)
             targetSpeed = 0f;
 
         currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, Time.deltaTime * 10f);
@@ -111,22 +116,30 @@ public class ThirdPersonController : MonoBehaviour
         {
             verticalVelocity = -0.5f;
             bool jumpPressed = jumpAction != null && jumpAction.WasPressedThisFrame();
-            if (jumpPressed && !isHitLocked)
+            if (jumpPressed && !isHitLocked && !jumpPending)
             {
-                verticalVelocity = Mathf.Sqrt(jumpHeight * -2f * gravity);
+                jumpPending = true;
+                jumpTakeoffAt = Time.time + jumpTakeoffDelay;
                 if (animator != null)
                     animator.SetTrigger(JumpHash);
+            }
+
+            if (jumpPending && Time.time >= jumpTakeoffAt)
+            {
+                verticalVelocity = Mathf.Sqrt(jumpHeight * -2f * gravity);
+                jumpPending = false;
             }
         }
         else
         {
+            jumpPending = false;
             verticalVelocity += gravity * Time.deltaTime;
         }
 
         Vector3 moveDir = Vector3.zero;
         Transform cam = mainCameraTransform != null ? mainCameraTransform : (Camera.main != null ? Camera.main.transform : null);
 
-        if (!isHitLocked && direction.magnitude >= 0.1f)
+        if (!isHitLocked && !isJumpLocked && direction.magnitude >= 0.1f)
         {
             float cameraYaw = cam != null ? cam.eulerAngles.y : transform.eulerAngles.y;
             float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cameraYaw;
