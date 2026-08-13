@@ -222,7 +222,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineRotationComposer
   Composition:
-    ScreenPosition: {x: 0, y: 0}
+    ScreenPosition: {x: 0, y: -0.18}
     DeadZone:
       Enabled: 0
       Size: {x: 0.2, y: 0.2}
@@ -231,7 +231,7 @@ MonoBehaviour:
       Size: {x: 0.8, y: 0.8}
       Offset: {x: 0, y: 0}
   CenterOnActivate: 1
-  TargetOffset: {x: 0, y: 0, z: 0}
+  TargetOffset: {x: 0, y: 1.55, z: 0}
   Damping: {x: 0.5, y: 0.5}
   Lookahead:
     Enabled: 0
@@ -250,7 +250,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b5d7c088409d9a40b7b09aa707777f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineOrbitalFollow
-  TargetOffset: {x: 0, y: 0, z: 0}
+  TargetOffset: {x: 0, y: 1.55, z: 0}
   TrackerSettings:
     BindingMode: 4
     PositionDamping: {x: 1, y: 1, z: 1}
@@ -261,14 +261,14 @@ MonoBehaviour:
   Radius: 5
   Orbits:
     Top:
-      Radius: 1.27
-      Height: 2.03
+      Radius: 1.8
+      Height: 1.85
     Center:
-      Radius: 4.03
-      Height: 2.14
+      Radius: 4.5
+      Height: 0.75
     Bottom:
-      Radius: 2.43
-      Height: 0
+      Radius: 2.8
+      Height: -0.35
     SplineCurvature: 0.5
   RecenteringTarget: 2
   HorizontalAxis:
