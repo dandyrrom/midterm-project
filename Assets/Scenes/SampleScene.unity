@@ -1240,7 +1240,11 @@ MonoBehaviour:
   rotationSmoothTime: 0.1
   jumpHeight: 0.4
   jumpTakeoffDelay: 0.8
+  pauseDuringCrouch: 1
+  landPause: 1.2
+  pauseOnLanding: 1
   jumpBufferTime: 0.2
+  airControl: 1
 --- !u!114 &2101850961
 MonoBehaviour:
   m_ObjectHideFlags: 0
