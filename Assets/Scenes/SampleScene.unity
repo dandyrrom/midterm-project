@@ -917,6 +917,9 @@ MonoBehaviour:
   walkSpeed: 2.5
   runSpeed: 5
   rotationSmoothTime: 0.1
+  jumpHeight: 1
+  jumpTakeoffDelay: 0.8
+  jumpBufferTime: 0.2
 --- !u!114 &2101850961
 MonoBehaviour:
   m_ObjectHideFlags: 0
