@@ -13,6 +13,8 @@ public class ThirdPersonController : MonoBehaviour
     public float jumpHeight = 1.2f;
     [Tooltip("Seconds to play the crouch/takeoff on the ground before the capsule hops.")]
     public float jumpTakeoffDelay = 0.4f;
+    [Tooltip("If Space is pressed a moment before she is counted as grounded, still accept the jump.")]
+    public float jumpBufferTime = 0.2f;
 
     CharacterController controller;
     Animator animator;
@@ -27,10 +29,13 @@ public class ThirdPersonController : MonoBehaviour
     float currentSpeed;
     float verticalVelocity;
     readonly float gravity = -9.81f;
+    readonly float groundedStick = -2f;
     bool isDead;
     float hitUntil;
     bool jumpPending;
     float jumpTakeoffAt;
+    float jumpBufferUntil;
+    bool jumpAirborne;
 
     static readonly int SpeedHash = Animator.StringToHash("Speed");
     static readonly int JumpHash = Animator.StringToHash("Jump");
@@ -87,7 +92,7 @@ public class ThirdPersonController : MonoBehaviour
         if (isDead)
         {
             if (controller.isGrounded)
-                verticalVelocity = -0.5f;
+                verticalVelocity = groundedStick;
             else
                 verticalVelocity += gravity * Time.deltaTime;
 
@@ -101,7 +106,45 @@ public class ThirdPersonController : MonoBehaviour
         Vector3 direction = new Vector3(input.x, 0f, input.y).normalized;
         bool isSprinting = sprintAction != null && sprintAction.IsPressed();
         bool isHitLocked = Time.time < hitUntil;
-        bool isJumpLocked = jumpPending;
+        bool grounded = controller.isGrounded;
+
+        if (jumpAction != null && jumpAction.WasPressedThisFrame() && !isHitLocked)
+            jumpBufferUntil = Time.time + jumpBufferTime;
+
+        bool wantsJump = Time.time < jumpBufferUntil;
+        if (!jumpPending && !jumpAirborne && wantsJump && grounded && !isHitLocked)
+        {
+            jumpPending = true;
+            jumpTakeoffAt = Time.time + jumpTakeoffDelay;
+            jumpBufferUntil = 0f;
+            if (animator != null)
+            {
+                animator.ResetTrigger(JumpHash);
+                animator.SetTrigger(JumpHash);
+            }
+        }
+
+        if (jumpPending && Time.time >= jumpTakeoffAt)
+        {
+            verticalVelocity = Mathf.Sqrt(jumpHeight * -2f * gravity);
+            jumpPending = false;
+            jumpAirborne = true;
+        }
+        else if (grounded && !jumpAirborne)
+        {
+            verticalVelocity = groundedStick;
+        }
+        else
+        {
+            verticalVelocity += gravity * Time.deltaTime;
+            if (!grounded)
+                jumpAirborne = true;
+        }
+
+        if (jumpAirborne && grounded && verticalVelocity <= 0f && !jumpPending)
+            jumpAirborne = false;
+
+        bool isJumpLocked = jumpPending || jumpAirborne;
 
         float targetSpeed = isSprinting ? runSpeed : walkSpeed;
         if (input.magnitude < 0.1f || isHitLocked || isJumpLocked)
@@ -111,30 +154,6 @@ public class ThirdPersonController : MonoBehaviour
 
         if (animator != null)
             animator.SetFloat(SpeedHash, runSpeed > 0f ? currentSpeed / runSpeed : 0f);
-
-        if (controller.isGrounded)
-        {
-            verticalVelocity = -0.5f;
-            bool jumpPressed = jumpAction != null && jumpAction.WasPressedThisFrame();
-            if (jumpPressed && !isHitLocked && !jumpPending)
-            {
-                jumpPending = true;
-                jumpTakeoffAt = Time.time + jumpTakeoffDelay;
-                if (animator != null)
-                    animator.SetTrigger(JumpHash);
-            }
-
-            if (jumpPending && Time.time >= jumpTakeoffAt)
-            {
-                verticalVelocity = Mathf.Sqrt(jumpHeight * -2f * gravity);
-                jumpPending = false;
-            }
-        }
-        else
-        {
-            jumpPending = false;
-            verticalVelocity += gravity * Time.deltaTime;
-        }
 
         Vector3 moveDir = Vector3.zero;
         Transform cam = mainCameraTransform != null ? mainCameraTransform : (Camera.main != null ? Camera.main.transform : null);
