@@ -15,6 +15,9 @@ public class ThirdPersonController : MonoBehaviour
     public float jumpTakeoffDelay = 0.4f;
     [Tooltip("If Space is pressed a moment before she is counted as grounded, still accept the jump.")]
     public float jumpBufferTime = 0.2f;
+    [Tooltip("How much WASD steers her in the air. 1 = same as walking.")]
+    [Range(0f, 1f)]
+    public float airControl = 1f;
 
     CharacterController controller;
     Animator animator;
@@ -144,11 +147,13 @@ public class ThirdPersonController : MonoBehaviour
         if (jumpAirborne && grounded && verticalVelocity <= 0f && !jumpPending)
             jumpAirborne = false;
 
-        bool isJumpLocked = jumpPending || jumpAirborne;
+        bool inJump = jumpPending || jumpAirborne;
 
         float targetSpeed = isSprinting ? runSpeed : walkSpeed;
-        if (input.magnitude < 0.1f || isHitLocked || isJumpLocked)
+        if (input.magnitude < 0.1f || isHitLocked)
             targetSpeed = 0f;
+        else if (inJump)
+            targetSpeed *= airControl;
 
         currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, Time.deltaTime * 10f);
 
@@ -158,7 +163,7 @@ public class ThirdPersonController : MonoBehaviour
         Vector3 moveDir = Vector3.zero;
         Transform cam = mainCameraTransform != null ? mainCameraTransform : (Camera.main != null ? Camera.main.transform : null);
 
-        if (!isHitLocked && !isJumpLocked && direction.magnitude >= 0.1f)
+        if (!isHitLocked && direction.magnitude >= 0.1f)
         {
             float cameraYaw = cam != null ? cam.eulerAngles.y : transform.eulerAngles.y;
             float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cameraYaw;
