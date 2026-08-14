@@ -11,8 +11,10 @@ public class ThirdPersonController : MonoBehaviour
 
     [Header("Jump")]
     public float jumpHeight = 1.2f;
-    [Tooltip("Seconds to play the crouch/takeoff on the ground before the capsule hops.")]
+    [Tooltip("How long she crouches in place before the hop. Raise this for a longer pause.")]
     public float jumpTakeoffDelay = 0.4f;
+    [Tooltip("If on, WASD is ignored during the crouch pause. After she leaves the ground she can move again.")]
+    public bool pauseDuringCrouch = true;
     [Tooltip("If Space is pressed a moment before she is counted as grounded, still accept the jump.")]
     public float jumpBufferTime = 0.2f;
     [Tooltip("How much WASD steers her in the air. 1 = same as walking.")]
@@ -147,12 +149,12 @@ public class ThirdPersonController : MonoBehaviour
         if (jumpAirborne && grounded && verticalVelocity <= 0f && !jumpPending)
             jumpAirborne = false;
 
-        bool inJump = jumpPending || jumpAirborne;
+        bool crouchLocked = pauseDuringCrouch && jumpPending;
 
         float targetSpeed = isSprinting ? runSpeed : walkSpeed;
-        if (input.magnitude < 0.1f || isHitLocked)
+        if (input.magnitude < 0.1f || isHitLocked || crouchLocked)
             targetSpeed = 0f;
-        else if (inJump)
+        else if (jumpAirborne)
             targetSpeed *= airControl;
 
         currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, Time.deltaTime * 10f);
@@ -163,7 +165,7 @@ public class ThirdPersonController : MonoBehaviour
         Vector3 moveDir = Vector3.zero;
         Transform cam = mainCameraTransform != null ? mainCameraTransform : (Camera.main != null ? Camera.main.transform : null);
 
-        if (!isHitLocked && direction.magnitude >= 0.1f)
+        if (!isHitLocked && !crouchLocked && direction.magnitude >= 0.1f)
         {
             float cameraYaw = cam != null ? cam.eulerAngles.y : transform.eulerAngles.y;
             float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cameraYaw;
