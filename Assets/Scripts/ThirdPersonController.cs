@@ -15,6 +15,10 @@ public class ThirdPersonController : MonoBehaviour
     public float jumpTakeoffDelay = 0.4f;
     [Tooltip("If on, WASD is ignored during the crouch pause. After she leaves the ground she can move again.")]
     public bool pauseDuringCrouch = true;
+    [Tooltip("How long she stands still after landing.")]
+    public float landPause = 0.25f;
+    [Tooltip("If on, WASD is ignored for Land Pause seconds after she hits the ground.")]
+    public bool pauseOnLanding = true;
     [Tooltip("If Space is pressed a moment before she is counted as grounded, still accept the jump.")]
     public float jumpBufferTime = 0.2f;
     [Tooltip("How much WASD steers her in the air. 1 = same as walking.")]
@@ -41,6 +45,7 @@ public class ThirdPersonController : MonoBehaviour
     float jumpTakeoffAt;
     float jumpBufferUntil;
     bool jumpAirborne;
+    float landLockedUntil;
 
     static readonly int SpeedHash = Animator.StringToHash("Speed");
     static readonly int JumpHash = Animator.StringToHash("Jump");
@@ -117,7 +122,7 @@ public class ThirdPersonController : MonoBehaviour
             jumpBufferUntil = Time.time + jumpBufferTime;
 
         bool wantsJump = Time.time < jumpBufferUntil;
-        if (!jumpPending && !jumpAirborne && wantsJump && grounded && !isHitLocked)
+        if (!jumpPending && !jumpAirborne && wantsJump && grounded && !isHitLocked && Time.time >= landLockedUntil)
         {
             jumpPending = true;
             jumpTakeoffAt = Time.time + jumpTakeoffDelay;
@@ -147,12 +152,17 @@ public class ThirdPersonController : MonoBehaviour
         }
 
         if (jumpAirborne && grounded && verticalVelocity <= 0f && !jumpPending)
+        {
             jumpAirborne = false;
+            if (pauseOnLanding)
+                landLockedUntil = Time.time + landPause;
+        }
 
         bool crouchLocked = pauseDuringCrouch && jumpPending;
+        bool landLocked = pauseOnLanding && Time.time < landLockedUntil;
 
         float targetSpeed = isSprinting ? runSpeed : walkSpeed;
-        if (input.magnitude < 0.1f || isHitLocked || crouchLocked)
+        if (input.magnitude < 0.1f || isHitLocked || crouchLocked || landLocked)
             targetSpeed = 0f;
         else if (jumpAirborne)
             targetSpeed *= airControl;
@@ -165,7 +175,7 @@ public class ThirdPersonController : MonoBehaviour
         Vector3 moveDir = Vector3.zero;
         Transform cam = mainCameraTransform != null ? mainCameraTransform : (Camera.main != null ? Camera.main.transform : null);
 
-        if (!isHitLocked && !crouchLocked && direction.magnitude >= 0.1f)
+        if (!isHitLocked && !crouchLocked && !landLocked && direction.magnitude >= 0.1f)
         {
             float cameraYaw = cam != null ? cam.eulerAngles.y : transform.eulerAngles.y;
             float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cameraYaw;
