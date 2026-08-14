@@ -19,6 +19,8 @@ public class ThirdPersonController : MonoBehaviour
     public float landPause = 0.25f;
     [Tooltip("If on, WASD is ignored for Land Pause seconds after she hits the ground.")]
     public bool pauseOnLanding = true;
+    [Tooltip("How long she stands still after Hit (H). Raise this if walk/run starts before the hit clip ends.")]
+    public float hitPause = 0.7f;
     [Tooltip("If Space is pressed a moment before she is counted as grounded, still accept the jump.")]
     public float jumpBufferTime = 0.2f;
     [Tooltip("How much WASD steers her in the air. 1 = same as walking.")]
@@ -47,6 +49,7 @@ public class ThirdPersonController : MonoBehaviour
     bool jumpAirborne;
     bool jumpedFromHop;
     float landLockedUntil;
+    bool wasMoveLocked;
 
     static readonly int SpeedHash = Animator.StringToHash("Speed");
     static readonly int JumpHash = Animator.StringToHash("Jump");
@@ -86,7 +89,7 @@ public class ThirdPersonController : MonoBehaviour
         if (Time.time < hitUntil)
             return;
 
-        hitUntil = Time.time + 0.7f;
+        hitUntil = Time.time + hitPause;
         if (animator != null)
             animator.SetTrigger(HitHash);
     }
@@ -161,14 +164,22 @@ public class ThirdPersonController : MonoBehaviour
 
         bool crouchLocked = pauseDuringCrouch && jumpPending;
         bool landLocked = pauseOnLanding && Time.time < landLockedUntil;
+        bool moveLocked = isHitLocked || crouchLocked || landLocked;
 
         float targetSpeed = isSprinting ? runSpeed : walkSpeed;
-        if (input.magnitude < 0.1f || isHitLocked || crouchLocked || landLocked)
+        if (input.magnitude < 0.1f || moveLocked)
             targetSpeed = 0f;
         else if (jumpAirborne)
             targetSpeed *= airControl;
 
-        currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, Time.deltaTime * 10f);
+        if (moveLocked)
+            currentSpeed = 0f;
+        else if (wasMoveLocked && input.magnitude >= 0.1f)
+            currentSpeed = targetSpeed;
+        else
+            currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, Time.deltaTime * 10f);
+
+        wasMoveLocked = moveLocked;
 
         if (animator != null)
             animator.SetFloat(SpeedHash, runSpeed > 0f ? currentSpeed / runSpeed : 0f);
@@ -176,7 +187,7 @@ public class ThirdPersonController : MonoBehaviour
         Vector3 moveDir = Vector3.zero;
         Transform cam = mainCameraTransform != null ? mainCameraTransform : (Camera.main != null ? Camera.main.transform : null);
 
-        if (!isHitLocked && !crouchLocked && !landLocked && direction.magnitude >= 0.1f)
+        if (!moveLocked && direction.magnitude >= 0.1f)
         {
             float cameraYaw = cam != null ? cam.eulerAngles.y : transform.eulerAngles.y;
             float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cameraYaw;
@@ -186,7 +197,7 @@ public class ThirdPersonController : MonoBehaviour
             moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
         }
 
-        Vector3 finalMovement = moveDir * targetSpeed + new Vector3(0f, verticalVelocity, 0f);
+        Vector3 finalMovement = moveDir * currentSpeed + new Vector3(0f, verticalVelocity, 0f);
         controller.Move(finalMovement * Time.deltaTime);
     }
 }
