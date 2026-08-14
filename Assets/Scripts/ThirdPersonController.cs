@@ -45,6 +45,7 @@ public class ThirdPersonController : MonoBehaviour
     float jumpTakeoffAt;
     float jumpBufferUntil;
     bool jumpAirborne;
+    bool jumpedFromHop;
     float landLockedUntil;
 
     static readonly int SpeedHash = Animator.StringToHash("Speed");
@@ -139,6 +140,7 @@ public class ThirdPersonController : MonoBehaviour
             verticalVelocity = Mathf.Sqrt(jumpHeight * -2f * gravity);
             jumpPending = false;
             jumpAirborne = true;
+            jumpedFromHop = true;
         }
         else if (grounded && !jumpAirborne)
         {
@@ -147,15 +149,14 @@ public class ThirdPersonController : MonoBehaviour
         else
         {
             verticalVelocity += gravity * Time.deltaTime;
-            if (!grounded)
-                jumpAirborne = true;
         }
 
         if (jumpAirborne && grounded && verticalVelocity <= 0f && !jumpPending)
         {
             jumpAirborne = false;
-            if (pauseOnLanding)
+            if (pauseOnLanding && jumpedFromHop)
                 landLockedUntil = Time.time + landPause;
+            jumpedFromHop = false;
         }
 
         bool crouchLocked = pauseDuringCrouch && jumpPending;
