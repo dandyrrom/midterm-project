@@ -14,6 +14,9 @@ using UnityEngine.Rendering;
 public class FixPinkImportedMaterials : AssetPostprocessor
 {
     const string UrpLitName = "Universal Render Pipeline/Lit";
+    const string TreeBarkName = "Nature/Tree Creator Bark";
+    const string TreeLeavesName = "Nature/Tree Creator Leaves";
+    const string TreeLeavesFastName = "Nature/Tree Creator Leaves Fast";
     const string MenuPath = "Tools/Rendering/Fix Pink Materials (URP)";
     const string SelectedMenuPath = "Tools/Rendering/Fix Selected Pink Materials (URP)";
 
@@ -31,9 +34,14 @@ public class FixPinkImportedMaterials : AssetPostprocessor
         "Hidden/Core/"
     };
 
+    static readonly string[] TreePackPathHints =
+    {
+        "treepack", "tree pack", "treespack", "trees pack", "treepackvol"
+    };
+
     static readonly string[] FoliageNameHints =
     {
-        "leaf", "leaves", "foliage", "canopy", "branch", "twig", "atlas", "tree"
+        "leaf", "leaves", "foliage", "canopy", "branch", "twig", "atlas", "fruit"
     };
 
     static readonly string[] AlbedoNames =
@@ -321,10 +329,37 @@ public class FixPinkImportedMaterials : AssetPostprocessor
                 return false;
         }
 
-        if (name.StartsWith("Hidden/", StringComparison.Ordinal))
+        if (name.StartsWith("Hidden/", StringComparison.Ordinal) ||
+            name.StartsWith("Nature/Tree", StringComparison.Ordinal))
             return false;
 
         return true;
+    }
+
+    static Shader ChooseTargetShader(Material material, Shader urpLit)
+    {
+        string oldShader = material.shader != null ? material.shader.name : string.Empty;
+        string assetPath = AssetDatabase.GetAssetPath(material);
+        bool foliage = IsFoliage(material.name, oldShader, assetPath);
+        bool treeAsset = material.name.IndexOf("Optimized", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                         LooksLikeTreePackPath(assetPath) ||
+                         oldShader.IndexOf("Tree", StringComparison.OrdinalIgnoreCase) >= 0;
+
+        if (treeAsset && foliage)
+        {
+            Shader leaves = Shader.Find(TreeLeavesFastName) ?? Shader.Find(TreeLeavesName);
+            if (leaves != null)
+                return leaves;
+        }
+
+        if (treeAsset)
+        {
+            Shader bark = Shader.Find(TreeBarkName);
+            if (bark != null)
+                return bark;
+        }
+
+        return urpLit;
     }
 
     static void ConvertToUrpLit(Material material, Shader urpLit)
@@ -338,8 +373,9 @@ public class FixPinkImportedMaterials : AssetPostprocessor
         string oldShader = material.shader != null ? material.shader.name : string.Empty;
         string assetPath = AssetDatabase.GetAssetPath(material);
         bool foliage = IsFoliage(material.name, oldShader, assetPath);
+        Shader target = ChooseTargetShader(material, urpLit);
 
-        material.shader = urpLit;
+        material.shader = target;
 
         if (albedo != null)
             material.SetTexture("_BaseMap", albedo);
@@ -365,7 +401,8 @@ public class FixPinkImportedMaterials : AssetPostprocessor
 
         if (foliage)
         {
-            material.SetFloat("_AlphaClip", 1f);
+            if (material.HasProperty("_AlphaClip"))
+                material.SetFloat("_AlphaClip", 1f);
             material.SetFloat("_Cutoff", cutoff > 0f ? cutoff : 0.4f);
             material.EnableKeyword("_ALPHATEST_ON");
             material.SetOverrideTag("RenderType", "TransparentCutout");
@@ -379,7 +416,8 @@ public class FixPinkImportedMaterials : AssetPostprocessor
         }
         else
         {
-            material.SetFloat("_AlphaClip", 0f);
+            if (material.HasProperty("_AlphaClip"))
+                material.SetFloat("_AlphaClip", 0f);
             material.DisableKeyword("_ALPHATEST_ON");
             material.SetOverrideTag("RenderType", "Opaque");
             material.SetFloat("_Cull", (float)CullMode.Back);
@@ -418,6 +456,11 @@ public class FixPinkImportedMaterials : AssetPostprocessor
                ContainsAny(shaderName, FoliageNameHints) ||
                ContainsAny(assetPath, FoliageNameHints) ||
                shaderName.IndexOf("Soft Occlusion Leaves", StringComparison.OrdinalIgnoreCase) >= 0;
+    }
+
+    static bool LooksLikeTreePackPath(string path)
+    {
+        return ContainsAny(path, TreePackPathHints);
     }
 
     static bool ContainsAny(string value, string[] hints)
