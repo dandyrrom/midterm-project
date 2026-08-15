@@ -27,7 +27,17 @@ Tune on the Third Person Controller component: Jump Height, Jump Takeoff Delay, 
 
 ## Scene
 
-`Assets/Scenes/SampleScene.unity`: Terrain from Cemetery Kit `Display_Ter.asset` (shared with `Full_Display`), Church 1 Open, town kit pieces, jump cube. URP material convert done. Do not put the old grey **Plane** back under the church floor (z-fighting).
+`Assets/Scenes/SampleScene.unity`: Terrain from Cemetery Kit `Display_Ter.asset` (shared with `Full_Display`). URP material convert done. Do not put the old grey **Plane** back under the church floor (z-fighting).
+
+Level 1 layout (kasal stealth):
+
+| Folder | Contents | Notes |
+|---|---|---|
+| **Town Barrio** | Town Kit houses, cellar, lanterns, storage | Around spawn `(7.63, 0, 34.32)`. Path toward the church stays open. |
+| **Kasal Church** | Church 1 Open `(56.48, 1, 50.91)`, pews, stage, podium, cross, cross arch | Same church pose Danni play-tested. Nave along Z. |
+| **Cemetery** | Graves, tomb, coffins, gates/fences, stone walls | East of the church (aswang grounds). |
+
+Pieces start as SampleScene roots. If pews sit outside the nave or props float, nudge in the Inspector, or run **Tools > Midterm > Rebuild Kasal Environment** (groups them under Town Barrio / Kasal Church / Cemetery).
 
 Kits: `Assets/Cemetery Kit V1.25/`, `Assets/Town Creator Kit LITE/`. Prefabs may lack colliders; add them for bump-to-noise.
 
