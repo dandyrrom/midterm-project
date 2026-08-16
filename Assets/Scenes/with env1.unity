@@ -1354,6 +1354,9 @@ PrefabInstance:
       addedObject: {fileID: 1583132526}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: aa79fa7fe42fe38409cdb0621caf328e, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 1583132528}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: aa79fa7fe42fe38409cdb0621caf328e, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 1583132527}
   m_SourcePrefab: {fileID: 100100000, guid: aa79fa7fe42fe38409cdb0621caf328e, type: 3}
 --- !u!1 &1583132525 stripped
@@ -1383,6 +1386,29 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!136 &1583132528
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1583132525}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.4
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &1583132527
 MonoBehaviour:
   m_ObjectHideFlags: 0
