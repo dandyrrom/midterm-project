@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(NavMeshAgent), typeof(Animator))]
+[RequireComponent(typeof(NavMeshAgent), typeof(Animator), typeof(CapsuleCollider))]
 public class AswangMotor : MonoBehaviour
 {
     [Header("Speeds")]
@@ -15,6 +15,7 @@ public class AswangMotor : MonoBehaviour
 
     NavMeshAgent agent;
     Animator animator;
+    CapsuleCollider bodyCollider;
     static readonly int SpeedHash = Animator.StringToHash("Speed");
     bool warnedOffMesh;
 
@@ -37,11 +38,27 @@ public class AswangMotor : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
+        bodyCollider = GetComponent<CapsuleCollider>();
         agent.speed = walkSpeed;
         agent.acceleration = 8f;
         agent.stoppingDistance = 1.6f;
         agent.updateRotation = true;
         agent.updateUpAxis = true;
+        SyncBodyCollider();
+    }
+
+    void SyncBodyCollider()
+    {
+        if (bodyCollider == null || agent == null)
+            return;
+
+        // Solid collider so CharacterController cannot walk through the aswang.
+        // NavMeshAgent alone does not block the player.
+        bodyCollider.isTrigger = false;
+        bodyCollider.direction = 1; // Y-axis
+        bodyCollider.height = agent.height;
+        bodyCollider.radius = agent.radius;
+        bodyCollider.center = new Vector3(0f, agent.height * 0.5f, 0f);
     }
 
     void Update()
