@@ -1273,6 +1273,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Zombieguy-topless
       objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: aa79fa7fe42fe38409cdb0621caf328e, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: ed256dfe0f674b17b7bf69873e46d07d, type: 2}
+    - target: {fileID: 5866666021909216657, guid: aa79fa7fe42fe38409cdb0621caf328e, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
