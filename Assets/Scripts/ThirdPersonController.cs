@@ -29,7 +29,7 @@ public class ThirdPersonController : MonoBehaviour
 
     [Header("Grounding")]
     [Tooltip("CharacterController Skin Width. Larger values make the mesh hover above the ground.")]
-    public float groundedSkinWidth = 0.02f;
+    public float groundedSkinWidth = 0.0001f;
 
     CharacterController controller;
     Animator animator;

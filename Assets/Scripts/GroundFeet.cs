@@ -43,11 +43,11 @@ public static class GroundFeet
     /// Keeps Skin Width small so Play Mode does not hover the mesh above the ground.
     /// Leaves Center/Height alone (prefer Center Y = 1 for this project).
     /// </summary>
-    public static void AlignCapsuleToFeet(CharacterController controller, float skinWidth = 0.02f)
+    public static void AlignCapsuleToFeet(CharacterController controller, float skinWidth = 0.0001f)
     {
         if (controller == null)
             return;
 
-        controller.skinWidth = Mathf.Clamp(skinWidth, 0.001f, 0.08f);
+        controller.skinWidth = Mathf.Clamp(skinWidth, 0.0001f, 0.08f);
     }
 }
