@@ -71,7 +71,7 @@ public class ThirdPersonController : MonoBehaviour
         sprintAction = playerInput.actions["Sprint"];
         jumpAction = playerInput.actions["Jump"];
 
-        // Capsule bottom at feet + small skin so Play Mode does not lift her ~0.1m.
+        // Small skin width so Play Mode does not lift her visibly; keep Center Y at 1.
         GroundFeet.AlignCapsuleToFeet(controller, groundedSkinWidth);
         GroundFeet.Snap(transform);
 

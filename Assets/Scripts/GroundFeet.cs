@@ -40,21 +40,14 @@ public static class GroundFeet
     }
 
     /// <summary>
-    /// Puts the CharacterController capsule bottom at the feet pivot and keeps Skin Width small
-    /// so Play Mode does not hover the mesh ~SkinWidth above the ground.
+    /// Keeps Skin Width small so Play Mode does not hover the mesh above the ground.
+    /// Leaves Center/Height alone (prefer Center Y = 1 for this project).
     /// </summary>
     public static void AlignCapsuleToFeet(CharacterController controller, float skinWidth = 0.02f)
     {
         if (controller == null)
             return;
 
-        float height = Mathf.Max(controller.height, controller.radius * 2f + 0.05f);
-        controller.height = height;
-        Vector3 center = controller.center;
-        center.x = 0f;
-        center.z = 0f;
-        center.y = height * 0.5f;
-        controller.center = center;
         controller.skinWidth = Mathf.Clamp(skinWidth, 0.001f, 0.08f);
     }
 }
