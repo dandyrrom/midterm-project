@@ -1284,8 +1284,30 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: aa79fa7fe42fe38409cdb0621caf328e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1583132530}
   m_SourcePrefab: {fileID: 100100000, guid: aa79fa7fe42fe38409cdb0621caf328e, type: 3}
+--- !u!1 &1583132525 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: aa79fa7fe42fe38409cdb0621caf328e, type: 3}
+  m_PrefabInstance: {fileID: 1583132524}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1583132530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1583132525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17c35b662cd242049963f339e4e196af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GroundFeetOnPlay
+  probeUp: 0.6
+  probeDown: 2.5
 --- !u!4 &1678181572 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 417914, guid: f0b2ac67c9a97fd498b5c8d0195f8d9e, type: 3}
@@ -1495,6 +1517,7 @@ MonoBehaviour:
   hitPause: 0.7
   jumpBufferTime: 0.2
   airControl: 1
+  groundedSkinWidth: 0.02
 --- !u!114 &2101850961
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1547,9 +1570,9 @@ CharacterController:
   m_Radius: 0.26
   m_SlopeLimit: 45
   m_StepOffset: 0.3
-  m_SkinWidth: 0.08
+  m_SkinWidth: 0.02
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 1, z: 0}
+  m_Center: {x: 0, y: 1.02, z: 0}
 --- !u!4 &2112818904 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 489132, guid: 966be20f9e46e6a4cbeecd459d97d9c3, type: 3}

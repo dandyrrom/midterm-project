@@ -27,6 +27,10 @@ public class ThirdPersonController : MonoBehaviour
     [Range(0f, 1f)]
     public float airControl = 1f;
 
+    [Header("Grounding")]
+    [Tooltip("CharacterController Skin Width. Larger values make the mesh hover above the ground.")]
+    public float groundedSkinWidth = 0.02f;
+
     CharacterController controller;
     Animator animator;
     PlayerInput playerInput;
@@ -66,6 +70,10 @@ public class ThirdPersonController : MonoBehaviour
         moveAction = playerInput.actions["Move"];
         sprintAction = playerInput.actions["Sprint"];
         jumpAction = playerInput.actions["Jump"];
+
+        // Capsule bottom at feet + small skin so Play Mode does not lift her ~0.1m.
+        GroundFeet.AlignCapsuleToFeet(controller, groundedSkinWidth);
+        GroundFeet.Snap(transform);
 
         Cursor.lockState = CursorLockMode.Locked;
     }
