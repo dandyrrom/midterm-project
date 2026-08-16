@@ -1374,10 +1374,10 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.4
-  m_Speed: 1.4
-  m_Acceleration: 8
+  m_Speed: 1.05
+  m_Acceleration: 2.5
   avoidancePriority: 50
-  m_AngularSpeed: 120
+  m_AngularSpeed: 90
   m_StoppingDistance: 1.6
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
@@ -1421,8 +1421,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee68d4bfaf834ab1b646b5dfd0601aad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AswangMotor
-  walkSpeed: 1.4
-  runSpeed: 3.5
+  walkSpeed: 1.05
+  runSpeed: 3.2
+  animatorDampTime: 0.2
   enableGoToPlayerHotkey: 1
 --- !u!4 &1678181572 stripped
 Transform:
