@@ -169,3 +169,10 @@ Packages/packages-lock.json linguist-generated
 
 # Exceptions for .asset files such as lightning pre-baking
 LightingData.asset     binary
+
+# TerrainData and baked NavMesh are native binary, not YAML.
+# Treating them as unity-yaml (eol=lf) corrupts them and Unity fails to load terrain.
+**/Beach.asset           binary -unity-yaml -eol
+**/Display_Ter.asset     binary -unity-yaml -eol
+**/TerrainData_*.asset   binary -unity-yaml -eol
+**/NavMesh-NavMesh.asset binary -unity-yaml -eol
