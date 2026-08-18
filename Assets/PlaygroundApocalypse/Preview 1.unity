@@ -10773,7 +10773,7 @@ MonoBehaviour:
   shoveForce: 8
   fallHeightForNoise: 0.2
   minImpactSpeed: 1.4
-  hearRadius: 120
+  hearRadius: 18
   dropClip: {fileID: 8300000, guid: 3531f6ad7fc649ecb23d9de5adb150f7, type: 2}
   spatialBlend: 0
   volume: 1

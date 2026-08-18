@@ -20,8 +20,8 @@ public class KnockableTinCans : MonoBehaviour
     public float fallHeightForNoise = 0.2f;
     [Tooltip("Impact speed needed with that drop before aswangs hear it.")]
     public float minImpactSpeed = 1.4f;
-    [Tooltip("Aswangs this far from the clatter will path to it.")]
-    public float hearRadius = 120f;
+    [Tooltip("How far the fall-clatter carries (meters). Aswangs farther than this stay put.")]
+    public float hearRadius = 18f;
     public AudioClip dropClip;
     [Tooltip("0 = 2D (always hear it). 1 = 3D at the cans.")]
     [Range(0f, 1f)]

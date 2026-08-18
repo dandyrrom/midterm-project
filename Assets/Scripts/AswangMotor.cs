@@ -16,6 +16,8 @@ public class AswangMotor : MonoBehaviour
     [Header("Hearing")]
     [Tooltip("If on, path to knockable noise such as tin cans falling from a height.")]
     public bool hearKnockableNoise = true;
+    [Tooltip("Ignore that noise if farther than this (meters). Far aswangs stay put.")]
+    public float maxHearDistance = 18f;
 
     NavMeshAgent agent;
     Animator animator;
@@ -65,8 +67,11 @@ public class AswangMotor : MonoBehaviour
     {
         if (!hearKnockableNoise)
             return;
-        if (Vector3.Distance(transform.position, pulse.Position) > pulse.HearRadius)
+
+        float range = Mathf.Min(pulse.HearRadius, maxHearDistance);
+        if (Vector3.Distance(transform.position, pulse.Position) > range)
             return;
+
         SetDestination(pulse.Position, run: true);
     }
 
