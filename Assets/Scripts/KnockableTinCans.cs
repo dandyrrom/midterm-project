@@ -2,7 +2,7 @@ using UnityEngine;
 
 /// <summary>
 /// Physics knock for one tin-can pile. Sit still until the peasant girl bumps them,
-/// then tumble. A drop from height plays a clatter and sends aswangs to that spot.
+/// then tumble. Impacts clatter; a drop from height also alerts aswangs.
 /// </summary>
 [DisallowMultipleComponent]
 public class KnockableTinCans : MonoBehaviour
@@ -18,22 +18,31 @@ public class KnockableTinCans : MonoBehaviour
     [Header("Fall noise")]
     [Tooltip("Vertical drop (meters) that counts as falling from a height.")]
     public float fallHeightForNoise = 0.2f;
-    [Tooltip("Impact speed needed with that drop before the clatter plays.")]
+    [Tooltip("Impact speed needed with that drop before aswangs hear it.")]
     public float minImpactSpeed = 1.4f;
     [Tooltip("Aswangs this far from the clatter will path to it.")]
     public float hearRadius = 120f;
     public AudioClip dropClip;
+    [Tooltip("0 = 2D (always hear it). 1 = 3D at the cans.")]
+    [Range(0f, 1f)]
+    public float spatialBlend = 0f;
+    [Range(0f, 1f)]
+    public float volume = 1f;
 
     Rigidbody body;
+    AudioSource audioSource;
+    AudioClip fallbackClip;
     CharacterController playerController;
     float peakY;
     bool released;
     bool trackingFall;
     float lastNoiseTime = -999f;
+    float lastClatterTime = -999f;
 
     void Awake()
     {
         SetupPhysics();
+        SetupAudio();
     }
 
     void Start()
@@ -67,6 +76,62 @@ public class KnockableTinCans : MonoBehaviour
         body.useGravity = true;
         body.isKinematic = true;
         body.sleepThreshold = 0.02f;
+    }
+
+    void SetupAudio()
+    {
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+            audioSource = gameObject.AddComponent<AudioSource>();
+
+        audioSource.playOnAwake = false;
+        audioSource.loop = false;
+        audioSource.spatialBlend = spatialBlend;
+        audioSource.volume = volume;
+        audioSource.minDistance = 8f;
+        audioSource.maxDistance = 80f;
+        audioSource.rolloffMode = AudioRolloffMode.Linear;
+        audioSource.clip = ResolveClip();
+    }
+
+    AudioClip ResolveClip()
+    {
+        if (dropClip != null && dropClip.length > 0.05f)
+            return dropClip;
+        if (fallbackClip == null)
+            fallbackClip = BuildFallbackClatter();
+        return fallbackClip;
+    }
+
+    static AudioClip BuildFallbackClatter()
+    {
+        const int sampleRate = 44100;
+        int samples = Mathf.RoundToInt(sampleRate * 0.45f);
+        float[] data = new float[samples];
+        float[] clackAt = { 0f, 0.055f, 0.11f, 0.175f, 0.26f };
+        float[] clackAmp = { 1f, 0.85f, 0.7f, 0.5f, 0.35f };
+        float[] clackHz = { 1700f, 1320f, 2100f, 980f, 2450f };
+
+        for (int i = 0; i < samples; i++)
+        {
+            float t = i / (float)sampleRate;
+            float s = 0f;
+            for (int c = 0; c < clackAt.Length; c++)
+            {
+                if (t < clackAt[c])
+                    continue;
+                float td = t - clackAt[c];
+                float env = Mathf.Exp(-td * 18f);
+                s += clackAmp[c] * env * Mathf.Sin(2f * Mathf.PI * clackHz[c] * td);
+                s += clackAmp[c] * 0.35f * env * Mathf.Sin(2f * Mathf.PI * clackHz[c] * 1.6f * td);
+            }
+
+            data[i] = Mathf.Clamp(s * 0.7f, -1f, 1f);
+        }
+
+        AudioClip clip = AudioClip.Create("tin_cans_drop_runtime", samples, 1, sampleRate, false);
+        clip.SetData(data, 0);
+        return clip;
     }
 
     void CachePlayer()
@@ -141,6 +206,7 @@ public class KnockableTinCans : MonoBehaviour
         body.AddTorque(Random.onUnitSphere * (playerPushForce * 0.35f), ForceMode.Impulse);
         peakY = transform.position.y;
         trackingFall = false;
+        PlayClatter();
     }
 
     void Shove(Vector3 playerPos)
@@ -162,23 +228,37 @@ public class KnockableTinCans : MonoBehaviour
         float impact = collision.relativeVelocity.magnitude;
         bool hitFromAbove = Vector3.Dot(collision.GetContact(0).normal, Vector3.up) > 0.35f;
 
+        if (impact >= 0.8f)
+            PlayClatter();
+
         if (trackingFall && hitFromAbove && drop >= fallHeightForNoise && impact >= minImpactSpeed)
-            PlayFallNoise();
+            AlertAswangs();
 
         trackingFall = false;
         peakY = transform.position.y;
     }
 
-    void PlayFallNoise()
+    void PlayClatter()
+    {
+        if (Time.time - lastClatterTime < 0.12f)
+            return;
+        lastClatterTime = Time.time;
+
+        AudioClip clip = ResolveClip();
+        if (clip == null || audioSource == null)
+            return;
+
+        audioSource.spatialBlend = spatialBlend;
+        audioSource.volume = volume;
+        audioSource.PlayOneShot(clip, volume);
+    }
+
+    void AlertAswangs()
     {
         if (Time.time - lastNoiseTime < 0.6f)
             return;
         lastNoiseTime = Time.time;
-
-        Vector3 pos = transform.position;
-        if (dropClip != null)
-            AudioSource.PlayClipAtPoint(dropClip, pos, 1f);
-
-        NoisePulse.Emit(pos, hearRadius);
+        PlayClatter();
+        NoisePulse.Emit(transform.position, hearRadius);
     }
 }
