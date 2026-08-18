@@ -10775,6 +10775,8 @@ MonoBehaviour:
   minImpactSpeed: 1.4
   hearRadius: 120
   dropClip: {fileID: 8300000, guid: 3531f6ad7fc649ecb23d9de5adb150f7, type: 2}
+  spatialBlend: 0
+  volume: 1
 --- !u!1001 &1948546389
 PrefabInstance:
   m_ObjectHideFlags: 0
