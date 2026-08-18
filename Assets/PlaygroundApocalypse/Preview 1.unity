@@ -10739,11 +10739,42 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: -0
       objectReference: {fileID: 0}
+    - target: {fileID: 8245036840046130240, guid: abc00000000000212152265886709011, type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1030972113, guid: abc00000000000212152265886709011, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1944409402}
   m_SourcePrefab: {fileID: 100100000, guid: abc00000000000212152265886709011, type: 3}
+--- !u!1 &1944409401 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1030972113, guid: abc00000000000212152265886709011, type: 3}
+  m_PrefabInstance: {fileID: 1944409348}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1944409402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1944409401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fbd2ed49715428ab002628a3b2d075e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::KnockableTinCans
+  playerPushForce: 4
+  wakeRadius: 0.9
+  shoveForce: 8
+  fallHeightForNoise: 0.2
+  minImpactSpeed: 1.4
+  hearRadius: 120
+  dropClip: {fileID: 8300000, guid: 3531f6ad7fc649ecb23d9de5adb150f7, type: 2}
 --- !u!1001 &1948546389
 PrefabInstance:
   m_ObjectHideFlags: 0

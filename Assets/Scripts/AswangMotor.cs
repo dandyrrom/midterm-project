@@ -13,6 +13,10 @@ public class AswangMotor : MonoBehaviour
     [Tooltip("Press G in Play Mode to path to mc-Peasant Girl (needs a baked NavMesh).")]
     public bool enableGoToPlayerHotkey = true;
 
+    [Header("Hearing")]
+    [Tooltip("If on, path to knockable noise such as tin cans falling from a height.")]
+    public bool hearKnockableNoise = true;
+
     NavMeshAgent agent;
     Animator animator;
     CapsuleCollider bodyCollider;
@@ -45,6 +49,25 @@ public class AswangMotor : MonoBehaviour
         agent.updateRotation = true;
         agent.updateUpAxis = true;
         SyncBodyCollider();
+    }
+
+    void OnEnable()
+    {
+        NoisePulse.Emitted += OnKnockableNoise;
+    }
+
+    void OnDisable()
+    {
+        NoisePulse.Emitted -= OnKnockableNoise;
+    }
+
+    void OnKnockableNoise(NoisePulse pulse)
+    {
+        if (!hearKnockableNoise)
+            return;
+        if (Vector3.Distance(transform.position, pulse.Position) > pulse.HearRadius)
+            return;
+        SetDestination(pulse.Position, run: true);
     }
 
     void SyncBodyCollider()
