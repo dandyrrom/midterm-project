@@ -3707,6 +3707,71 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4000013765492046, guid: 721671003a026be4fb47107988831b38, type: 3}
   m_PrefabInstance: {fileID: 127926825}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &131394180
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 65.611
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.0916176
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 5.2295465
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.70710784
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.70710576
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
+      propertyPath: m_Name
+      value: Warzombie
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: b87992099698fd443997a96610934d09, type: 2}
+    - target: {fileID: 5866666021909216657, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
 --- !u!1001 &134077674
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -44219,7 +44284,7 @@ CharacterController:
   m_Radius: 0.26
   m_SlopeLimit: 45
   m_StepOffset: 0.3
-  m_SkinWidth: 0.08
+  m_SkinWidth: 0.0001
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1, z: 0}
 --- !u!4 &1675826755 stripped
@@ -56075,3 +56140,4 @@ SceneRoots:
   - {fileID: 1225836140}
   - {fileID: 1033928598}
   - {fileID: 108134098}
+  - {fileID: 131394180}
