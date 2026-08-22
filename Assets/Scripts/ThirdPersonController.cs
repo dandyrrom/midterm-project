@@ -4,6 +4,10 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(CharacterController), typeof(Animator), typeof(PlayerInput))]
 public class ThirdPersonController : MonoBehaviour
 {
+    [Header("Locomotion")]
+    [Tooltip("On: Mixamo root motion moves the body. NavMeshAgent only follows the path. Use on Warzombie.")]
+    public bool useRootMotion = false;
+
     [Header("Movement Speeds")]
     public float walkSpeed = 2.0f;
     public float runSpeed = 5.0f;

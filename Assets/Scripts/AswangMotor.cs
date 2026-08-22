@@ -13,6 +13,10 @@ public class AswangMotor : MonoBehaviour
     [Tooltip("Press G in Play Mode to path to mc-Peasant Girl (needs a baked NavMesh).")]
     public bool enableGoToPlayerHotkey = true;
 
+    [Header("Locomotion")]
+    [Tooltip("On: Mixamo root motion moves the body. NavMeshAgent only follows the path. Use on Warzombie.")]
+    public bool useRootMotion = false;
+
     [Header("Hearing")]
     [Tooltip("If on, path to knockable noise such as tin cans falling from a height.")]
     public bool hearKnockableNoise = true;
@@ -51,6 +55,12 @@ public class AswangMotor : MonoBehaviour
         agent.updateRotation = true;
         agent.updateUpAxis = true;
         SyncBodyCollider();
+
+        if (useRootMotion)
+        {
+            agent.updatePosition = false;
+            animator.applyRootMotion = true;
+        }
     }
 
     void OnEnable()
@@ -147,8 +157,28 @@ public class AswangMotor : MonoBehaviour
         if (animator == null || agent == null)
             return;
 
+        if (useRootMotion)
+        {
+            float target = 0f;
+            if (agent.isOnNavMesh && !agent.isStopped && !HasArrived)
+                target = agent.speed >= (runSpeed - 0.05f) ? 1f : 0.5f;
+            animator.SetFloat(SpeedHash, target, 0.12f, Time.deltaTime);
+            return;
+        }
+
         float planarSpeed = new Vector3(agent.velocity.x, 0f, agent.velocity.z).magnitude;
         float denom = runSpeed > 0.01f ? runSpeed : 1f;
         animator.SetFloat(SpeedHash, Mathf.Clamp01(planarSpeed / denom));
+    }
+
+    void OnAnimatorMove()
+    {
+        if (!useRootMotion || agent == null || animator == null)
+            return;
+        if (!agent.isOnNavMesh)
+            return;
+
+        agent.Move(animator.deltaPosition);
+        agent.nextPosition = transform.position;
     }
 }
