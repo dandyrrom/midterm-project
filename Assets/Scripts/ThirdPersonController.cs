@@ -31,9 +31,16 @@ public class ThirdPersonController : MonoBehaviour
     [Range(0f, 1f)]
     public float airControl = 1f;
 
+    [Header("Jump Noise")]
+    [Tooltip("Played when she lands after a Space jump.")]
+    public AudioClip jumpLandClip;
+    [Tooltip("How far the landing noise can travel for hearing AI.")]
+    public float jumpLandNoiseRadius = 15f;
+
     CharacterController controller;
     Animator animator;
     PlayerInput playerInput;
+    AudioSource audioSource;
     Transform mainCameraTransform;
 
     InputAction moveAction;
@@ -64,6 +71,7 @@ public class ThirdPersonController : MonoBehaviour
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
         playerInput = GetComponent<PlayerInput>();
+        audioSource = GetComponent<AudioSource>();
         if (Camera.main != null)
             mainCameraTransform = Camera.main.transform;
 
@@ -160,8 +168,12 @@ public class ThirdPersonController : MonoBehaviour
         if (jumpAirborne && grounded && verticalVelocity <= 0f && !jumpPending)
         {
             jumpAirborne = false;
-            if (pauseOnLanding && jumpedFromHop)
-                landLockedUntil = Time.time + landPause;
+            if (jumpedFromHop)
+            {
+                if (pauseOnLanding)
+                    landLockedUntil = Time.time + landPause;
+                EmitJumpLandNoise();
+            }
             jumpedFromHop = false;
         }
 
@@ -194,5 +206,13 @@ public class ThirdPersonController : MonoBehaviour
 
         Vector3 finalMovement = moveDir * targetSpeed + new Vector3(0f, verticalVelocity, 0f);
         controller.Move(finalMovement * Time.deltaTime);
+    }
+
+    void EmitJumpLandNoise()
+    {
+        if (audioSource != null && jumpLandClip != null)
+            audioSource.PlayOneShot(jumpLandClip);
+
+        NoiseEvents.Emit(transform.position, jumpLandNoiseRadius);
     }
 }
