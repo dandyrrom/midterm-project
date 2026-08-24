@@ -37,7 +37,12 @@ public class ThirdPersonController : MonoBehaviour
     [Tooltip("How far the landing noise can travel for hearing AI.")]
     public float jumpLandNoiseRadius = 15f;
 
+    [Header("Health")]
+    [Tooltip("Damage used when testing hits with H.")]
+    public int debugHitDamage = 5;
+
     CharacterController controller;
+    PlayerHealth health;
     Animator animator;
     PlayerInput playerInput;
     AudioSource audioSource;
@@ -72,6 +77,12 @@ public class ThirdPersonController : MonoBehaviour
         animator = GetComponent<Animator>();
         playerInput = GetComponent<PlayerInput>();
         audioSource = GetComponent<AudioSource>();
+
+        health = GetComponent<PlayerHealth>();
+
+        if (health != null)
+            health.OnDied += HandleDeath;
+
         if (Camera.main != null)
             mainCameraTransform = Camera.main.transform;
 
@@ -80,6 +91,12 @@ public class ThirdPersonController : MonoBehaviour
         jumpAction = playerInput.actions["Jump"];
 
         Cursor.lockState = CursorLockMode.Locked;
+
+        void OnDestroy()
+        {
+            if (health != null)
+                health.OnDied -= HandleDeath;
+        }
     }
 
     void Update()
@@ -87,26 +104,29 @@ public class ThirdPersonController : MonoBehaviour
         if (Keyboard.current != null && !isDead)
         {
             if (Keyboard.current.hKey.wasPressedThisFrame)
-                TriggerHit();
+                TakeHit(debugHitDamage);
             if (Keyboard.current.kKey.wasPressedThisFrame)
-                TriggerDeath();
+                health?.Kill();
         }
 
         CalculateMovement();
     }
 
-    void TriggerHit()
+    public void TakeHit(int damage)
     {
-        if (Time.time < hitUntil)
+        if (isDead || health == null || Time.time < hitUntil)
             return;
-
+        if (!health.TakeDamage(damage))
+            return;
         hitUntil = Time.time + hitPause;
         if (animator != null)
             animator.SetTrigger(HitHash);
     }
 
-    void TriggerDeath()
+    void HandleDeath()
     {
+        if (isDead)
+            return;
         isDead = true;
         if (animator != null)
             animator.SetTrigger(DieHash);
