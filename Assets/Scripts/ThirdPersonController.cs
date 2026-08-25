@@ -92,11 +92,13 @@ public class ThirdPersonController : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.Locked;
 
-        void OnDestroy()
-        {
-            if (health != null)
-                health.OnDied -= HandleDeath;
-        }
+    }
+
+
+    void OnDestroy()
+    {
+        if (health != null)
+            health.OnDied -= HandleDeath;
     }
 
     void Update()
@@ -114,13 +116,23 @@ public class ThirdPersonController : MonoBehaviour
 
     public void TakeHit(int damage)
     {
-        if (isDead || health == null || Time.time < hitUntil)
+        if (isDead || health == null)
             return;
+
+        // Optional i-frames between hits. Use 0 if every mid-attack must always land.
+        if (Time.time < hitUntil)
+            return;
+
         if (!health.TakeDamage(damage))
-            return;
+            return; // died: OnDied handles death anim
+
         hitUntil = Time.time + hitPause;
+
         if (animator != null)
-            animator.SetTrigger(HitHash);
+        {
+            animator.ResetTrigger(HitHash);
+            animator.SetTrigger(HitHash); // interrupt/replay react immediately
+        }
     }
 
     void HandleDeath()

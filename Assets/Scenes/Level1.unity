@@ -16500,6 +16500,10 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: b87992099698fd443997a96610934d09, type: 2}
+    - target: {fileID: 5866666021909216657, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -16558,6 +16562,11 @@ MonoBehaviour:
   maxIdleTime: 5
   chaseSpeed: 0.5
   investigateTime: 3
+  attackDuration: 1.8
+  attackRange: 1.8
+  attackDamage: 5
+  attackHitNormalized: 0.45
+  player: {fileID: 1675826755}
 --- !u!136 &634955995
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -44222,7 +44231,7 @@ MonoBehaviour:
   pauseDuringCrouch: 1
   landPause: 1.2
   pauseOnLanding: 1
-  hitPause: 0.7
+  hitPause: 0
   jumpBufferTime: 0.2
   airControl: 1
   jumpLandClip: {fileID: 8300000, guid: 390f5d94640c59e4f9eed41ec27b6281, type: 3}

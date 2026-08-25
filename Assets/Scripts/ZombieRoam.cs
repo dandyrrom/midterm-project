@@ -16,17 +16,40 @@ public class ZombieRoam : MonoBehaviour
     public float chaseSpeed = 0.5f;
     [Tooltip("How long to wait at the noise before roaming again.")]
     public float investigateTime = 3f;
+    [Tooltip("How long one attack swing lasts before deciding to continue or stop.")]
+    public float attackDuration = 1.8f;
+
+    [Header("Attack")]
+    [Tooltip("How close the MC must be to keep getting attacked.")]
+    public float attackRange = 1.8f;
+    [Tooltip("Damage dealt each successful attack.")]
+    public int attackDamage = 5;
+    [Tooltip("When during the swing damage + MC react fire. 0.5 = middle.")]
+    [Range(0.1f, 0.9f)]
+    public float attackHitNormalized = 0.45f;
+
+    [Header("Target")]
+    public Transform player;
+     
 
     NavMeshAgent agent;
     Animator animator;
+    ThirdPersonController playerController;
+    float attackStartTime;
+    bool hasDealtDamageThisSwing;
+
+    Vector3 attackAnchorPosition;
 
     static readonly int SpeedHash = Animator.StringToHash("Speed");
+    static readonly int AttackHash = Animator.StringToHash("Attack");
 
     float idleUntil;
     bool hasDestination;
     bool isChasing;
     float roamSpeed;
     float investigateUntil;
+    bool isAttacking;
+    float attackUntil;
 
     void Awake()
     {
@@ -48,19 +71,30 @@ public class ZombieRoam : MonoBehaviour
     {
         roamSpeed = agent.speed;
         idleUntil = Time.time + Random.Range(minIdleTime, maxIdleTime);
+        if (player == null)
+        {
+            var mc = FindAnyObjectByType<ThirdPersonController>();
+            if (mc != null)
+                player = mc.transform;
+        }
+        if (player != null)
+            playerController = player.GetComponent<ThirdPersonController>();
     }
 
     void Update()
     {
-        if (animator != null)
+        if (animator != null && !isAttacking)
             animator.SetFloat(SpeedHash, agent.velocity.magnitude);
-
+        if (isAttacking)
+        {
+            UpdateAttack();
+            return;
+        }
         if (isChasing)
         {
             UpdateChase();
             return;
         }
-
         UpdateRoam();
     }
 
@@ -68,7 +102,6 @@ public class ZombieRoam : MonoBehaviour
     {
         if (Time.time < idleUntil)
             return;
-
         if (!hasDestination)
         {
             if (TryPickDestination(out Vector3 destination))
@@ -80,10 +113,8 @@ public class ZombieRoam : MonoBehaviour
             {
                 idleUntil = Time.time + Random.Range(minIdleTime, maxIdleTime);
             }
-
             return;
         }
-
         if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance + 0.1f)
         {
             hasDestination = false;
@@ -95,32 +126,115 @@ public class ZombieRoam : MonoBehaviour
     {
         if (agent.pathPending)
             return;
-
         if (agent.remainingDistance > agent.stoppingDistance + 0.1f)
             return;
+        StartAttack();
+    }
 
-        if (investigateUntil <= 0f)
+    void StartAttack()
+    {
+        if (isAttacking)
+            return;
+
+        isAttacking = true;
+        isChasing = false;
+        hasDestination = false;
+        investigateUntil = 0f;
+        hasDealtDamageThisSwing = false;
+
+        agent.ResetPath();
+        agent.velocity = Vector3.zero;
+        agent.speed = roamSpeed;
+
+        attackAnchorPosition = transform.position;
+        agent.isStopped = true;
+        agent.updatePosition = false;
+        agent.updateRotation = false;
+
+        if (player != null)
         {
-            investigateUntil = Time.time + investigateTime;
-            agent.ResetPath();
+            Vector3 look = player.position - transform.position;
+            look.y = 0f;
+            if (look.sqrMagnitude > 0.001f)
+                transform.rotation = Quaternion.LookRotation(look);
+        }
+
+        if (animator != null)
+        {
+            animator.SetFloat(SpeedHash, 0f);
+            animator.SetTrigger(AttackHash);
+        }
+
+        attackStartTime = Time.time;
+        attackUntil = Time.time + attackDuration;
+    }
+
+    void UpdateAttack()
+    {
+
+        transform.position = attackAnchorPosition;
+
+        if (player != null && IsPlayerInAttackRange())
+        {
+            Vector3 look = player.position - transform.position;
+            look.y = 0f;
+            if (look.sqrMagnitude > 0.001f)
+                transform.rotation = Quaternion.Slerp(
+                    transform.rotation,
+                    Quaternion.LookRotation(look),
+                    Time.deltaTime * 5f);
+        }
+
+        // Mid-attack: damage + react at the same time (once per swing)
+        if (!hasDealtDamageThisSwing &&
+            Time.time >= attackStartTime + attackDuration * attackHitNormalized)
+        {
+            if (IsPlayerInAttackRange())
+                DealAttackDamage();
+
+            hasDealtDamageThisSwing = true;
+        }
+
+        if (Time.time < attackUntil)
+            return;
+
+        // Swing finished: continue only if MC still close (no extra damage here)
+        if (IsPlayerInAttackRange())
+        {
+            hasDealtDamageThisSwing = false;
+            attackStartTime = Time.time;
+            attackUntil = Time.time + attackDuration;
+
+            if (animator != null)
+                animator.SetTrigger(AttackHash);
+
             return;
         }
 
-        if (Time.time < investigateUntil)
-            return;
-
+        isAttacking = false;
         EndChase();
     }
 
+    void DealAttackDamage()
+    {
+        if (playerController == null)
+            return;
+        playerController.TakeHit(attackDamage);
+    }
+    bool IsPlayerInAttackRange()
+    {
+        if (player == null)
+            return false;
+        float distance = Vector3.Distance(transform.position, player.position);
+        return distance <= attackRange;
+    }
     void HandleNoise(Vector3 position, float radius)
     {
         float distance = Vector3.Distance(transform.position, position);
         if (distance > radius)
             return;
-
         if (!NavMesh.SamplePosition(position, out NavMeshHit hit, 2f, NavMesh.AllAreas))
             return;
-
         isChasing = true;
         hasDestination = false;
         investigateUntil = 0f;
@@ -136,6 +250,9 @@ public class ZombieRoam : MonoBehaviour
         investigateUntil = 0f;
         agent.speed = roamSpeed;
         agent.ResetPath();
+        agent.isStopped = false;
+        agent.updatePosition = true;
+        agent.updateRotation = true;
         idleUntil = Time.time + Random.Range(minIdleTime, maxIdleTime);
     }
 
@@ -145,14 +262,12 @@ public class ZombieRoam : MonoBehaviour
         {
             Vector2 offset = Random.insideUnitCircle * roamRadius;
             Vector3 randomPoint = transform.position + new Vector3(offset.x, 0f, offset.y);
-
             if (NavMesh.SamplePosition(randomPoint, out NavMeshHit hit, roamRadius, NavMesh.AllAreas))
             {
                 destination = hit.position;
                 return true;
             }
         }
-
         destination = transform.position;
         return false;
     }
