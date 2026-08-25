@@ -41,6 +41,10 @@ public class ThirdPersonController : MonoBehaviour
     [Tooltip("Damage used when testing hits with H.")]
     public int debugHitDamage = 5;
 
+    [Header("Hurt Audio")]
+    [Tooltip("Played when she takes damage (H or zombie mid-attack).")]
+    public AudioClip hitClip;
+
     CharacterController controller;
     PlayerHealth health;
     Animator animator;
@@ -127,6 +131,9 @@ public class ThirdPersonController : MonoBehaviour
             return; // died: OnDied handles death anim
 
         hitUntil = Time.time + hitPause;
+
+        if (audioSource != null && hitClip != null)
+            audioSource.PlayOneShot(hitClip);
 
         if (animator != null)
         {
