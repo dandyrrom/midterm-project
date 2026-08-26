@@ -45,6 +45,14 @@ public class ThirdPersonController : MonoBehaviour
     [Tooltip("How far a walk step can be heard by zombies.")]
     public float walkNoiseRadius = 5f;
 
+    [Header("Run Footsteps")]
+    [Tooltip("One-shot clip for a single run step.")]
+    public AudioClip runFootstepClip;
+    [Tooltip("Seconds between run steps.")]
+    public float runStepInterval = 0.32f;
+    [Tooltip("How far a run step can be heard by zombies.")]
+    public float runNoiseRadius = 14f;
+
     [Header("Health")]
     [Tooltip("Damage used when testing hits with H.")]
     public int debugHitDamage = 5;
@@ -78,6 +86,7 @@ public class ThirdPersonController : MonoBehaviour
     bool jumpedFromHop;
     float landLockedUntil;
     float nextWalkStepTime;
+    float nextRunStepTime;
 
     static readonly int SpeedHash = Animator.StringToHash("Speed");
     static readonly int JumpHash = Animator.StringToHash("Jump");
@@ -257,6 +266,7 @@ public class ThirdPersonController : MonoBehaviour
         bool isMoving = input.magnitude >= 0.1f && targetSpeed > 0.1f;
         bool blocked = isHitLocked || crouchLocked || landLocked;
         UpdateWalkFootsteps(grounded, isMoving, isSprinting, blocked);
+        UpdateRunFootsteps(grounded, isMoving, isSprinting, blocked);
     }
 
     void EmitJumpLandNoise()
@@ -283,5 +293,21 @@ public class ThirdPersonController : MonoBehaviour
 
         // Ready for phase 2 (zombies). Harmless if nothing listens yet beyond jump.
         NoiseEvents.Emit(transform.position, walkNoiseRadius);
+    }
+
+    void UpdateRunFootsteps(bool grounded, bool isMoving, bool isSprinting, bool blocked)
+    {
+        if (!grounded || !isMoving || !isSprinting || blocked)
+            return;
+
+        if (Time.time < nextRunStepTime)
+            return;
+
+        nextRunStepTime = Time.time + runStepInterval;
+
+        if (audioSource != null && runFootstepClip != null)
+            audioSource.PlayOneShot(runFootstepClip);
+
+        NoiseEvents.Emit(transform.position, runNoiseRadius);
     }
 }
