@@ -35,6 +35,11 @@ public class ZombieRoam : MonoBehaviour
     [Tooltip("Played each time an attack swing starts.")]
     public AudioClip attackClip;
 
+    [Tooltip("Looped while chasing a heard noise.")]
+    public AudioClip runClip;
+
+    [Tooltip("Looped while idle/walking (roam).")]
+    public AudioClip roamClip;
 
     NavMeshAgent agent;
     Animator animator;
@@ -59,7 +64,7 @@ public class ZombieRoam : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
-        audioSource = GetComponent<AudioSource>();
+        audioSource = GetComponentInChildren<AudioSource>();
     }
 
     void PlayAttackAudio()
@@ -81,6 +86,55 @@ public class ZombieRoam : MonoBehaviour
             audioSource.Stop();
     }
 
+    void PlayRunAudio()
+    {
+        if (audioSource == null || runClip == null)
+            return;
+
+        if (audioSource.isPlaying && audioSource.clip == runClip)
+            return;
+
+        audioSource.clip = runClip;
+        audioSource.loop = true;
+        audioSource.Play();
+    }
+
+    void StopRunAudio()
+    {
+        if (audioSource == null)
+            return;
+
+        if (audioSource.clip == runClip && audioSource.isPlaying)
+            audioSource.Stop();
+
+        audioSource.loop = false;
+    }
+
+    void PlayRoamAudio()
+    {
+        if (audioSource == null || roamClip == null)
+            return;
+
+        if (audioSource.isPlaying && audioSource.clip == roamClip)
+            return;
+
+        audioSource.clip = roamClip;
+        audioSource.loop = true;
+        audioSource.Play();
+    }
+
+    void StopRoamAudio()
+    {
+        if (audioSource == null)
+            return;
+
+        if (audioSource.clip == roamClip && audioSource.isPlaying)
+            audioSource.Stop();
+
+        if (!isChasing && !isAttacking)
+            audioSource.loop = false;
+    }
+
     void OnEnable()
     {
         NoiseEvents.OnNoise += HandleNoise;
@@ -95,30 +149,37 @@ public class ZombieRoam : MonoBehaviour
     {
         roamSpeed = agent.speed;
         idleUntil = Time.time + Random.Range(minIdleTime, maxIdleTime);
+
         if (player == null)
         {
             var mc = FindAnyObjectByType<ThirdPersonController>();
             if (mc != null)
                 player = mc.transform;
         }
+
         if (player != null)
             playerController = player.GetComponent<ThirdPersonController>();
+
+        PlayRoamAudio();
     }
 
     void Update()
     {
         if (animator != null && !isAttacking)
             animator.SetFloat(SpeedHash, agent.velocity.magnitude);
+
         if (isAttacking)
         {
             UpdateAttack();
             return;
         }
+
         if (isChasing)
         {
             UpdateChase();
             return;
         }
+
         UpdateRoam();
     }
 
@@ -126,6 +187,7 @@ public class ZombieRoam : MonoBehaviour
     {
         if (Time.time < idleUntil)
             return;
+
         if (!hasDestination)
         {
             if (TryPickDestination(out Vector3 destination))
@@ -137,8 +199,10 @@ public class ZombieRoam : MonoBehaviour
             {
                 idleUntil = Time.time + Random.Range(minIdleTime, maxIdleTime);
             }
+
             return;
         }
+
         if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance + 0.1f)
         {
             hasDestination = false;
@@ -150,8 +214,10 @@ public class ZombieRoam : MonoBehaviour
     {
         if (agent.pathPending)
             return;
+
         if (agent.remainingDistance > agent.stoppingDistance + 0.1f)
             return;
+
         StartAttack();
     }
 
@@ -189,6 +255,8 @@ public class ZombieRoam : MonoBehaviour
             animator.SetTrigger(AttackHash);
         }
 
+        StopRoamAudio();
+        StopRunAudio();
         PlayAttackAudio();
 
         attackStartTime = Time.time;
@@ -197,7 +265,6 @@ public class ZombieRoam : MonoBehaviour
 
     void UpdateAttack()
     {
-
         transform.position = attackAnchorPosition;
 
         if (player != null && IsPlayerInAttackRange())
@@ -211,7 +278,6 @@ public class ZombieRoam : MonoBehaviour
                     Time.deltaTime * 5f);
         }
 
-        // Mid-attack: damage + react at the same time (once per swing)
         if (!hasDealtDamageThisSwing &&
             Time.time >= attackStartTime + attackDuration * attackHitNormalized)
         {
@@ -224,7 +290,6 @@ public class ZombieRoam : MonoBehaviour
         if (Time.time < attackUntil)
             return;
 
-        // Swing finished: continue only if MC still close (no extra damage here)
         if (IsPlayerInAttackRange())
         {
             hasDealtDamageThisSwing = false;
@@ -247,28 +312,41 @@ public class ZombieRoam : MonoBehaviour
     {
         if (playerController == null)
             return;
+
         playerController.TakeHit(attackDamage);
     }
+
     bool IsPlayerInAttackRange()
     {
         if (player == null)
             return false;
+
         float distance = Vector3.Distance(transform.position, player.position);
         return distance <= attackRange;
     }
+
     void HandleNoise(Vector3 position, float radius)
     {
         float distance = Vector3.Distance(transform.position, position);
         if (distance > radius)
             return;
+
         if (!NavMesh.SamplePosition(position, out NavMeshHit hit, 2f, NavMesh.AllAreas))
             return;
+
+        StopRoamAudio();
+
         isChasing = true;
         hasDestination = false;
         investigateUntil = 0f;
         idleUntil = 0f;
+        agent.isStopped = false;
+        agent.updatePosition = true;
+        agent.updateRotation = true;
         agent.speed = chaseSpeed;
         agent.SetDestination(hit.position);
+
+        PlayRunAudio();
     }
 
     void EndChase()
@@ -277,6 +355,8 @@ public class ZombieRoam : MonoBehaviour
         hasDestination = false;
         investigateUntil = 0f;
         StopAttackAudio();
+        StopRunAudio();
+        PlayRoamAudio();
         agent.speed = roamSpeed;
         agent.ResetPath();
         agent.isStopped = false;
@@ -291,12 +371,14 @@ public class ZombieRoam : MonoBehaviour
         {
             Vector2 offset = Random.insideUnitCircle * roamRadius;
             Vector3 randomPoint = transform.position + new Vector3(offset.x, 0f, offset.y);
+
             if (NavMesh.SamplePosition(randomPoint, out NavMeshHit hit, roamRadius, NavMesh.AllAreas))
             {
                 destination = hit.position;
                 return true;
             }
         }
+
         destination = transform.position;
         return false;
     }
