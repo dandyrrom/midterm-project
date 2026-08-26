@@ -30,14 +30,18 @@ public class ZombieRoam : MonoBehaviour
 
     [Header("Target")]
     public Transform player;
-     
+
+    [Header("Audio")]
+    [Tooltip("Played each time an attack swing starts.")]
+    public AudioClip attackClip;
+
 
     NavMeshAgent agent;
     Animator animator;
     ThirdPersonController playerController;
     float attackStartTime;
     bool hasDealtDamageThisSwing;
-
+    AudioSource audioSource;
     Vector3 attackAnchorPosition;
 
     static readonly int SpeedHash = Animator.StringToHash("Speed");
@@ -55,6 +59,26 @@ public class ZombieRoam : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
+    }
+
+    void PlayAttackAudio()
+    {
+        if (audioSource == null || attackClip == null)
+            return;
+
+        audioSource.clip = attackClip;
+        audioSource.loop = false;
+        audioSource.Play();
+    }
+
+    void StopAttackAudio()
+    {
+        if (audioSource == null)
+            return;
+
+        if (audioSource.clip == attackClip && audioSource.isPlaying)
+            audioSource.Stop();
     }
 
     void OnEnable()
@@ -165,6 +189,8 @@ public class ZombieRoam : MonoBehaviour
             animator.SetTrigger(AttackHash);
         }
 
+        PlayAttackAudio();
+
         attackStartTime = Time.time;
         attackUntil = Time.time + attackDuration;
     }
@@ -208,10 +234,12 @@ public class ZombieRoam : MonoBehaviour
             if (animator != null)
                 animator.SetTrigger(AttackHash);
 
+            PlayAttackAudio();
             return;
         }
 
         isAttacking = false;
+        StopAttackAudio();
         EndChase();
     }
 
@@ -248,6 +276,7 @@ public class ZombieRoam : MonoBehaviour
         isChasing = false;
         hasDestination = false;
         investigateUntil = 0f;
+        StopAttackAudio();
         agent.speed = roamSpeed;
         agent.ResetPath();
         agent.isStopped = false;
