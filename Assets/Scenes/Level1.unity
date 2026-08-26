@@ -43127,6 +43127,9 @@ MonoBehaviour:
   airControl: 1
   jumpLandClip: {fileID: 8300000, guid: 390f5d94640c59e4f9eed41ec27b6281, type: 3}
   jumpLandNoiseRadius: 15
+  walkFootstepClip: {fileID: 8300000, guid: 43759f53b1c00324b981edc787e37c48, type: 3}
+  walkStepInterval: 0.52
+  walkNoiseRadius: 5
   debugHitDamage: 5
   hitClip: {fileID: 8300000, guid: d67c246bb92faa541964b2149e9fe68a, type: 3}
 --- !u!114 &1675826753

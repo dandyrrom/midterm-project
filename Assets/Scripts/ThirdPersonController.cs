@@ -37,6 +37,14 @@ public class ThirdPersonController : MonoBehaviour
     [Tooltip("How far the landing noise can travel for hearing AI.")]
     public float jumpLandNoiseRadius = 15f;
 
+    [Header("Walk Footsteps")]
+    [Tooltip("One-shot clip for a single walk step.")]
+    public AudioClip walkFootstepClip;
+    [Tooltip("Seconds between walk steps.")]
+    public float walkStepInterval = 0.5f;
+    [Tooltip("How far a walk step can be heard by zombies.")]
+    public float walkNoiseRadius = 5f;
+
     [Header("Health")]
     [Tooltip("Damage used when testing hits with H.")]
     public int debugHitDamage = 5;
@@ -69,6 +77,7 @@ public class ThirdPersonController : MonoBehaviour
     bool jumpAirborne;
     bool jumpedFromHop;
     float landLockedUntil;
+    float nextWalkStepTime;
 
     static readonly int SpeedHash = Animator.StringToHash("Speed");
     static readonly int JumpHash = Animator.StringToHash("Jump");
@@ -245,6 +254,9 @@ public class ThirdPersonController : MonoBehaviour
 
         Vector3 finalMovement = moveDir * targetSpeed + new Vector3(0f, verticalVelocity, 0f);
         controller.Move(finalMovement * Time.deltaTime);
+        bool isMoving = input.magnitude >= 0.1f && targetSpeed > 0.1f;
+        bool blocked = isHitLocked || crouchLocked || landLocked;
+        UpdateWalkFootsteps(grounded, isMoving, isSprinting, blocked);
     }
 
     void EmitJumpLandNoise()
@@ -253,5 +265,23 @@ public class ThirdPersonController : MonoBehaviour
             audioSource.PlayOneShot(jumpLandClip);
 
         NoiseEvents.Emit(transform.position, jumpLandNoiseRadius);
+    }
+
+    void UpdateWalkFootsteps(bool grounded, bool isMoving, bool isSprinting, bool blocked)
+    {
+        // Walk only: grounded, moving, not running, not locked/dead states
+        if (!grounded || !isMoving || isSprinting || blocked)
+            return;
+
+        if (Time.time < nextWalkStepTime)
+            return;
+
+        nextWalkStepTime = Time.time + walkStepInterval;
+
+        if (audioSource != null && walkFootstepClip != null)
+            audioSource.PlayOneShot(walkFootstepClip);
+
+        // Ready for phase 2 (zombies). Harmless if nothing listens yet beyond jump.
+        NoiseEvents.Emit(transform.position, walkNoiseRadius);
     }
 }
