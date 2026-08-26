@@ -11,6 +11,8 @@ public class ThirdPersonController : MonoBehaviour
     [Header("Movement Speeds")]
     public float walkSpeed = 2.0f;
     public float runSpeed = 5.0f;
+    [Tooltip("Hold Ctrl to sneak. Slower than walk; zombies cannot hear these steps.")]
+    public float sneakSpeed = 1.2f;
     public float rotationSmoothTime = 0.1f;
 
     [Header("Jump")]
@@ -53,6 +55,12 @@ public class ThirdPersonController : MonoBehaviour
     [Tooltip("How far a run step can be heard by zombies.")]
     public float runNoiseRadius = 14f;
 
+    [Header("Sneak Footsteps")]
+    [Tooltip("Optional soft one-shot for the player only. Leave empty for fully silent sneak.")]
+    public AudioClip sneakFootstepClip;
+    [Tooltip("Seconds between sneak steps (player-facing audio only).")]
+    public float sneakStepInterval = 0.65f;
+
     [Header("Health")]
     [Tooltip("Damage used when testing hits with H.")]
     public int debugHitDamage = 5;
@@ -70,6 +78,7 @@ public class ThirdPersonController : MonoBehaviour
 
     InputAction moveAction;
     InputAction sprintAction;
+    InputAction sneakAction;
     InputAction jumpAction;
 
     float currentAngle;
@@ -87,8 +96,10 @@ public class ThirdPersonController : MonoBehaviour
     float landLockedUntil;
     float nextWalkStepTime;
     float nextRunStepTime;
+    float nextSneakStepTime;
 
     static readonly int SpeedHash = Animator.StringToHash("Speed");
+    static readonly int SneakHash = Animator.StringToHash("Sneak");
     static readonly int JumpHash = Animator.StringToHash("Jump");
     static readonly int HitHash = Animator.StringToHash("Hit");
     static readonly int DieHash = Animator.StringToHash("Die");
@@ -110,6 +121,7 @@ public class ThirdPersonController : MonoBehaviour
 
         moveAction = playerInput.actions["Move"];
         sprintAction = playerInput.actions["Sprint"];
+        sneakAction = playerInput.actions.FindAction("Sneak");
         jumpAction = playerInput.actions["Jump"];
 
         Cursor.lockState = CursorLockMode.Locked;
@@ -180,13 +192,21 @@ public class ThirdPersonController : MonoBehaviour
 
             controller.Move(new Vector3(0f, verticalVelocity, 0f) * Time.deltaTime);
             if (animator != null)
+            {
                 animator.SetFloat(SpeedHash, 0f);
+                animator.SetBool(SneakHash, false);
+            }
             return;
         }
 
         Vector2 input = moveAction != null ? moveAction.ReadValue<Vector2>() : Vector2.zero;
         Vector3 direction = new Vector3(input.x, 0f, input.y).normalized;
-        bool isSprinting = sprintAction != null && sprintAction.IsPressed();
+        bool wantsSneak = sneakAction != null && sneakAction.IsPressed();
+        if (!wantsSneak && Keyboard.current != null)
+            wantsSneak = Keyboard.current.leftCtrlKey.isPressed || Keyboard.current.rightCtrlKey.isPressed;
+        // Ctrl wins over Shift so she stays quiet if both are held.
+        bool isSneaking = wantsSneak;
+        bool isSprinting = !isSneaking && sprintAction != null && sprintAction.IsPressed();
         bool isHitLocked = Time.time < hitUntil;
         bool grounded = controller.isGrounded;
 
@@ -237,7 +257,7 @@ public class ThirdPersonController : MonoBehaviour
         bool crouchLocked = pauseDuringCrouch && jumpPending;
         bool landLocked = pauseOnLanding && Time.time < landLockedUntil;
 
-        float targetSpeed = isSprinting ? runSpeed : walkSpeed;
+        float targetSpeed = isSneaking ? sneakSpeed : (isSprinting ? runSpeed : walkSpeed);
         if (input.magnitude < 0.1f || isHitLocked || crouchLocked || landLocked)
             targetSpeed = 0f;
         else if (jumpAirborne)
@@ -245,8 +265,15 @@ public class ThirdPersonController : MonoBehaviour
 
         currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, Time.deltaTime * 10f);
 
+        bool isMoving = input.magnitude >= 0.1f && targetSpeed > 0.1f;
+        bool blocked = isHitLocked || crouchLocked || landLocked;
+        bool playSneakAnim = isSneaking && isMoving && grounded && !blocked && !jumpAirborne;
+
         if (animator != null)
+        {
             animator.SetFloat(SpeedHash, runSpeed > 0f ? currentSpeed / runSpeed : 0f);
+            animator.SetBool(SneakHash, playSneakAnim);
+        }
 
         Vector3 moveDir = Vector3.zero;
         Transform cam = mainCameraTransform != null ? mainCameraTransform : (Camera.main != null ? Camera.main.transform : null);
@@ -263,10 +290,9 @@ public class ThirdPersonController : MonoBehaviour
 
         Vector3 finalMovement = moveDir * targetSpeed + new Vector3(0f, verticalVelocity, 0f);
         controller.Move(finalMovement * Time.deltaTime);
-        bool isMoving = input.magnitude >= 0.1f && targetSpeed > 0.1f;
-        bool blocked = isHitLocked || crouchLocked || landLocked;
-        UpdateWalkFootsteps(grounded, isMoving, isSprinting, blocked);
+        UpdateWalkFootsteps(grounded, isMoving, isSprinting, isSneaking, blocked);
         UpdateRunFootsteps(grounded, isMoving, isSprinting, blocked);
+        UpdateSneakFootsteps(grounded, isMoving, isSneaking, blocked);
     }
 
     void EmitJumpLandNoise()
@@ -277,10 +303,9 @@ public class ThirdPersonController : MonoBehaviour
         NoiseEvents.Emit(transform.position, jumpLandNoiseRadius);
     }
 
-    void UpdateWalkFootsteps(bool grounded, bool isMoving, bool isSprinting, bool blocked)
+    void UpdateWalkFootsteps(bool grounded, bool isMoving, bool isSprinting, bool isSneaking, bool blocked)
     {
-        // Walk only: grounded, moving, not running, not locked/dead states
-        if (!grounded || !isMoving || isSprinting || blocked)
+        if (!grounded || !isMoving || isSprinting || isSneaking || blocked)
             return;
 
         if (Time.time < nextWalkStepTime)
@@ -291,7 +316,6 @@ public class ThirdPersonController : MonoBehaviour
         if (audioSource != null && walkFootstepClip != null)
             audioSource.PlayOneShot(walkFootstepClip);
 
-        // Ready for phase 2 (zombies). Harmless if nothing listens yet beyond jump.
         NoiseEvents.Emit(transform.position, walkNoiseRadius);
     }
 
@@ -309,5 +333,23 @@ public class ThirdPersonController : MonoBehaviour
             audioSource.PlayOneShot(runFootstepClip);
 
         NoiseEvents.Emit(transform.position, runNoiseRadius);
+    }
+
+    void UpdateSneakFootsteps(bool grounded, bool isMoving, bool isSneaking, bool blocked)
+    {
+        // Player-facing only — never emits NoiseEvents (zombies cannot hear sneak).
+        if (!grounded || !isMoving || !isSneaking || blocked)
+            return;
+
+        if (sneakFootstepClip == null)
+            return;
+
+        if (Time.time < nextSneakStepTime)
+            return;
+
+        nextSneakStepTime = Time.time + sneakStepInterval;
+
+        if (audioSource != null)
+            audioSource.PlayOneShot(sneakFootstepClip, 0.35f);
     }
 }
