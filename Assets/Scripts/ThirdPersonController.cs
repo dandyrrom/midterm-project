@@ -172,6 +172,16 @@ public class ThirdPersonController : MonoBehaviour
         }
     }
 
+    void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if (isDead || hit.collider == null)
+            return;
+
+        ZombieRoam zombie = hit.collider.GetComponentInParent<ZombieRoam>();
+        if (zombie != null)
+            zombie.NotifyTouchedByPlayer();
+    }
+
     void HandleDeath()
     {
         if (isDead)

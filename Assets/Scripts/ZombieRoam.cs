@@ -263,6 +263,17 @@ public class ZombieRoam : MonoBehaviour
         attackUntil = Time.time + attackDuration;
     }
 
+    /// <summary>
+    /// Blind zombies still feel contact — immediate attack even if she was sneaking.
+    /// </summary>
+    public void NotifyTouchedByPlayer()
+    {
+        if (isAttacking)
+            return;
+
+        StartAttack();
+    }
+
     void UpdateAttack()
     {
         transform.position = attackAnchorPosition;
