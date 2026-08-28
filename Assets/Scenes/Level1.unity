@@ -2965,6 +2965,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: cc10066bc467b384b9fb16f538f693b7, type: 3}
       insertIndex: -1
       addedObject: {fileID: 77386177}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: cc10066bc467b384b9fb16f538f693b7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 77386181}
   m_SourcePrefab: {fileID: 100100000, guid: cc10066bc467b384b9fb16f538f693b7, type: 3}
 --- !u!4 &77386175 stripped
 Transform:
@@ -3046,6 +3049,19 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &77386181
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 77386176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74e4656e804f97d4ea1569b711a01410, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ZombieHealth
+  maxHealth: 2
 --- !u!1001 &78069313
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6784,6 +6800,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: cc10066bc467b384b9fb16f538f693b7, type: 3}
       insertIndex: -1
       addedObject: {fileID: 188600194}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: cc10066bc467b384b9fb16f538f693b7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 188600198}
   m_SourcePrefab: {fileID: 100100000, guid: cc10066bc467b384b9fb16f538f693b7, type: 3}
 --- !u!4 &188600192 stripped
 Transform:
@@ -6865,6 +6884,19 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &188600198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 188600193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74e4656e804f97d4ea1569b711a01410, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ZombieHealth
+  maxHealth: 2
 --- !u!1001 &191906969
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10577,6 +10609,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d6fc331ae6f4aa14baa346df1d4dc319, type: 3}
       insertIndex: -1
       addedObject: {fileID: 315332389}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d6fc331ae6f4aa14baa346df1d4dc319, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 315332393}
   m_SourcePrefab: {fileID: 100100000, guid: d6fc331ae6f4aa14baa346df1d4dc319, type: 3}
 --- !u!4 &315332387 stripped
 Transform:
@@ -10658,6 +10693,19 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &315332393
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 315332388}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74e4656e804f97d4ea1569b711a01410, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ZombieHealth
+  maxHealth: 2
 --- !u!1001 &317334739
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11312,6 +11360,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 0234e86087ee8154ab1b5f5045691826, type: 3}
       insertIndex: -1
       addedObject: {fileID: 354142788}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 0234e86087ee8154ab1b5f5045691826, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 354142792}
   m_SourcePrefab: {fileID: 100100000, guid: 0234e86087ee8154ab1b5f5045691826, type: 3}
 --- !u!4 &354142786 stripped
 Transform:
@@ -11393,6 +11444,19 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &354142792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 354142787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74e4656e804f97d4ea1569b711a01410, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ZombieHealth
+  maxHealth: 2
 --- !u!1001 &354452260
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14720,6 +14784,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 0234e86087ee8154ab1b5f5045691826, type: 3}
       insertIndex: -1
       addedObject: {fileID: 471558417}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 0234e86087ee8154ab1b5f5045691826, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 471558421}
   m_SourcePrefab: {fileID: 100100000, guid: 0234e86087ee8154ab1b5f5045691826, type: 3}
 --- !u!4 &471558415 stripped
 Transform:
@@ -14801,6 +14868,19 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &471558421
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 471558416}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74e4656e804f97d4ea1569b711a01410, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ZombieHealth
+  maxHealth: 2
 --- !u!1001 &472899704
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16167,6 +16247,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d6fc331ae6f4aa14baa346df1d4dc319, type: 3}
       insertIndex: -1
       addedObject: {fileID: 517819975}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d6fc331ae6f4aa14baa346df1d4dc319, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 517819979}
   m_SourcePrefab: {fileID: 100100000, guid: d6fc331ae6f4aa14baa346df1d4dc319, type: 3}
 --- !u!4 &517819973 stripped
 Transform:
@@ -16248,6 +16331,19 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &517819979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 517819974}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74e4656e804f97d4ea1569b711a01410, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ZombieHealth
+  maxHealth: 2
 --- !u!1001 &519093566
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18641,6 +18737,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: cc10066bc467b384b9fb16f538f693b7, type: 3}
       insertIndex: -1
       addedObject: {fileID: 591060164}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: cc10066bc467b384b9fb16f538f693b7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 591060171}
   m_SourcePrefab: {fileID: 100100000, guid: cc10066bc467b384b9fb16f538f693b7, type: 3}
 --- !u!1 &591060162 stripped
 GameObject:
@@ -18851,6 +18950,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &591060171
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 591060162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74e4656e804f97d4ea1569b711a01410, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ZombieHealth
+  maxHealth: 2
 --- !u!1001 &592531508
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20554,6 +20666,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 634955995}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 634956002}
   m_SourcePrefab: {fileID: 100100000, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
 --- !u!1 &634955990 stripped
 GameObject:
@@ -20635,6 +20750,19 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
   m_PrefabInstance: {fileID: 634955989}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &634956002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 634955990}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74e4656e804f97d4ea1569b711a01410, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ZombieHealth
+  maxHealth: 2
 --- !u!1001 &636247697
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -24597,6 +24725,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 731759071}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 731759075}
   m_SourcePrefab: {fileID: 100100000, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
 --- !u!1 &731759069 stripped
 GameObject:
@@ -24678,6 +24809,19 @@ NavMeshAgent:
   m_BaseOffset: -0.023
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 1
+--- !u!114 &731759075
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 731759069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74e4656e804f97d4ea1569b711a01410, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ZombieHealth
+  maxHealth: 2
 --- !u!1001 &734543232
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -28377,6 +28521,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d6fc331ae6f4aa14baa346df1d4dc319, type: 3}
       insertIndex: -1
       addedObject: {fileID: 828308225}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d6fc331ae6f4aa14baa346df1d4dc319, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 828308228}
   m_SourcePrefab: {fileID: 100100000, guid: d6fc331ae6f4aa14baa346df1d4dc319, type: 3}
 --- !u!1 &828308222 stripped
 GameObject:
@@ -28458,6 +28605,19 @@ CapsuleCollider:
   m_Height: 1.98
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &828308228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 828308222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74e4656e804f97d4ea1569b711a01410, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ZombieHealth
+  maxHealth: 2
 --- !u!1001 &828666553
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -46830,6 +46990,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d6fc331ae6f4aa14baa346df1d4dc319, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1432342383}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d6fc331ae6f4aa14baa346df1d4dc319, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1432342387}
   m_SourcePrefab: {fileID: 100100000, guid: d6fc331ae6f4aa14baa346df1d4dc319, type: 3}
 --- !u!4 &1432342381 stripped
 Transform:
@@ -46911,6 +47074,19 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &1432342387
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1432342382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74e4656e804f97d4ea1569b711a01410, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ZombieHealth
+  maxHealth: 2
 --- !u!1001 &1434303688
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -56105,6 +56281,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1696669965}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1696669969}
   m_SourcePrefab: {fileID: 100100000, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
 --- !u!1 &1696669963 stripped
 GameObject:
@@ -56186,6 +56365,19 @@ NavMeshAgent:
   m_BaseOffset: -0.023
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 1
+--- !u!114 &1696669969
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1696669963}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74e4656e804f97d4ea1569b711a01410, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ZombieHealth
+  maxHealth: 2
 --- !u!1001 &1698309839
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -61860,6 +62052,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d6fc331ae6f4aa14baa346df1d4dc319, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1891154349}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d6fc331ae6f4aa14baa346df1d4dc319, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1891154353}
   m_SourcePrefab: {fileID: 100100000, guid: d6fc331ae6f4aa14baa346df1d4dc319, type: 3}
 --- !u!4 &1891154347 stripped
 Transform:
@@ -61941,6 +62136,19 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &1891154353
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1891154348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74e4656e804f97d4ea1569b711a01410, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ZombieHealth
+  maxHealth: 2
 --- !u!1001 &1892443220
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -68415,6 +68623,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 0234e86087ee8154ab1b5f5045691826, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2104517781}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 0234e86087ee8154ab1b5f5045691826, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2104517788}
   m_SourcePrefab: {fileID: 100100000, guid: 0234e86087ee8154ab1b5f5045691826, type: 3}
 --- !u!1 &2104517779 stripped
 GameObject:
@@ -68625,6 +68836,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &2104517788
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2104517779}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74e4656e804f97d4ea1569b711a01410, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ZombieHealth
+  maxHealth: 2
 --- !u!1001 &2106996160
 PrefabInstance:
   m_ObjectHideFlags: 0

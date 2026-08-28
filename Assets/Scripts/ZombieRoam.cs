@@ -59,12 +59,15 @@ public class ZombieRoam : MonoBehaviour
     float investigateUntil;
     bool isAttacking;
     float attackUntil;
+    ZombieHealth zombieHealth;
 
     void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         audioSource = GetComponentInChildren<AudioSource>();
+
+        zombieHealth = GetComponent<ZombieHealth>();
     }
 
     void PlayAttackAudio()
@@ -165,6 +168,9 @@ public class ZombieRoam : MonoBehaviour
 
     void Update()
     {
+        if (zombieHealth != null && zombieHealth.IsDead)
+            return;
+
         if (animator != null && !isAttacking)
             animator.SetFloat(SpeedHash, agent.velocity.magnitude);
 
@@ -338,6 +344,9 @@ public class ZombieRoam : MonoBehaviour
 
     void HandleNoise(Vector3 position, float radius)
     {
+        if (zombieHealth != null && zombieHealth.IsDead)
+            return;
+
         float distance = Vector3.Distance(transform.position, position);
         if (distance > radius)
             return;

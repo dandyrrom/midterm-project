@@ -3,6 +3,7 @@ using UnityEngine;
 [RequireComponent(typeof(SphereCollider))]
 public class BawangProjectile : MonoBehaviour
 {
+    public int damage = 1;
     public float maxLifetime = 4f;
 
     Vector3 velocity;
@@ -52,7 +53,8 @@ public class BawangProjectile : MonoBehaviour
         transform.position += velocity * Time.deltaTime;
 
         if (velocity.y <= 0f &&
-            Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 0.35f))
+            Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 0.35f) &&
+            hit.collider.GetComponentInParent<ZombieHealth>() == null)
         {
             LandQuietly(hit.point);
         }
@@ -65,6 +67,14 @@ public class BawangProjectile : MonoBehaviour
 
         if (other.GetComponentInParent<ThirdPersonController>() != null)
             return;
+
+        ZombieHealth health = other.GetComponentInParent<ZombieHealth>();
+        if (health == null || health.IsDead)
+            return;
+
+        landed = true;
+        health.TakeDamage(damage);
+        Destroy(gameObject);
     }
 
     void LandQuietly(Vector3 position)
