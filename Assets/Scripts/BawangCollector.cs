@@ -8,6 +8,7 @@ public class BawangCollector : MonoBehaviour
     public float grabDelay = 0.85f;
 
     BawangInventory inventory;
+    BawangHUD hud;
     PlayerHealth health;
     Animator animator;
     PlayerInput playerInput;
@@ -20,6 +21,7 @@ public class BawangCollector : MonoBehaviour
     void Awake()
     {
         inventory = GetComponent<BawangInventory>();
+        hud = FindFirstObjectByType<BawangHUD>();
         health = GetComponent<PlayerHealth>();
         animator = GetComponent<Animator>();
         playerInput = GetComponent<PlayerInput>();
@@ -41,8 +43,21 @@ public class BawangCollector : MonoBehaviour
         if (!pressed)
             return;
 
-        pendingPickup = inventory != null && !inventory.IsFull ? FindFacingPickup() : null;
-        grabAt = pendingPickup != null ? Time.time + grabDelay : -1f;
+        BawangPickup facingPickup = FindFacingPickup();
+
+        if (inventory != null && inventory.IsFull)
+        {
+            if (facingPickup != null)
+                hud?.ShowFullFeedback();
+
+            pendingPickup = null;
+            grabAt = -1f;
+        }
+        else
+        {
+            pendingPickup = facingPickup;
+            grabAt = pendingPickup != null ? Time.time + grabDelay : -1f;
+        }
 
         if (animator != null)
         {
