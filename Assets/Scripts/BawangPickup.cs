@@ -57,13 +57,16 @@ public class BawangPickup : MonoBehaviour
         return Vector3.Dot(player.forward, toPickup.normalized) >= faceDotThreshold;
     }
 
-    public void CompletePickup(BawangInventory inventory)
+    public bool CompletePickup(BawangInventory inventory)
     {
-        if (collected || inventory == null)
-            return;
+        if (collected || inventory == null || inventory.IsFull)
+            return false;
+
+        if (!inventory.TryAddBawang())
+            return false;
 
         collected = true;
-        inventory.AddBawang();
         gameObject.SetActive(false);
+        return true;
     }
 }

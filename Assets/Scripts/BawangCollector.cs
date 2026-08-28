@@ -41,7 +41,7 @@ public class BawangCollector : MonoBehaviour
         if (!pressed)
             return;
 
-        pendingPickup = FindFacingPickup();
+        pendingPickup = inventory != null && !inventory.IsFull ? FindFacingPickup() : null;
         grabAt = pendingPickup != null ? Time.time + grabDelay : -1f;
 
         if (animator != null)
@@ -58,7 +58,7 @@ public class BawangCollector : MonoBehaviour
         if (pendingPickup == null || inventory == null)
             return;
 
-        if (!pendingPickup.CanCollectFrom(transform))
+        if (!pendingPickup.CanCollectFrom(transform) || inventory.IsFull)
         {
             pendingPickup = null;
             return;
