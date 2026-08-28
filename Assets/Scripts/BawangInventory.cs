@@ -20,4 +20,14 @@ public class BawangInventory : MonoBehaviour
         OnCountChanged?.Invoke(count);
         return true;
     }
+
+    public bool TrySpendBawang()
+    {
+        if (count <= 0)
+            return false;
+
+        count--;
+        OnCountChanged?.Invoke(count);
+        return true;
+    }
 }
