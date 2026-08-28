@@ -7,10 +7,16 @@ public class BawangProjectile : MonoBehaviour
 
     Vector3 velocity;
     float spawnTime;
+    bool landed;
+    AudioClip landClip;
+    float landNoiseRadius;
+    AudioSource audioSource;
 
-    public void Launch(Vector3 startVelocity)
+    public void Launch(Vector3 startVelocity, AudioClip landSound, float noiseRadius)
     {
         velocity = startVelocity;
+        landClip = landSound;
+        landNoiseRadius = noiseRadius;
         spawnTime = Time.time;
     }
 
@@ -25,10 +31,17 @@ public class BawangProjectile : MonoBehaviour
 
         body.isKinematic = true;
         body.useGravity = false;
+
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+            audioSource = gameObject.AddComponent<AudioSource>();
     }
 
     void Update()
     {
+        if (landed)
+            return;
+
         if (Time.time - spawnTime >= maxLifetime)
         {
             Destroy(gameObject);
@@ -39,15 +52,33 @@ public class BawangProjectile : MonoBehaviour
         transform.position += velocity * Time.deltaTime;
 
         if (velocity.y <= 0f &&
-            Physics.Raycast(transform.position, Vector3.down, out _, 0.35f))
+            Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 0.35f))
         {
-            Destroy(gameObject);
+            LandQuietly(hit.point);
         }
     }
 
     void OnTriggerEnter(Collider other)
     {
+        if (landed)
+            return;
+
         if (other.GetComponentInParent<ThirdPersonController>() != null)
             return;
+    }
+
+    void LandQuietly(Vector3 position)
+    {
+        if (landed)
+            return;
+
+        landed = true;
+
+        NoiseEvents.Emit(position, landNoiseRadius);
+
+        if (audioSource != null && landClip != null)
+            audioSource.PlayOneShot(landClip, 0.35f);
+
+        Destroy(gameObject, landClip != null ? landClip.length + 0.1f : 0.05f);
     }
 }

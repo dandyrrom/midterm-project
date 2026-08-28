@@ -55021,8 +55021,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d48dd5e9eed94d14c8dae92c21b4b277, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BawangInventory
-  maxCount: 30
-  count: 0
+  maxCount: 100
+  count: 100
 --- !u!114 &1675826765
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55054,6 +55054,8 @@ MonoBehaviour:
   throwUpward: 0.7
   spawnPoint: {fileID: 647844019}
   garlicProjectilePrefab: {fileID: 8201521328306539504, guid: a6512f7bfb7b9ab41b8c8615a6ec2942, type: 3}
+  landNoiseRadius: 3
+  landClip: {fileID: 8300000, guid: 43759f53b1c00324b981edc787e37c48, type: 3}
 --- !u!1001 &1678706796
 PrefabInstance:
   m_ObjectHideFlags: 0

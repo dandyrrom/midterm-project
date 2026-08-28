@@ -12,6 +12,8 @@ public class BawangThrower : MonoBehaviour
 
     [Header("Projectile")]
     public GameObject garlicProjectilePrefab;
+    public float landNoiseRadius = 3f;
+    public AudioClip landClip;
 
     BawangInventory inventory;
     PlayerHealth health;
@@ -86,6 +88,6 @@ public class BawangThrower : MonoBehaviour
         GameObject projectile = Instantiate(garlicProjectilePrefab, spawnPos, Quaternion.identity);
         BawangProjectile bawang = projectile.GetComponent<BawangProjectile>();
         if (bawang != null)
-            bawang.Launch(velocity);
+            bawang.Launch(velocity, landClip, landNoiseRadius);
     }
 }
