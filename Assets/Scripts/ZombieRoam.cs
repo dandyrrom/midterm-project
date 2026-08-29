@@ -33,6 +33,8 @@ public class ZombieRoam : MonoBehaviour
     public float screamHoldDuration = 1.5f;
     [Tooltip("NavMesh speed while running at MC after scream.")]
     public float hitRunSpeed = 0.5f;
+    [Tooltip("Other zombies within this range path to the screamer.")]
+    public float screamAlertRadius = 20f;
 
     [Header("Target")]
     public Transform player;
@@ -56,6 +58,7 @@ public class ZombieRoam : MonoBehaviour
     bool isApproachingHit;
     float screamUntil;
     AudioSource audioSource;
+    float defaultSpatialBlend = 1f;
     Vector3 attackAnchorPosition;
 
     static readonly int SpeedHash = Animator.StringToHash("Speed");
@@ -76,6 +79,8 @@ public class ZombieRoam : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         audioSource = GetComponentInChildren<AudioSource>();
+        if (audioSource != null)
+            defaultSpatialBlend = audioSource.spatialBlend;
 
         zombieHealth = GetComponent<ZombieHealth>();
     }
@@ -116,7 +121,12 @@ public class ZombieRoam : MonoBehaviour
         }
 
         StopRoamAudio();
-        PlayRunAudio(); // run clip during scream
+        SetScreamAudioFullVolume(true);
+        PlayRunAudio(); // run clip during scream — always audible (2D)
+
+        // Alert nearby zombies to this screamer's position.
+        if (screamAlertRadius > 0f)
+            NoiseEvents.Emit(transform.position, screamAlertRadius);
     }
 
     void BeginHitRun()
@@ -131,6 +141,8 @@ public class ZombieRoam : MonoBehaviour
         isChasing = false;
         hasDestination = false;
         idleUntil = 0f;
+
+        SetScreamAudioFullVolume(false);
 
         agent.isStopped = false;
         agent.updatePosition = true;
@@ -239,6 +251,15 @@ public class ZombieRoam : MonoBehaviour
         audioSource.Play();
     }
 
+    void SetScreamAudioFullVolume(bool screamAudible)
+    {
+        if (audioSource == null)
+            return;
+
+        // 0 = 2D (always heard by player); restore 3D falloff after scream.
+        audioSource.spatialBlend = screamAudible ? 0f : defaultSpatialBlend;
+    }
+
     void StopRunAudio()
     {
         if (audioSource == null)
@@ -248,6 +269,9 @@ public class ZombieRoam : MonoBehaviour
             audioSource.Stop();
 
         audioSource.loop = false;
+        // Never leave a zombie stuck in 2D after scream is interrupted.
+        if (!isScreamingHit)
+            audioSource.spatialBlend = defaultSpatialBlend;
     }
 
     void PlayRoamAudio()
