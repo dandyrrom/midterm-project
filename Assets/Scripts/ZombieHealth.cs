@@ -61,6 +61,9 @@ public class ZombieHealth : MonoBehaviour
         if (anim != null)
             anim.SetTrigger(DieHash);
 
+        ZombieKillScore score = FindFirstObjectByType<ZombieKillScore>();
+        score?.RegisterKill();
+
         // Keep Animator enabled so Death plays; destroy after clip.
         Destroy(gameObject, deathDestroyDelay);
     }
