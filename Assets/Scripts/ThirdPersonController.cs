@@ -191,6 +191,40 @@ public class ThirdPersonController : MonoBehaviour
             animator.SetTrigger(DieHash);
     }
 
+    /// <summary>
+    /// Soft respawn: move to checkpoint and unlock controls after death anim.
+    /// </summary>
+    public void RespawnAt(Vector3 position, Quaternion rotation)
+    {
+        isDead = false;
+        hitUntil = 0f;
+        jumpPending = false;
+        jumpAirborne = false;
+        jumpedFromHop = false;
+        landLockedUntil = 0f;
+        jumpBufferUntil = 0f;
+        verticalVelocity = groundedStick;
+        currentSpeed = 0f;
+
+        if (controller != null)
+            controller.enabled = false;
+
+        transform.SetPositionAndRotation(position, rotation);
+
+        if (controller != null)
+            controller.enabled = true;
+
+        if (animator != null)
+        {
+            animator.ResetTrigger(DieHash);
+            animator.ResetTrigger(HitHash);
+            animator.ResetTrigger(JumpHash);
+            animator.SetFloat(SpeedHash, 0f);
+            animator.SetBool(SneakHash, false);
+            animator.Play("Blend Tree", 0, 0f);
+        }
+    }
+
     void CalculateMovement()
     {
         if (isDead)
