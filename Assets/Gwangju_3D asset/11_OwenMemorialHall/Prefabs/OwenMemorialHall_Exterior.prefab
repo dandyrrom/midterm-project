@@ -46,6 +46,7 @@ GameObject:
   - component: {fileID: 8705145139104514801}
   - component: {fileID: 2083005953680892279}
   - component: {fileID: 8101991453625353956}
+  - component: {fileID: 9000000000000000011}
   m_Layer: 0
   m_Name: Front_Door_Frame_2
   m_TagString: Untagged
@@ -118,6 +119,48 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &9000000000000000011
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1267081009541943468}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -4613121436261822559, guid: f721776b7ab198043bb01b7f115dc93b, type: 3}
+--- !u!64 &9000000000000000012
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1583849263240540459}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 7308918487914779817, guid: f721776b7ab198043bb01b7f115dc93b, type: 3}
+--- !u!64 &9000000000000000013
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6443807554211976719}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -7611050438956190035, guid: f721776b7ab198043bb01b7f115dc93b, type: 3}
 --- !u!1 &1583849263240540459
 GameObject:
   m_ObjectHideFlags: 0
@@ -129,6 +172,7 @@ GameObject:
   - component: {fileID: 5123953098790165499}
   - component: {fileID: 2155606592694181560}
   - component: {fileID: 145148598071071019}
+  - component: {fileID: 9000000000000000012}
   m_Layer: 0
   m_Name: Front_Door_Frame_2_2
   m_TagString: Untagged
@@ -697,6 +741,7 @@ GameObject:
   - component: {fileID: 2817144363325100716}
   - component: {fileID: 1464167431217521698}
   - component: {fileID: 1037791159327436787}
+  - component: {fileID: 9000000000000000013}
   m_Layer: 0
   m_Name: OwenWall_Side
   m_TagString: Untagged
