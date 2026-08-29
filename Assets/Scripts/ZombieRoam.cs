@@ -28,6 +28,12 @@ public class ZombieRoam : MonoBehaviour
     [Range(0.1f, 0.9f)]
     public float attackHitNormalized = 0.45f;
 
+    [Header("Bawang Hit")]
+    [Tooltip("Seconds to scream in place before running at the MC.")]
+    public float screamHoldDuration = 1.5f;
+    [Tooltip("NavMesh speed while running at MC after scream.")]
+    public float hitRunSpeed = 0.5f;
+
     [Header("Target")]
     public Transform player;
 
@@ -46,11 +52,15 @@ public class ZombieRoam : MonoBehaviour
     ThirdPersonController playerController;
     float attackStartTime;
     bool hasDealtDamageThisSwing;
+    bool isScreamingHit;
+    bool isApproachingHit;
+    float screamUntil;
     AudioSource audioSource;
     Vector3 attackAnchorPosition;
 
     static readonly int SpeedHash = Animator.StringToHash("Speed");
     static readonly int AttackHash = Animator.StringToHash("Attack");
+    static readonly int ScreamHash = Animator.StringToHash("Scream");
 
     float idleUntil;
     bool hasDestination;
@@ -68,6 +78,133 @@ public class ZombieRoam : MonoBehaviour
         audioSource = GetComponentInChildren<AudioSource>();
 
         zombieHealth = GetComponent<ZombieHealth>();
+    }
+
+    public void ReactToBawangHit()
+    {
+        if (zombieHealth != null && zombieHealth.IsDead)
+            return;
+        if (player == null || isAttacking)
+            return;
+
+        if (isApproachingHit)
+        {
+            SetPlayerChaseDestination();
+            return;
+        }
+
+        if (isScreamingHit)
+            return;
+
+        isChasing = false;
+        hasDestination = false;
+        idleUntil = 0f;
+        isScreamingHit = true;
+        screamUntil = Time.time + Mathf.Max(0f, screamHoldDuration);
+
+        // Freeze in place — no turn during scream.
+        agent.ResetPath();
+        agent.velocity = Vector3.zero;
+        agent.isStopped = true;
+        agent.updateRotation = false;
+
+        if (animator != null)
+        {
+            animator.SetFloat(SpeedHash, 0f);
+            animator.ResetTrigger(ScreamHash);
+            animator.SetTrigger(ScreamHash);
+        }
+
+        StopRoamAudio();
+        PlayRunAudio(); // run clip during scream
+    }
+
+    void BeginHitRun()
+    {
+        if (zombieHealth != null && zombieHealth.IsDead)
+            return;
+        if (player == null || isAttacking)
+            return;
+
+        isScreamingHit = false;
+        isApproachingHit = true;
+        isChasing = false;
+        hasDestination = false;
+        idleUntil = 0f;
+
+        agent.isStopped = false;
+        agent.updatePosition = true;
+        agent.updateRotation = true;
+        agent.speed = hitRunSpeed;
+
+        // Push Speed immediately so Scream/Idle → Run fires before velocity ramps up.
+        // Without this, the agent can slide in Idle/Scream for a few frames.
+        if (animator != null)
+            animator.SetFloat(SpeedHash, hitRunSpeed);
+
+        SetPlayerChaseDestination();
+        PlayRunAudio();
+    }
+
+    void UpdateScreamHold()
+    {
+        if (animator != null)
+            animator.SetFloat(SpeedHash, 0f);
+
+        agent.isStopped = true;
+        agent.velocity = Vector3.zero;
+        agent.updateRotation = false;
+
+        if (Time.time < screamUntil)
+            return;
+
+        // Don't start moving while still in Scream — that causes the intermittent slide.
+        if (animator != null)
+        {
+            AnimatorStateInfo current = animator.GetCurrentAnimatorStateInfo(0);
+            if (current.IsName("Scream") &&
+                (current.normalizedTime < 0.9f || animator.IsInTransition(0)))
+                return;
+        }
+
+        BeginHitRun();
+    }
+
+    void SetPlayerChaseDestination()
+    {
+        if (player == null)
+            return;
+
+        if (NavMesh.SamplePosition(player.position, out NavMeshHit hit, 2f, NavMesh.AllAreas))
+            agent.SetDestination(hit.position);
+    }
+
+    void UpdateHitApproach()
+    {
+        if (player == null)
+        {
+            isApproachingHit = false;
+            agent.speed = roamSpeed;
+            StopRunAudio();
+            PlayRoamAudio();
+            idleUntil = Time.time + Random.Range(minIdleTime, maxIdleTime);
+            return;
+        }
+
+        SetPlayerChaseDestination();
+
+        // Keep Run anim locked while approaching (velocity alone can dip under the threshold).
+        if (animator != null)
+            animator.SetFloat(SpeedHash, hitRunSpeed);
+
+        if (agent.pathPending)
+            return;
+
+        if (agent.remainingDistance <= attackRange + 0.1f)
+        {
+            isApproachingHit = false;
+            StartAttack();
+        }
     }
 
     void PlayAttackAudio()
@@ -171,12 +308,24 @@ public class ZombieRoam : MonoBehaviour
         if (zombieHealth != null && zombieHealth.IsDead)
             return;
 
-        if (animator != null && !isAttacking)
+        if (animator != null && !isAttacking && !isScreamingHit)
             animator.SetFloat(SpeedHash, agent.velocity.magnitude);
 
         if (isAttacking)
         {
             UpdateAttack();
+            return;
+        }
+
+        if (isScreamingHit)
+        {
+            UpdateScreamHold();
+            return;
+        }
+
+        if (isApproachingHit)
+        {
+            UpdateHitApproach();
             return;
         }
 
@@ -233,6 +382,8 @@ public class ZombieRoam : MonoBehaviour
             return;
 
         isAttacking = true;
+        isApproachingHit = false;
+        isScreamingHit = false;
         isChasing = false;
         hasDestination = false;
         investigateUntil = 0f;
@@ -345,6 +496,9 @@ public class ZombieRoam : MonoBehaviour
     void HandleNoise(Vector3 position, float radius)
     {
         if (zombieHealth != null && zombieHealth.IsDead)
+            return;
+
+        if (isScreamingHit || isApproachingHit)
             return;
 
         float distance = Vector3.Distance(transform.position, position);

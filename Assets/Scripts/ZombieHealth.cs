@@ -28,7 +28,12 @@ public class ZombieHealth : MonoBehaviour
         indicator?.Flash();
 
         if (IsDead)
+        {
             Die();
+            return;
+        }
+
+        GetComponent<ZombieRoam>()?.ReactToBawangHit();
     }
 
     void Die()
