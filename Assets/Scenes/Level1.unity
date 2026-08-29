@@ -3002,10 +3002,12 @@ MonoBehaviour:
   attackHitNormalized: 0.45
   screamHoldDuration: 1.5
   hitRunSpeed: 0.48
+  screamAlertRadius: 20
   player: {fileID: 1675826755}
   attackClip: {fileID: 8300000, guid: cb12626551c0ac347ba925522ec905c0, type: 3}
   runClip: {fileID: 8300000, guid: d360a9584fb1d5e4e853838c435f2c12, type: 3}
   roamClip: {fileID: 8300000, guid: a406793ce06714d4ea216be83c2cfa07, type: 3}
+  deathClip: {fileID: 8300000, guid: b826b3fd42ab4ce40a8db6be68dd750c, type: 3}
 --- !u!136 &77386178
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -3064,6 +3066,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ZombieHealth
   maxHealth: 2
+  deathDestroyDelay: 3
 --- !u!1001 &78069313
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6839,10 +6842,12 @@ MonoBehaviour:
   attackHitNormalized: 0.45
   screamHoldDuration: 1.5
   hitRunSpeed: 0.47
+  screamAlertRadius: 20
   player: {fileID: 1675826755}
   attackClip: {fileID: 8300000, guid: cb12626551c0ac347ba925522ec905c0, type: 3}
   runClip: {fileID: 8300000, guid: d360a9584fb1d5e4e853838c435f2c12, type: 3}
   roamClip: {fileID: 8300000, guid: a406793ce06714d4ea216be83c2cfa07, type: 3}
+  deathClip: {fileID: 8300000, guid: b826b3fd42ab4ce40a8db6be68dd750c, type: 3}
 --- !u!136 &188600195
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -6901,6 +6906,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ZombieHealth
   maxHealth: 2
+  deathDestroyDelay: 3
 --- !u!1001 &191906969
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10650,10 +10656,12 @@ MonoBehaviour:
   attackHitNormalized: 0.45
   screamHoldDuration: 1.5
   hitRunSpeed: 0.47
+  screamAlertRadius: 20
   player: {fileID: 1675826755}
   attackClip: {fileID: 8300000, guid: cb12626551c0ac347ba925522ec905c0, type: 3}
   runClip: {fileID: 8300000, guid: d360a9584fb1d5e4e853838c435f2c12, type: 3}
   roamClip: {fileID: 8300000, guid: a406793ce06714d4ea216be83c2cfa07, type: 3}
+  deathClip: {fileID: 8300000, guid: b826b3fd42ab4ce40a8db6be68dd750c, type: 3}
 --- !u!136 &315332390
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -10712,6 +10720,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ZombieHealth
   maxHealth: 2
+  deathDestroyDelay: 3
 --- !u!1001 &317334739
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11403,10 +11412,12 @@ MonoBehaviour:
   attackHitNormalized: 0.45
   screamHoldDuration: 1.5
   hitRunSpeed: 0.5
+  screamAlertRadius: 20
   player: {fileID: 1675826755}
   attackClip: {fileID: 8300000, guid: cb12626551c0ac347ba925522ec905c0, type: 3}
   runClip: {fileID: 8300000, guid: d360a9584fb1d5e4e853838c435f2c12, type: 3}
   roamClip: {fileID: 8300000, guid: a406793ce06714d4ea216be83c2cfa07, type: 3}
+  deathClip: {fileID: 8300000, guid: b826b3fd42ab4ce40a8db6be68dd750c, type: 3}
 --- !u!136 &354142789
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -11465,6 +11476,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ZombieHealth
   maxHealth: 2
+  deathDestroyDelay: 3
 --- !u!1001 &354452260
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14829,10 +14841,12 @@ MonoBehaviour:
   attackHitNormalized: 0.45
   screamHoldDuration: 1.5
   hitRunSpeed: 0.45
+  screamAlertRadius: 20
   player: {fileID: 1675826755}
   attackClip: {fileID: 8300000, guid: cb12626551c0ac347ba925522ec905c0, type: 3}
   runClip: {fileID: 8300000, guid: d360a9584fb1d5e4e853838c435f2c12, type: 3}
   roamClip: {fileID: 8300000, guid: a406793ce06714d4ea216be83c2cfa07, type: 3}
+  deathClip: {fileID: 8300000, guid: b826b3fd42ab4ce40a8db6be68dd750c, type: 3}
 --- !u!136 &471558418
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -14891,6 +14905,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ZombieHealth
   maxHealth: 2
+  deathDestroyDelay: 3
 --- !u!1001 &472899704
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16294,10 +16309,12 @@ MonoBehaviour:
   attackHitNormalized: 0.45
   screamHoldDuration: 1.5
   hitRunSpeed: 0.48
+  screamAlertRadius: 20
   player: {fileID: 1675826755}
   attackClip: {fileID: 8300000, guid: cb12626551c0ac347ba925522ec905c0, type: 3}
   runClip: {fileID: 8300000, guid: d360a9584fb1d5e4e853838c435f2c12, type: 3}
   roamClip: {fileID: 8300000, guid: a406793ce06714d4ea216be83c2cfa07, type: 3}
+  deathClip: {fileID: 8300000, guid: b826b3fd42ab4ce40a8db6be68dd750c, type: 3}
 --- !u!136 &517819976
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -16356,6 +16373,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ZombieHealth
   maxHealth: 2
+  deathDestroyDelay: 3
 --- !u!1001 &519093566
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18803,10 +18821,12 @@ MonoBehaviour:
   attackHitNormalized: 0.45
   screamHoldDuration: 1.5
   hitRunSpeed: 0.47
+  screamAlertRadius: 20
   player: {fileID: 1675826755}
   attackClip: {fileID: 8300000, guid: cb12626551c0ac347ba925522ec905c0, type: 3}
   runClip: {fileID: 8300000, guid: d360a9584fb1d5e4e853838c435f2c12, type: 3}
   roamClip: {fileID: 8300000, guid: a406793ce06714d4ea216be83c2cfa07, type: 3}
+  deathClip: {fileID: 8300000, guid: b826b3fd42ab4ce40a8db6be68dd750c, type: 3}
 --- !u!136 &591060165
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -18977,6 +18997,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ZombieHealth
   maxHealth: 2
+  deathDestroyDelay: 3
 --- !u!1001 &592531508
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20734,10 +20755,12 @@ MonoBehaviour:
   attackHitNormalized: 0.45
   screamHoldDuration: 1.5
   hitRunSpeed: 0.5
+  screamAlertRadius: 20
   player: {fileID: 1675826755}
   attackClip: {fileID: 8300000, guid: cb12626551c0ac347ba925522ec905c0, type: 3}
   runClip: {fileID: 8300000, guid: d360a9584fb1d5e4e853838c435f2c12, type: 3}
   roamClip: {fileID: 8300000, guid: 85c56f4639b240f4a9b1a6771e7fd88c, type: 3}
+  deathClip: {fileID: 8300000, guid: b826b3fd42ab4ce40a8db6be68dd750c, type: 3}
 --- !u!136 &634955995
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -20779,6 +20802,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ZombieHealth
   maxHealth: 2
+  deathDestroyDelay: 3
 --- !u!1001 &636247697
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -24801,10 +24825,12 @@ MonoBehaviour:
   attackHitNormalized: 0.45
   screamHoldDuration: 1.5
   hitRunSpeed: 0.45
+  screamAlertRadius: 20
   player: {fileID: 1675826755}
   attackClip: {fileID: 8300000, guid: cb12626551c0ac347ba925522ec905c0, type: 3}
   runClip: {fileID: 8300000, guid: d360a9584fb1d5e4e853838c435f2c12, type: 3}
   roamClip: {fileID: 8300000, guid: 85c56f4639b240f4a9b1a6771e7fd88c, type: 3}
+  deathClip: {fileID: 8300000, guid: b826b3fd42ab4ce40a8db6be68dd750c, type: 3}
 --- !u!195 &731759073
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -24840,6 +24866,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ZombieHealth
   maxHealth: 2
+  deathDestroyDelay: 3.15
 --- !u!1001 &734543232
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -28598,10 +28625,12 @@ MonoBehaviour:
   attackHitNormalized: 0.45
   screamHoldDuration: 1.5
   hitRunSpeed: 0.45
+  screamAlertRadius: 20
   player: {fileID: 1675826755}
   attackClip: {fileID: 8300000, guid: cb12626551c0ac347ba925522ec905c0, type: 3}
   runClip: {fileID: 8300000, guid: d360a9584fb1d5e4e853838c435f2c12, type: 3}
   roamClip: {fileID: 8300000, guid: a406793ce06714d4ea216be83c2cfa07, type: 3}
+  deathClip: {fileID: 8300000, guid: b826b3fd42ab4ce40a8db6be68dd750c, type: 3}
 --- !u!136 &828308226
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -28638,6 +28667,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ZombieHealth
   maxHealth: 2
+  deathDestroyDelay: 3.15
 --- !u!1001 &828666553
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -47047,10 +47077,12 @@ MonoBehaviour:
   attackHitNormalized: 0.45
   screamHoldDuration: 1.5
   hitRunSpeed: 0.5
+  screamAlertRadius: 20
   player: {fileID: 1675826755}
   attackClip: {fileID: 8300000, guid: cb12626551c0ac347ba925522ec905c0, type: 3}
   runClip: {fileID: 8300000, guid: d360a9584fb1d5e4e853838c435f2c12, type: 3}
   roamClip: {fileID: 8300000, guid: a406793ce06714d4ea216be83c2cfa07, type: 3}
+  deathClip: {fileID: 8300000, guid: b826b3fd42ab4ce40a8db6be68dd750c, type: 3}
 --- !u!136 &1432342384
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -47109,6 +47141,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ZombieHealth
   maxHealth: 2
+  deathDestroyDelay: 3
 --- !u!1001 &1434303688
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -56363,10 +56396,12 @@ MonoBehaviour:
   attackHitNormalized: 0.45
   screamHoldDuration: 1.5
   hitRunSpeed: 0.48
+  screamAlertRadius: 20
   player: {fileID: 1675826755}
   attackClip: {fileID: 8300000, guid: cb12626551c0ac347ba925522ec905c0, type: 3}
   runClip: {fileID: 8300000, guid: d360a9584fb1d5e4e853838c435f2c12, type: 3}
   roamClip: {fileID: 8300000, guid: 85c56f4639b240f4a9b1a6771e7fd88c, type: 3}
+  deathClip: {fileID: 8300000, guid: b826b3fd42ab4ce40a8db6be68dd750c, type: 3}
 --- !u!195 &1696669967
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -56402,6 +56437,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ZombieHealth
   maxHealth: 2
+  deathDestroyDelay: 3
 --- !u!1001 &1698309839
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -62113,10 +62149,12 @@ MonoBehaviour:
   attackHitNormalized: 0.45
   screamHoldDuration: 1.5
   hitRunSpeed: 0.49
+  screamAlertRadius: 20
   player: {fileID: 1675826755}
   attackClip: {fileID: 8300000, guid: cb12626551c0ac347ba925522ec905c0, type: 3}
   runClip: {fileID: 8300000, guid: d360a9584fb1d5e4e853838c435f2c12, type: 3}
   roamClip: {fileID: 8300000, guid: a406793ce06714d4ea216be83c2cfa07, type: 3}
+  deathClip: {fileID: 8300000, guid: b826b3fd42ab4ce40a8db6be68dd750c, type: 3}
 --- !u!136 &1891154350
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -62175,6 +62213,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ZombieHealth
   maxHealth: 2
+  deathDestroyDelay: 3
 --- !u!1001 &1892443220
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -68703,10 +68742,12 @@ MonoBehaviour:
   attackHitNormalized: 0.45
   screamHoldDuration: 1.5
   hitRunSpeed: 0.5
+  screamAlertRadius: 20
   player: {fileID: 1675826755}
   attackClip: {fileID: 8300000, guid: cb12626551c0ac347ba925522ec905c0, type: 3}
   runClip: {fileID: 8300000, guid: d360a9584fb1d5e4e853838c435f2c12, type: 3}
   roamClip: {fileID: 8300000, guid: a406793ce06714d4ea216be83c2cfa07, type: 3}
+  deathClip: {fileID: 8300000, guid: b826b3fd42ab4ce40a8db6be68dd750c, type: 3}
 --- !u!136 &2104517782
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -68877,6 +68918,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ZombieHealth
   maxHealth: 2
+  deathDestroyDelay: 3
 --- !u!1001 &2106996160
 PrefabInstance:
   m_ObjectHideFlags: 0

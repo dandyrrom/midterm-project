@@ -5,11 +5,17 @@ public class ZombieHealth : MonoBehaviour
     [Header("Health")]
     public int maxHealth = 2;
 
+    [Header("Death")]
+    [Tooltip("Seconds before the corpse is destroyed. Match death clip length.")]
+    public float deathDestroyDelay = 3f;
+
     int currentHealth;
     ZombieHitIndicator indicator;
 
     public int CurrentHealth => currentHealth;
     public bool IsDead => currentHealth <= 0;
+
+    static readonly int DieHash = Animator.StringToHash("Die");
 
     void Awake()
     {
@@ -38,17 +44,24 @@ public class ZombieHealth : MonoBehaviour
 
     void Die()
     {
+        foreach (Collider col in GetComponentsInChildren<Collider>())
+            col.enabled = false;
+
         ZombieRoam roam = GetComponent<ZombieRoam>();
         if (roam != null)
-            roam.enabled = false;
+            roam.StopForDeath();
 
         UnityEngine.AI.NavMeshAgent agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
         if (agent != null)
             agent.enabled = false;
 
-        foreach (Collider col in GetComponentsInChildren<Collider>())
-            col.enabled = false;
+        Animator anim = GetComponent<Animator>();
+        if (anim == null)
+            anim = GetComponentInChildren<Animator>();
+        if (anim != null)
+            anim.SetTrigger(DieHash);
 
-        Destroy(gameObject, 1.5f);
+        // Keep Animator enabled so Death plays; destroy after clip.
+        Destroy(gameObject, deathDestroyDelay);
     }
 }

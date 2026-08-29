@@ -49,6 +49,9 @@ public class ZombieRoam : MonoBehaviour
     [Tooltip("Looped while idle/walking (roam).")]
     public AudioClip roamClip;
 
+    [Tooltip("Played once when this zombie dies.")]
+    public AudioClip deathClip;
+
     NavMeshAgent agent;
     Animator animator;
     ThirdPersonController playerController;
@@ -127,6 +130,42 @@ public class ZombieRoam : MonoBehaviour
         // Alert nearby zombies to this screamer's position.
         if (screamAlertRadius > 0f)
             NoiseEvents.Emit(transform.position, screamAlertRadius);
+    }
+
+    public void StopForDeath()
+    {
+        isScreamingHit = false;
+        isApproachingHit = false;
+        isChasing = false;
+        isAttacking = false;
+        hasDestination = false;
+
+        if (agent != null)
+        {
+            agent.isStopped = true;
+            agent.ResetPath();
+            agent.velocity = Vector3.zero;
+            agent.updatePosition = false;
+            agent.updateRotation = false;
+        }
+
+        if (animator != null)
+            animator.SetFloat(SpeedHash, 0f);
+
+        StopRoamAudio();
+        StopRunAudio();
+        StopAttackAudio();
+        PlayDeathAudio();
+    }
+
+    void PlayDeathAudio()
+    {
+        if (audioSource == null || deathClip == null)
+            return;
+
+        // Always audible to the player (same idea as scream).
+        audioSource.spatialBlend = 0f;
+        audioSource.PlayOneShot(deathClip);
     }
 
     void BeginHitRun()
