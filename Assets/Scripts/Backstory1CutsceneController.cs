@@ -29,6 +29,8 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
     Animator groomAnimator;
     Animator elderAnimator;
     Animator aswangAnimator;
+    Camera sceneCamera;
+    float gameplayFieldOfView;
     Texture2D panelTexture;
     Texture2D accentTexture;
     GUIStyle speakerStyle;
@@ -49,6 +51,12 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         groomAnimator = FindAnimator(groom);
         elderAnimator = FindAnimator(elder);
         aswangAnimator = FindAnimator(aswangGuest);
+        if (mainCamera != null)
+        {
+            sceneCamera = mainCamera.GetComponent<Camera>();
+            if (sceneCamera != null)
+                gameplayFieldOfView = sceneCamera.fieldOfView;
+        }
 
         SetSpeed(sherallAnimator, 0f);
         SetSpeed(groomAnimator, 0f);
@@ -62,7 +70,10 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
     IEnumerator Start()
     {
         FaceEachOther(sherall, groom);
-        SetShot(new Vector3(310.5f, 6.2f, 48f), Midpoint(sherall, groom, 1.2f));
+        SetShot(
+            new Vector3(303.46f, 7.2f, 51f),
+            new Vector3(303.46f, 3.6f, 35.5f),
+            55f);
 
         yield return ShowLine(
             "NARRATION",
@@ -73,9 +84,10 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
             "Sherall, do you take him as your husband—in joy, in hardship, and for all your days?",
             4.8f);
         yield return MoveCamera(
-            new Vector3(307.8f, 4.3f, 44.8f),
+            new Vector3(298.2f, 5f, 44.5f),
             Midpoint(sherall, groom, 1.45f),
-            1.4f);
+            1.4f,
+            45f);
         yield return ShowLine("SHERALL", "I do. Buong puso at buong buhay.", 3.2f);
 
         yield return ShowLine(
@@ -86,9 +98,10 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
 
         Coroutine groomActing = StartCoroutine(ActStrangely());
         yield return MoveCamera(
-            new Vector3(307.1f, 3.9f, 42.8f),
+            new Vector3(300.6f, 4f, 40.3f),
             groom.position + Vector3.up * 1.45f,
-            1.1f);
+            1.1f,
+            38f);
         yield return ShowLine(
             "NARRATION",
             "His hand tightened around hers. His breathing changed, and his eyes followed a sound no one else could hear.",
@@ -102,9 +115,10 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         yield return ShowLine("GROOM", "Sherall... get away from me.", 3.2f);
 
         yield return MoveCamera(
-            new Vector3(309.5f, 5.1f, 50.5f),
+            new Vector3(303f, 5.8f, 54f),
             elderDestination + Vector3.up * 1.4f,
-            1.5f);
+            1.5f,
+            50f);
         Coroutine elderWalk = StartCoroutine(
             MoveCharacter(elder, elderDestination, elderWalkDuration, elderAnimator, 0.5f));
         yield return ShowLine(
@@ -115,9 +129,10 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         yield return ShowLine("ELDER", "Sherall! Huwag mong tapusin ang seremonya!", 3.2f);
 
         yield return MoveCamera(
-            new Vector3(307.2f, 4.5f, 47f),
+            new Vector3(297.5f, 4.7f, 44f),
             Midpoint(sherall, elder, 1.45f),
-            1.3f);
+            1.3f,
+            44f);
         FaceEachOther(elder, sherall);
         yield return ShowLine("SHERALL", "Lolo, please—what is happening to him?", 3.4f);
         yield return ShowLine(
@@ -140,9 +155,10 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
             4.5f);
 
         yield return MoveCamera(
-            new Vector3(303f, 4.1f, 47f),
+            new Vector3(303.46f, 4.5f, 40f),
             aswangDestination + Vector3.up * 1.4f,
-            1f);
+            1f,
+            46f);
         Coroutine aswangWalk = StartCoroutine(
             MoveCharacter(
                 aswangGuest,
@@ -163,9 +179,10 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
             4.5f);
 
         yield return MoveCamera(
-            new Vector3(307f, 4.8f, 46f),
+            new Vector3(298.2f, 4.5f, 43.5f),
             sherall.position + Vector3.up * 1.4f,
-            1.2f);
+            1.2f,
+            45f);
         FinishSequence();
     }
 
@@ -292,7 +309,11 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         SetSpeed(animator, 0f);
     }
 
-    IEnumerator MoveCamera(Vector3 destination, Vector3 lookTarget, float duration)
+    IEnumerator MoveCamera(
+        Vector3 destination,
+        Vector3 lookTarget,
+        float duration,
+        float fieldOfView)
     {
         if (mainCamera == null)
             yield break;
@@ -300,6 +321,7 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         Vector3 startPosition = mainCamera.position;
         Quaternion startRotation = mainCamera.rotation;
         Quaternion endRotation = Quaternion.LookRotation(lookTarget - destination);
+        float startFieldOfView = sceneCamera != null ? sceneCamera.fieldOfView : fieldOfView;
         float elapsed = 0f;
 
         while (elapsed < duration && !sequenceComplete)
@@ -308,17 +330,21 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
             float t = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(elapsed / duration));
             mainCamera.position = Vector3.Lerp(startPosition, destination, t);
             mainCamera.rotation = Quaternion.Slerp(startRotation, endRotation, t);
+            if (sceneCamera != null)
+                sceneCamera.fieldOfView = Mathf.Lerp(startFieldOfView, fieldOfView, t);
             yield return null;
         }
     }
 
-    void SetShot(Vector3 position, Vector3 lookTarget)
+    void SetShot(Vector3 position, Vector3 lookTarget, float fieldOfView)
     {
         if (mainCamera == null)
             return;
 
         mainCamera.position = position;
         mainCamera.rotation = Quaternion.LookRotation(lookTarget - position);
+        if (sceneCamera != null)
+            sceneCamera.fieldOfView = fieldOfView;
     }
 
     void FinishSequence()
@@ -335,6 +361,8 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         SetSpeed(elderAnimator, 0f);
         SetSpeed(aswangAnimator, 0f);
 
+        if (sceneCamera != null)
+            sceneCamera.fieldOfView = gameplayFieldOfView;
         if (cinemachineBrain != null)
             cinemachineBrain.enabled = true;
         SetPlayerControl(true);
