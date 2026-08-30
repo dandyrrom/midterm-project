@@ -20,8 +20,10 @@ public class ZombieRoam : MonoBehaviour
     public float attackDuration = 1.8f;
 
     [Header("Attack")]
+    [Tooltip("How close the MC must be before this zombie reacts (assumed breathing — no audio).")]
+    public float breathingRange = 1.5f;
     [Tooltip("How close the MC must be to keep getting attacked.")]
-    public float attackRange = 1.8f;
+    public float attackRange = 0.8f;
     [Tooltip("Damage dealt each successful attack.")]
     public int attackDamage = 5;
     [Tooltip("When during the swing damage + MC react fire. 0.5 = middle.")]
@@ -374,6 +376,9 @@ public class ZombieRoam : MonoBehaviour
         if (animator != null && !isAttacking && !isScreamingHit)
             animator.SetFloat(SpeedHash, agent.velocity.magnitude);
 
+        if (TryAttackFromBreathing())
+            return;
+
         if (isAttacking)
         {
             UpdateAttack();
@@ -483,15 +488,24 @@ public class ZombieRoam : MonoBehaviour
         attackUntil = Time.time + attackDuration;
     }
 
-    /// <summary>
-    /// Blind zombies still feel contact — immediate attack even if she was sneaking.
-    /// </summary>
-    public void NotifyTouchedByPlayer()
+    bool TryAttackFromBreathing()
     {
-        if (isAttacking)
-            return;
+        if (isAttacking || isScreamingHit || isApproachingHit)
+            return false;
+
+        if (!IsPlayerInBreathingRange())
+            return false;
 
         StartAttack();
+        return true;
+    }
+
+    bool IsPlayerInBreathingRange()
+    {
+        if (player == null)
+            return false;
+
+        return Vector3.Distance(transform.position, player.position) <= breathingRange;
     }
 
     void UpdateAttack()

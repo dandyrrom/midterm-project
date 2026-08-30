@@ -3221,7 +3221,8 @@ MonoBehaviour:
   chaseSpeed: 0.5
   investigateTime: 3
   attackDuration: 1.8
-  attackRange: 1.8
+  breathingRange: 1.5
+  attackRange: 0.8
   attackDamage: 5
   attackHitNormalized: 0.45
   screamHoldDuration: 1.5
@@ -7181,7 +7182,8 @@ MonoBehaviour:
   chaseSpeed: 0.5
   investigateTime: 3
   attackDuration: 1.8
-  attackRange: 1.8
+  breathingRange: 1.5
+  attackRange: 0.8
   attackDamage: 5
   attackHitNormalized: 0.45
   screamHoldDuration: 1.5
@@ -11062,7 +11064,8 @@ MonoBehaviour:
   chaseSpeed: 0.5
   investigateTime: 3
   attackDuration: 1.8
-  attackRange: 1.8
+  breathingRange: 1.5
+  attackRange: 0.8
   attackDamage: 5
   attackHitNormalized: 0.45
   screamHoldDuration: 1.5
@@ -11938,7 +11941,8 @@ MonoBehaviour:
   chaseSpeed: 0.5
   investigateTime: 3
   attackDuration: 1.8
-  attackRange: 1.8
+  breathingRange: 1.5
+  attackRange: 0.8
   attackDamage: 5
   attackHitNormalized: 0.45
   screamHoldDuration: 1.5
@@ -15879,7 +15883,8 @@ MonoBehaviour:
   chaseSpeed: 0.5
   investigateTime: 3
   attackDuration: 1.8
-  attackRange: 1.8
+  breathingRange: 1.5
+  attackRange: 0.8
   attackDamage: 5
   attackHitNormalized: 0.45
   screamHoldDuration: 1.5
@@ -17347,7 +17352,8 @@ MonoBehaviour:
   chaseSpeed: 0.5
   investigateTime: 3
   attackDuration: 1.8
-  attackRange: 1.8
+  breathingRange: 1.5
+  attackRange: 0.8
   attackDamage: 5
   attackHitNormalized: 0.45
   screamHoldDuration: 1.5
@@ -19859,7 +19865,8 @@ MonoBehaviour:
   chaseSpeed: 0.5
   investigateTime: 3
   attackDuration: 1.8
-  attackRange: 1.8
+  breathingRange: 1.5
+  attackRange: 0.8
   attackDamage: 5
   attackHitNormalized: 0.45
   screamHoldDuration: 1.5
@@ -20894,7 +20901,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3420728742036411749, guid: b1fb23b50e1363f4584f2b1faead2d15, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.12000275
+      value: -0.52
       objectReference: {fileID: 0}
     - target: {fileID: 3420728742036411749, guid: b1fb23b50e1363f4584f2b1faead2d15, type: 3}
       propertyPath: m_LocalPosition.y
@@ -21793,7 +21800,8 @@ MonoBehaviour:
   chaseSpeed: 0.5
   investigateTime: 3
   attackDuration: 1.8
-  attackRange: 1.8
+  breathingRange: 1.5
+  attackRange: 0.8
   attackDamage: 5
   attackHitNormalized: 0.45
   screamHoldDuration: 1.5
@@ -25909,7 +25917,8 @@ MonoBehaviour:
   chaseSpeed: 0.5
   investigateTime: 3
   attackDuration: 1.8
-  attackRange: 1.8
+  breathingRange: 1.5
+  attackRange: 0.8
   attackDamage: 5
   attackHitNormalized: 0.45
   screamHoldDuration: 1.5
@@ -29753,7 +29762,8 @@ MonoBehaviour:
   chaseSpeed: 0.5
   investigateTime: 3
   attackDuration: 1.8
-  attackRange: 1.8
+  breathingRange: 1.5
+  attackRange: 0.8
   attackDamage: 5
   attackHitNormalized: 0.45
   screamHoldDuration: 1.5
@@ -48648,7 +48658,8 @@ MonoBehaviour:
   chaseSpeed: 0.5
   investigateTime: 3
   attackDuration: 1.8
-  attackRange: 1.8
+  breathingRange: 1.5
+  attackRange: 0.8
   attackDamage: 5
   attackHitNormalized: 0.45
   screamHoldDuration: 1.5
@@ -58019,7 +58030,8 @@ MonoBehaviour:
   chaseSpeed: 0.5
   investigateTime: 3
   attackDuration: 1.8
-  attackRange: 1.8
+  breathingRange: 1.5
+  attackRange: 0.8
   attackDamage: 5
   attackHitNormalized: 0.45
   screamHoldDuration: 1.5
@@ -63255,7 +63267,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1177170400345736908, guid: 6c9635c0ea5d3124e845a4a609be4a83, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.12000275
+      value: -1.32
       objectReference: {fileID: 0}
     - target: {fileID: 1177170400345736908, guid: 6c9635c0ea5d3124e845a4a609be4a83, type: 3}
       propertyPath: m_LocalPosition.y
@@ -63267,7 +63279,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1177170400345736908, guid: 6c9635c0ea5d3124e845a4a609be4a83, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7071068
+      value: 0.6087616
       objectReference: {fileID: 0}
     - target: {fileID: 1177170400345736908, guid: 6c9635c0ea5d3124e845a4a609be4a83, type: 3}
       propertyPath: m_LocalRotation.x
@@ -63275,7 +63287,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1177170400345736908, guid: 6c9635c0ea5d3124e845a4a609be4a83, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.7071068
+      value: -0.7933532
       objectReference: {fileID: 0}
     - target: {fileID: 1177170400345736908, guid: 6c9635c0ea5d3124e845a4a609be4a83, type: 3}
       propertyPath: m_LocalRotation.z
@@ -63287,7 +63299,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1177170400345736908, guid: 6c9635c0ea5d3124e845a4a609be4a83, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: -105
       objectReference: {fileID: 0}
     - target: {fileID: 1177170400345736908, guid: 6c9635c0ea5d3124e845a4a609be4a83, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -64459,7 +64471,8 @@ MonoBehaviour:
   chaseSpeed: 0.5
   investigateTime: 3
   attackDuration: 1.8
-  attackRange: 1.8
+  breathingRange: 1.5
+  attackRange: 0.8
   attackDamage: 5
   attackHitNormalized: 0.45
   screamHoldDuration: 1.5
@@ -71669,7 +71682,8 @@ MonoBehaviour:
   chaseSpeed: 0.5
   investigateTime: 3
   attackDuration: 1.8
-  attackRange: 1.8
+  breathingRange: 1.5
+  attackRange: 0.8
   attackDamage: 5
   attackHitNormalized: 0.45
   screamHoldDuration: 1.5
