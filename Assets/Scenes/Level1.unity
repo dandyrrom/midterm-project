@@ -56683,6 +56683,7 @@ MonoBehaviour:
   sneakStepInterval: 0.845
   debugHitDamage: 5
   hitClip: {fileID: 8300000, guid: d67c246bb92faa541964b2149e9fe68a, type: 3}
+  hurtNoiseRadius: 12
 --- !u!114 &1675826753
 MonoBehaviour:
   m_ObjectHideFlags: 0

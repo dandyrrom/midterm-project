@@ -68,6 +68,8 @@ public class ThirdPersonController : MonoBehaviour
     [Header("Hurt Audio")]
     [Tooltip("Played when she takes damage (H or zombie mid-attack).")]
     public AudioClip hitClip;
+    [Tooltip("How far her hurt cry can be heard by zombies.")]
+    public float hurtNoiseRadius = 12f;
 
     CharacterController controller;
     PlayerHealth health;
@@ -164,6 +166,9 @@ public class ThirdPersonController : MonoBehaviour
 
         if (audioSource != null && hitClip != null)
             audioSource.PlayOneShot(hitClip);
+
+        if (hurtNoiseRadius > 0f)
+            NoiseEvents.Emit(transform.position, hurtNoiseRadius);
 
         if (animator != null)
         {
