@@ -25501,6 +25501,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d7d6f489f174fc1a0687a5b20bfac39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameplayScene: Level1
+  transitionDuration: 0.8
   sherall: {fileID: 1675826755}
   groom: {fileID: 2147000071}
   priest: {fileID: 2147000081}

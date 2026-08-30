@@ -1,9 +1,14 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public sealed class Backstory1CutsceneController : MonoBehaviour
 {
+    [Header("Flow")]
+    [SerializeField] string gameplayScene = "Level1";
+    [SerializeField, Min(0.1f)] float transitionDuration = 0.8f;
+
     [Header("Cast")]
     [SerializeField] Transform sherall;
     [SerializeField] Transform groom;
@@ -41,6 +46,8 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
     string currentSpeaker = "";
     string currentDialogue = "";
     float dialogueAlpha;
+    float screenFade;
+    bool isTransitioning;
     bool sequenceComplete;
 
     void Awake()
@@ -197,7 +204,7 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
             sherall.position + Vector3.up * 1.4f,
             1.2f,
             45f);
-        FinishSequence();
+        BeginGameplayTransition();
     }
 
     IEnumerator ShowLine(string speaker, string dialogue, float duration)
@@ -217,7 +224,7 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
 
             if (SkipSequencePressed())
             {
-                FinishSequence();
+                BeginGameplayTransition();
                 yield break;
             }
 
@@ -383,6 +390,44 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         SetPlayerControl(true);
     }
 
+    void BeginGameplayTransition()
+    {
+        if (isTransitioning)
+            return;
+
+        isTransitioning = true;
+        sequenceComplete = true;
+        currentSpeaker = "";
+        currentDialogue = "";
+        dialogueAlpha = 0f;
+        SetPlayerControl(false);
+        StopAllCoroutines();
+        StartCoroutine(LoadGameplay());
+    }
+
+    IEnumerator LoadGameplay()
+    {
+        float elapsed = 0f;
+        while (elapsed < transitionDuration)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            screenFade = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(elapsed / transitionDuration));
+            yield return null;
+        }
+
+        if (Application.CanStreamedLevelBeLoaded(gameplayScene))
+        {
+            SceneManager.LoadScene(gameplayScene);
+            yield break;
+        }
+
+        Debug.LogError($"Cannot load '{gameplayScene}'. Add the scene to Build Settings.");
+        screenFade = 0f;
+        isTransitioning = false;
+        sequenceComplete = false;
+        FinishSequence();
+    }
+
     void SetPlayerControl(bool enabled)
     {
         if (playerControls == null)
@@ -450,6 +495,14 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
 
     void OnGUI()
     {
+        if (screenFade > 0f)
+        {
+            Color previous = GUI.color;
+            GUI.color = new Color(1f, 1f, 1f, screenFade);
+            GUI.DrawTexture(new Rect(0f, 0f, Screen.width, Screen.height), panelTexture);
+            GUI.color = previous;
+        }
+
         if (sequenceComplete || string.IsNullOrEmpty(currentDialogue))
             return;
 
@@ -518,7 +571,7 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
 
     void OnDisable()
     {
-        if (!sequenceComplete)
+        if (!sequenceComplete && !isTransitioning)
             FinishSequence();
     }
 
