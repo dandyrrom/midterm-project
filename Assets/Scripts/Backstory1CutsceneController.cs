@@ -6,8 +6,9 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
 {
     [Header("Cast")]
     [SerializeField] Transform sherall;
+    [SerializeField] Transform groom;
     [SerializeField] Transform elder;
-    [SerializeField] Transform infectedHusband;
+    [SerializeField] Transform aswangGuest;
 
     [Header("Control")]
     [SerializeField] Transform mainCamera;
@@ -15,17 +16,19 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
     [SerializeField] Behaviour[] playerControls;
 
     [Header("Blocking")]
-    [SerializeField] Vector3 elderDestination = new Vector3(301.8f, 2.53f, 64f);
-    [SerializeField] Vector3 infectedDestination = new Vector3(308.3f, 2.53f, 53.5f);
+    [SerializeField] Vector3 groomDisturbedPosition = new Vector3(304.8f, 2.53f, 42f);
+    [SerializeField] Vector3 elderDestination = new Vector3(300.2f, 2.53f, 44.5f);
+    [SerializeField] Vector3 aswangDestination = new Vector3(309f, 2.53f, 48f);
     [SerializeField, Min(0.1f)] float elderWalkDuration = 3.5f;
-    [SerializeField, Min(0.1f)] float infectedWalkDuration = 3f;
+    [SerializeField, Min(0.1f)] float aswangWalkDuration = 3f;
 
     static readonly int SpeedHash = Animator.StringToHash("Speed");
     static readonly int HitHash = Animator.StringToHash("Hit");
 
     Animator sherallAnimator;
+    Animator groomAnimator;
     Animator elderAnimator;
-    Animator infectedAnimator;
+    Animator aswangAnimator;
     Texture2D panelTexture;
     Texture2D accentTexture;
     GUIStyle speakerStyle;
@@ -33,6 +36,7 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
     GUIStyle promptStyle;
     string currentSpeaker = "";
     string currentDialogue = "";
+    float dialogueAlpha;
     bool sequenceComplete;
 
     void Awake()
@@ -42,12 +46,14 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
             cinemachineBrain.enabled = false;
 
         sherallAnimator = FindAnimator(sherall);
+        groomAnimator = FindAnimator(groom);
         elderAnimator = FindAnimator(elder);
-        infectedAnimator = FindAnimator(infectedHusband);
+        aswangAnimator = FindAnimator(aswangGuest);
 
         SetSpeed(sherallAnimator, 0f);
+        SetSpeed(groomAnimator, 0f);
         SetSpeed(elderAnimator, 0f);
-        SetSpeed(infectedAnimator, 0f);
+        SetSpeed(aswangAnimator, 0f);
 
         panelTexture = MakeTexture(new Color(0.015f, 0.012f, 0.018f, 0.92f));
         accentTexture = MakeTexture(new Color(0.78f, 0.58f, 0.24f, 1f));
@@ -55,69 +61,111 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
 
     IEnumerator Start()
     {
-        SetShot(new Vector3(312f, 8.2f, 75f), new Vector3(304f, 3.4f, 54f));
+        FaceEachOther(sherall, groom);
+        SetShot(new Vector3(310.5f, 6.2f, 48f), Midpoint(sherall, groom, 1.2f));
 
         yield return ShowLine(
             "NARRATION",
-            "The wedding bells rang, but the vows were never finished.",
-            3.2f);
-
-        Coroutine elderWalk = StartCoroutine(
-            MoveCharacter(elder, elderDestination, elderWalkDuration, elderAnimator, 0.5f));
-        yield return ShowLine("ELDER", "Sherall! Huwag mong tapusin ang seremonya!", 3.1f);
-        yield return elderWalk;
-
+            "Before the altar, Sherall and her groom stood one vow away from becoming husband and wife.",
+            4.5f);
+        yield return ShowLine(
+            "OFFICIANT",
+            "Sherall, do you take him as your husband—in joy, in hardship, and for all your days?",
+            4.8f);
         yield return MoveCamera(
-            new Vector3(307.5f, 4.7f, 69.5f),
-            Midpoint(sherall, elder, 1.5f),
-            1.2f);
+            new Vector3(307.8f, 4.3f, 44.8f),
+            Midpoint(sherall, groom, 1.45f),
+            1.4f);
+        yield return ShowLine("SHERALL", "I do. Buong puso at buong buhay.", 3.2f);
+
+        yield return ShowLine(
+            "OFFICIANT",
+            "And do you take Sherall as your wife?",
+            3.3f);
+        yield return ShowLine("GROOM", "I... do.", 2.8f);
+
+        Coroutine groomActing = StartCoroutine(ActStrangely());
+        yield return MoveCamera(
+            new Vector3(307.1f, 3.9f, 42.8f),
+            groom.position + Vector3.up * 1.45f,
+            1.1f);
+        yield return ShowLine(
+            "NARRATION",
+            "His hand tightened around hers. His breathing changed, and his eyes followed a sound no one else could hear.",
+            5.2f);
+        yield return ShowLine("GROOM", "The bells... make them stop. They can hear us.", 3.8f);
+        yield return groomActing;
 
         TriggerReaction(sherallAnimator);
-        yield return ShowLine("SHERALL", "Lolo? What happened to the guests?", 3f);
+        FaceEachOther(sherall, groom);
+        yield return ShowLine("SHERALL", "What is happening to you?", 3f);
+        yield return ShowLine("GROOM", "Sherall... get away from me.", 3.2f);
 
+        yield return MoveCamera(
+            new Vector3(309.5f, 5.1f, 50.5f),
+            elderDestination + Vector3.up * 1.4f,
+            1.5f);
+        Coroutine elderWalk = StartCoroutine(
+            MoveCharacter(elder, elderDestination, elderWalkDuration, elderAnimator, 0.5f));
+        yield return ShowLine(
+            "NARRATION",
+            "The church doors opened. An elder hurried down the aisle as the guests began to turn.",
+            4.4f);
+        yield return elderWalk;
+        yield return ShowLine("ELDER", "Sherall! Huwag mong tapusin ang seremonya!", 3.2f);
+
+        yield return MoveCamera(
+            new Vector3(307.2f, 4.5f, 47f),
+            Midpoint(sherall, elder, 1.45f),
+            1.3f);
         FaceEachOther(elder, sherall);
+        yield return ShowLine("SHERALL", "Lolo, please—what is happening to him?", 3.4f);
         yield return ShowLine(
             "ELDER",
             "Hindi na sila ang mga bisita ninyo. Aswang hunt by sound. Keep your voice low.",
             5.2f);
         yield return ShowLine(
             "ELDER",
-            "Only the orasyon, asin, bawang, and holy water can hold them.",
-            4.6f);
+            "Recite the orasyon. Find asin, bawang, and holy water. Only the lunas can hold them.",
+            5f);
         yield return ShowLine(
             "ELDER",
-            "Gather the three wards. Complete the lunas at the altar—and do not call them to you.",
-            5.4f);
+            "Bring the three wards back to this altar. Finish the rite without calling them to you.",
+            5.2f);
 
-        yield return ShowLine("SHERALL", "And my husband?", 2.6f);
+        yield return ShowLine("SHERALL", "Can the lunas still save my husband?", 3.4f);
         yield return ShowLine(
             "ELDER",
-            "He is among them. Finish the rite before he is lost.",
-            4.2f);
+            "If he still knows your name, there may be time. But you must go now.",
+            4.5f);
 
         yield return MoveCamera(
-            new Vector3(302f, 4.1f, 60f),
-            infectedDestination + Vector3.up * 1.4f,
-            0.8f);
-        Coroutine infectedWalk = StartCoroutine(
+            new Vector3(303f, 4.1f, 47f),
+            aswangDestination + Vector3.up * 1.4f,
+            1f);
+        Coroutine aswangWalk = StartCoroutine(
             MoveCharacter(
-                infectedHusband,
-                infectedDestination,
-                infectedWalkDuration,
-                infectedAnimator,
+                aswangGuest,
+                aswangDestination,
+                aswangWalkDuration,
+                aswangAnimator,
                 1f));
         yield return ShowLine(
             "NARRATION",
-            "A familiar shape moved beyond the altar. It still wore her husband's face.",
-            4.7f);
-        yield return infectedWalk;
+            "Behind them, one of the wedding guests answered the groom's whisper with an inhuman step.",
+            4.8f);
+        yield return aswangWalk;
 
-        yield return ShowLine("ELDER", "Go. Tapusin mo ang lunas. I will draw it away.", 3.8f);
+        yield return ShowLine("ELDER", "Go. Tapusin mo ang lunas. I will keep it away.", 3.8f);
         yield return ShowLine(
             "OBJECTIVE",
             "Find holy water, asin, and bawang. Return to the altar.",
             4.5f);
 
+        yield return MoveCamera(
+            new Vector3(307f, 4.8f, 46f),
+            sherall.position + Vector3.up * 1.4f,
+            1.2f);
         FinishSequence();
     }
 
@@ -125,24 +173,93 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
     {
         currentSpeaker = speaker;
         currentDialogue = dialogue;
+        dialogueAlpha = 0f;
 
         float started = Time.unscaledTime;
         while (Time.unscaledTime - started < duration)
         {
+            float elapsed = Time.unscaledTime - started;
+            float remaining = duration - elapsed;
+            dialogueAlpha = Mathf.Min(
+                Mathf.Clamp01(elapsed / 0.25f),
+                Mathf.Clamp01(remaining / 0.35f));
+
             if (SkipSequencePressed())
             {
                 FinishSequence();
                 yield break;
             }
 
-            if (Time.unscaledTime - started > 0.35f && AdvancePressed())
+            if (elapsed > 0.35f && AdvancePressed())
+            {
+                yield return FadeDialogueOut(0.18f);
                 break;
+            }
 
             yield return null;
         }
 
+        dialogueAlpha = 0f;
         currentSpeaker = "";
         currentDialogue = "";
+    }
+
+    IEnumerator FadeDialogueOut(float duration)
+    {
+        float startAlpha = dialogueAlpha;
+        float elapsed = 0f;
+        while (elapsed < duration && !sequenceComplete)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            dialogueAlpha = Mathf.Lerp(startAlpha, 0f, Mathf.Clamp01(elapsed / duration));
+            yield return null;
+        }
+    }
+
+    IEnumerator ActStrangely()
+    {
+        if (groom == null)
+            yield break;
+
+        TriggerReaction(groomAnimator);
+        yield return WaitUnscaled(0.65f);
+        yield return MoveCharacter(
+            groom,
+            groomDisturbedPosition,
+            1.8f,
+            groomAnimator,
+            0.25f);
+
+        Vector3 direction = aswangDestination - groom.position;
+        direction.y = 0f;
+        if (direction.sqrMagnitude > 0.001f)
+            yield return RotateCharacter(groom, Quaternion.LookRotation(direction), 1.1f);
+    }
+
+    IEnumerator RotateCharacter(Transform character, Quaternion destination, float duration)
+    {
+        if (character == null)
+            yield break;
+
+        Quaternion start = character.rotation;
+        float elapsed = 0f;
+        while (elapsed < duration && !sequenceComplete)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            float t = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(elapsed / duration));
+            character.rotation = Quaternion.Slerp(start, destination, t);
+            yield return null;
+        }
+    }
+
+    IEnumerator WaitUnscaled(float duration)
+    {
+        float elapsed = 0f;
+        while (elapsed < duration && !sequenceComplete)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            yield return null;
+        }
     }
 
     IEnumerator MoveCharacter(
@@ -213,8 +330,10 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         StopAllCoroutines();
         currentSpeaker = "";
         currentDialogue = "";
+        dialogueAlpha = 0f;
+        SetSpeed(groomAnimator, 0f);
         SetSpeed(elderAnimator, 0f);
-        SetSpeed(infectedAnimator, 0f);
+        SetSpeed(aswangAnimator, 0f);
 
         if (cinemachineBrain != null)
             cinemachineBrain.enabled = true;
@@ -298,6 +417,8 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         float panelX = (Screen.width - panelWidth) * 0.5f;
         float panelY = Screen.height - panelHeight - 42f * scale;
 
+        Color previousColor = GUI.color;
+        GUI.color = new Color(1f, 1f, 1f, dialogueAlpha);
         GUI.DrawTexture(new Rect(panelX, panelY, panelWidth, panelHeight), panelTexture);
         GUI.DrawTexture(new Rect(panelX, panelY, 6f * scale, panelHeight), accentTexture);
 
@@ -318,6 +439,7 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
             new Rect(left, panelY + 151f * scale, panelWidth - 76f * scale, 24f * scale),
             "SPACE / ENTER  Continue     ESC  Skip",
             promptStyle);
+        GUI.color = previousColor;
     }
 
     void EnsureStyles()

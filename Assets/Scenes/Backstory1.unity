@@ -18885,7 +18885,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 7831b9c8a3c896a4b94cac9bb2c6ddae, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 304.9
+      value: 302.4
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7831b9c8a3c896a4b94cac9bb2c6ddae, type: 3}
       propertyPath: m_LocalPosition.y
@@ -18893,7 +18893,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7831b9c8a3c896a4b94cac9bb2c6ddae, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 67.5
+      value: 40.5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7831b9c8a3c896a4b94cac9bb2c6ddae, type: 3}
       propertyPath: m_LocalRotation.w
@@ -25233,7 +25233,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 16b89a53f8e15454db964e492564c4e6, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 292.5
+      value: 304.4
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 16b89a53f8e15454db964e492564c4e6, type: 3}
       propertyPath: m_LocalPosition.y
@@ -25241,11 +25241,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 16b89a53f8e15454db964e492564c4e6, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 67
+      value: 40.5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 16b89a53f8e15454db964e492564c4e6, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.596
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 16b89a53f8e15454db964e492564c4e6, type: 3}
       propertyPath: m_LocalRotation.x
@@ -25253,7 +25253,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 16b89a53f8e15454db964e492564c4e6, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.803
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 16b89a53f8e15454db964e492564c4e6, type: 3}
       propertyPath: m_LocalRotation.z
@@ -25261,7 +25261,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 16b89a53f8e15454db964e492564c4e6, type: 3}
       propertyPath: m_Name
-      value: Elder
+      value: Groom
       objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: 16b89a53f8e15454db964e492564c4e6, type: 3}
       propertyPath: m_Controller
@@ -25319,7 +25319,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
       propertyPath: m_Name
-      value: Infected Husband
+      value: Aswang Guest
       objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
       propertyPath: m_Controller
@@ -25338,6 +25338,64 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
   m_PrefabInstance: {fileID: 2147000010}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2147000030
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 7831b9c8a3c896a4b94cac9bb2c6ddae, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 300.2
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7831b9c8a3c896a4b94cac9bb2c6ddae, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.53
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7831b9c8a3c896a4b94cac9bb2c6ddae, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 59
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7831b9c8a3c896a4b94cac9bb2c6ddae, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7831b9c8a3c896a4b94cac9bb2c6ddae, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7831b9c8a3c896a4b94cac9bb2c6ddae, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7831b9c8a3c896a4b94cac9bb2c6ddae, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 7831b9c8a3c896a4b94cac9bb2c6ddae, type: 3}
+      propertyPath: m_Name
+      value: Elder
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: 7831b9c8a3c896a4b94cac9bb2c6ddae, type: 3}
+      propertyPath: m_Controller
+      value:
+      objectReference: {fileID: 9100000, guid: 820f6afb0887e6a42ad92c726a4bfde8, type: 2}
+    - target: {fileID: 5866666021909216657, guid: 7831b9c8a3c896a4b94cac9bb2c6ddae, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 7831b9c8a3c896a4b94cac9bb2c6ddae, type: 3}
+--- !u!4 &2147000031 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 7831b9c8a3c896a4b94cac9bb2c6ddae, type: 3}
+  m_PrefabInstance: {fileID: 2147000030}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &2147000020
 GameObject:
@@ -25384,17 +25442,19 @@ MonoBehaviour:
   m_Name:
   m_EditorClassIdentifier:
   sherall: {fileID: 1675826755}
-  elder: {fileID: 2147000001}
-  infectedHusband: {fileID: 2147000011}
+  groom: {fileID: 2147000001}
+  elder: {fileID: 2147000031}
+  aswangGuest: {fileID: 2147000011}
   mainCamera: {fileID: 476080575}
   cinemachineBrain: {fileID: 476080571}
   playerControls:
   - {fileID: 1675826752}
   - {fileID: 1675826753}
-  elderDestination: {x: 301.8, y: 2.53, z: 64}
-  infectedDestination: {x: 308.3, y: 2.53, z: 53.5}
+  groomDisturbedPosition: {x: 304.8, y: 2.53, z: 42}
+  elderDestination: {x: 300.2, y: 2.53, z: 44.5}
+  aswangDestination: {x: 309, y: 2.53, z: 48}
   elderWalkDuration: 3.5
-  infectedWalkDuration: 3
+  aswangWalkDuration: 3
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -25522,4 +25582,5 @@ SceneRoots:
   - {fileID: 152458308}
   - {fileID: 2147000000}
   - {fileID: 2147000010}
+  - {fileID: 2147000030}
   - {fileID: 2147000021}
