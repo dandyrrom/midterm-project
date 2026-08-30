@@ -3221,8 +3221,9 @@ MonoBehaviour:
   chaseSpeed: 0.5
   investigateTime: 3
   attackDuration: 1.8
-  breathingRange: 1.5
-  attackRange: 0.8
+  breathingRange: 1
+  attackRange: 0.5
+  attackReachPadding: 0.5
   attackDamage: 5
   attackHitNormalized: 0.45
   screamHoldDuration: 1.5
@@ -7182,8 +7183,9 @@ MonoBehaviour:
   chaseSpeed: 0.5
   investigateTime: 3
   attackDuration: 1.8
-  breathingRange: 1.5
-  attackRange: 0.8
+  breathingRange: 1
+  attackRange: 0.5
+  attackReachPadding: 0.5
   attackDamage: 5
   attackHitNormalized: 0.45
   screamHoldDuration: 1.5
@@ -11064,8 +11066,9 @@ MonoBehaviour:
   chaseSpeed: 0.5
   investigateTime: 3
   attackDuration: 1.8
-  breathingRange: 1.5
-  attackRange: 0.8
+  breathingRange: 1
+  attackRange: 0.5
+  attackReachPadding: 0.5
   attackDamage: 5
   attackHitNormalized: 0.45
   screamHoldDuration: 1.5
@@ -11941,8 +11944,9 @@ MonoBehaviour:
   chaseSpeed: 0.5
   investigateTime: 3
   attackDuration: 1.8
-  breathingRange: 1.5
-  attackRange: 0.8
+  breathingRange: 1
+  attackRange: 0.5
+  attackReachPadding: 0.5
   attackDamage: 5
   attackHitNormalized: 0.45
   screamHoldDuration: 1.5
@@ -15883,8 +15887,9 @@ MonoBehaviour:
   chaseSpeed: 0.5
   investigateTime: 3
   attackDuration: 1.8
-  breathingRange: 1.5
-  attackRange: 0.8
+  breathingRange: 1
+  attackRange: 0.5
+  attackReachPadding: 0.5
   attackDamage: 5
   attackHitNormalized: 0.45
   screamHoldDuration: 1.5
@@ -17352,8 +17357,9 @@ MonoBehaviour:
   chaseSpeed: 0.5
   investigateTime: 3
   attackDuration: 1.8
-  breathingRange: 1.5
-  attackRange: 0.8
+  breathingRange: 1
+  attackRange: 0.5
+  attackReachPadding: 0.5
   attackDamage: 5
   attackHitNormalized: 0.45
   screamHoldDuration: 1.5
@@ -19865,8 +19871,9 @@ MonoBehaviour:
   chaseSpeed: 0.5
   investigateTime: 3
   attackDuration: 1.8
-  breathingRange: 1.5
-  attackRange: 0.8
+  breathingRange: 1
+  attackRange: 0.5
+  attackReachPadding: 0.5
   attackDamage: 5
   attackHitNormalized: 0.45
   screamHoldDuration: 1.5
@@ -21800,8 +21807,9 @@ MonoBehaviour:
   chaseSpeed: 0.5
   investigateTime: 3
   attackDuration: 1.8
-  breathingRange: 1.5
-  attackRange: 0.8
+  breathingRange: 1
+  attackRange: 0.5
+  attackReachPadding: 0.5
   attackDamage: 5
   attackHitNormalized: 0.45
   screamHoldDuration: 1.5
@@ -25917,8 +25925,9 @@ MonoBehaviour:
   chaseSpeed: 0.5
   investigateTime: 3
   attackDuration: 1.8
-  breathingRange: 1.5
-  attackRange: 0.8
+  breathingRange: 1
+  attackRange: 0.5
+  attackReachPadding: 0.5
   attackDamage: 5
   attackHitNormalized: 0.45
   screamHoldDuration: 1.5
@@ -29762,8 +29771,9 @@ MonoBehaviour:
   chaseSpeed: 0.5
   investigateTime: 3
   attackDuration: 1.8
-  breathingRange: 1.5
-  attackRange: 0.8
+  breathingRange: 1
+  attackRange: 0.5
+  attackReachPadding: 0.5
   attackDamage: 5
   attackHitNormalized: 0.45
   screamHoldDuration: 1.5
@@ -48658,8 +48668,9 @@ MonoBehaviour:
   chaseSpeed: 0.5
   investigateTime: 3
   attackDuration: 1.8
-  breathingRange: 1.5
-  attackRange: 0.8
+  breathingRange: 1
+  attackRange: 0.5
+  attackReachPadding: 0.5
   attackDamage: 5
   attackHitNormalized: 0.45
   screamHoldDuration: 1.5
@@ -58030,8 +58041,9 @@ MonoBehaviour:
   chaseSpeed: 0.5
   investigateTime: 3
   attackDuration: 1.8
-  breathingRange: 1.5
-  attackRange: 0.8
+  breathingRange: 1
+  attackRange: 0.5
+  attackReachPadding: 0.5
   attackDamage: 5
   attackHitNormalized: 0.45
   screamHoldDuration: 1.5
@@ -64471,8 +64483,9 @@ MonoBehaviour:
   chaseSpeed: 0.5
   investigateTime: 3
   attackDuration: 1.8
-  breathingRange: 1.5
-  attackRange: 0.8
+  breathingRange: 1
+  attackRange: 0.5
+  attackReachPadding: 0.5
   attackDamage: 5
   attackHitNormalized: 0.45
   screamHoldDuration: 1.5
@@ -71682,8 +71695,9 @@ MonoBehaviour:
   chaseSpeed: 0.5
   investigateTime: 3
   attackDuration: 1.8
-  breathingRange: 1.5
-  attackRange: 0.8
+  breathingRange: 1
+  attackRange: 0.5
+  attackReachPadding: 0.5
   attackDamage: 5
   attackHitNormalized: 0.45
   screamHoldDuration: 1.5

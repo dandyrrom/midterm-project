@@ -21,9 +21,11 @@ public class ZombieRoam : MonoBehaviour
 
     [Header("Attack")]
     [Tooltip("How close the MC must be before this zombie reacts (assumed breathing — no audio).")]
-    public float breathingRange = 1.5f;
-    [Tooltip("How close the MC must be to keep getting attacked.")]
-    public float attackRange = 0.8f;
+    public float breathingRange = 1f;
+    [Tooltip("Horizontal reach for landing damage and chaining swings.")]
+    public float attackRange = 0.5f;
+    [Tooltip("Extra reach for capsule radii (zombie body + MC).")]
+    public float attackReachPadding = 0.5f;
     [Tooltip("Damage dealt each successful attack.")]
     public int attackDamage = 5;
     [Tooltip("When during the swing damage + MC react fire. 0.5 = middle.")]
@@ -73,6 +75,7 @@ public class ZombieRoam : MonoBehaviour
     float idleUntil;
     bool hasDestination;
     bool isChasing;
+    bool isChasingBreathing;
     float roamSpeed;
     float investigateUntil;
     bool isAttacking;
@@ -139,6 +142,7 @@ public class ZombieRoam : MonoBehaviour
         isScreamingHit = false;
         isApproachingHit = false;
         isChasing = false;
+        isChasingBreathing = false;
         isAttacking = false;
         hasDestination = false;
 
@@ -253,7 +257,7 @@ public class ZombieRoam : MonoBehaviour
         if (agent.pathPending)
             return;
 
-        if (agent.remainingDistance <= attackRange + 0.1f)
+        if (agent.remainingDistance <= attackRange + attackReachPadding + 0.1f)
         {
             isApproachingHit = false;
             StartAttack();
@@ -376,7 +380,7 @@ public class ZombieRoam : MonoBehaviour
         if (animator != null && !isAttacking && !isScreamingHit)
             animator.SetFloat(SpeedHash, agent.velocity.magnitude);
 
-        if (TryAttackFromBreathing())
+        if (TryChaseFromBreathing())
             return;
 
         if (isAttacking)
@@ -435,6 +439,28 @@ public class ZombieRoam : MonoBehaviour
 
     void UpdateChase()
     {
+        if (isChasingBreathing)
+        {
+            if (player == null || !IsPlayerInBreathingRange())
+            {
+                EndChase();
+                return;
+            }
+
+            SetPlayerChaseDestination();
+
+            if (agent.pathPending)
+                return;
+
+            if (IsPlayerInAttackRange())
+            {
+                isChasingBreathing = false;
+                StartAttack();
+            }
+
+            return;
+        }
+
         if (agent.pathPending)
             return;
 
@@ -453,6 +479,7 @@ public class ZombieRoam : MonoBehaviour
         isApproachingHit = false;
         isScreamingHit = false;
         isChasing = false;
+        isChasingBreathing = false;
         hasDestination = false;
         investigateUntil = 0f;
         hasDealtDamageThisSwing = false;
@@ -488,16 +515,35 @@ public class ZombieRoam : MonoBehaviour
         attackUntil = Time.time + attackDuration;
     }
 
-    bool TryAttackFromBreathing()
+    bool TryChaseFromBreathing()
     {
-        if (isAttacking || isScreamingHit || isApproachingHit)
+        if (isAttacking || isScreamingHit || isApproachingHit || isChasing)
             return false;
 
         if (!IsPlayerInBreathingRange())
             return false;
 
-        StartAttack();
+        BeginBreathingChase();
         return true;
+    }
+
+    void BeginBreathingChase()
+    {
+        StopRoamAudio();
+
+        isChasing = true;
+        isChasingBreathing = true;
+        hasDestination = false;
+        investigateUntil = 0f;
+        idleUntil = 0f;
+
+        agent.isStopped = false;
+        agent.updatePosition = true;
+        agent.updateRotation = true;
+        agent.speed = chaseSpeed;
+
+        SetPlayerChaseDestination();
+        PlayRunAudio();
     }
 
     bool IsPlayerInBreathingRange()
@@ -505,7 +551,24 @@ public class ZombieRoam : MonoBehaviour
         if (player == null)
             return false;
 
-        return Vector3.Distance(transform.position, player.position) <= breathingRange;
+        return HorizontalDistanceToPlayer() <= breathingRange;
+    }
+
+    float HorizontalDistanceToPlayer()
+    {
+        if (player == null)
+            return float.MaxValue;
+
+        Vector3 zombiePos = transform.position;
+        Vector3 playerPos = player.position;
+        zombiePos.y = 0f;
+        playerPos.y = 0f;
+        return Vector3.Distance(zombiePos, playerPos);
+    }
+
+    bool IsPlayerInAttackRange()
+    {
+        return HorizontalDistanceToPlayer() <= attackRange + attackReachPadding;
     }
 
     void UpdateAttack()
@@ -527,13 +590,17 @@ public class ZombieRoam : MonoBehaviour
             Time.time >= attackStartTime + attackDuration * attackHitNormalized)
         {
             if (IsPlayerInAttackRange())
+            {
                 DealAttackDamage();
-
-            hasDealtDamageThisSwing = true;
+                hasDealtDamageThisSwing = true;
+            }
         }
 
         if (Time.time < attackUntil)
             return;
+
+        if (!hasDealtDamageThisSwing)
+            hasDealtDamageThisSwing = true;
 
         if (IsPlayerInAttackRange())
         {
@@ -561,15 +628,6 @@ public class ZombieRoam : MonoBehaviour
         playerController.TakeHit(attackDamage);
     }
 
-    bool IsPlayerInAttackRange()
-    {
-        if (player == null)
-            return false;
-
-        float distance = Vector3.Distance(transform.position, player.position);
-        return distance <= attackRange;
-    }
-
     void HandleNoise(Vector3 position, float radius)
     {
         if (zombieHealth != null && zombieHealth.IsDead)
@@ -588,6 +646,7 @@ public class ZombieRoam : MonoBehaviour
         StopRoamAudio();
 
         isChasing = true;
+        isChasingBreathing = false;
         hasDestination = false;
         investigateUntil = 0f;
         idleUntil = 0f;
@@ -603,6 +662,7 @@ public class ZombieRoam : MonoBehaviour
     void EndChase()
     {
         isChasing = false;
+        isChasingBreathing = false;
         hasDestination = false;
         investigateUntil = 0f;
         StopAttackAudio();
