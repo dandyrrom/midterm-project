@@ -20,8 +20,10 @@ public class BawangThrower : MonoBehaviour
     Animator animator;
     float releaseAt = -1f;
     bool throwPending;
+    bool isThrowing;
 
     static readonly int ThrowHash = Animator.StringToHash("Throw");
+    static readonly int ThrowLayer = 0;
 
     void Awake()
     {
@@ -47,14 +49,46 @@ public class BawangThrower : MonoBehaviour
             SpawnProjectile();
         }
 
+        if (isThrowing)
+        {
+            if (IsThrowAnimActive() || throwPending)
+                return;
+
+            isThrowing = false;
+        }
+
         if (Keyboard.current == null || !Keyboard.current[throwKey].wasPressedThisFrame)
             return;
 
         TryStartThrow();
     }
 
+    bool IsThrowAnimActive()
+    {
+        if (animator == null)
+            return throwPending;
+
+        AnimatorStateInfo current = animator.GetCurrentAnimatorStateInfo(ThrowLayer);
+
+        if (current.IsName("throw"))
+            return true;
+
+        if (animator.IsInTransition(ThrowLayer))
+        {
+            if (current.IsName("throw"))
+                return true;
+
+            if (animator.GetNextAnimatorStateInfo(ThrowLayer).IsName("throw"))
+                return true;
+        }
+
+        return false;
+    }
+
     void TryStartThrow()
     {
+        if (isThrowing || IsThrowAnimActive())
+            return;
         if (inventory == null || inventory.count <= 0)
             return;
 
@@ -67,6 +101,7 @@ public class BawangThrower : MonoBehaviour
             animator.SetTrigger(ThrowHash);
         }
 
+        isThrowing = true;
         throwPending = true;
         releaseAt = Time.time + releaseDelay;
     }
