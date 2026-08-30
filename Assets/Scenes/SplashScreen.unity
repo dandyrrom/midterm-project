@@ -473,8 +473,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nextScene: Backstory1
-  displayDuration: 6
-  inputDelay: 1.25
+  displayDuration: 3.5
+  inputDelay: 0.6
   fadeDuration: 0.8
   cameraDrift: 0.35
   cameraDriftSpeed: 0.22
