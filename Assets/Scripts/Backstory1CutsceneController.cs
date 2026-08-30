@@ -7,6 +7,7 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
     [Header("Cast")]
     [SerializeField] Transform sherall;
     [SerializeField] Transform groom;
+    [SerializeField] Transform priest;
     [SerializeField] Transform elder;
     [SerializeField] Transform aswangGuest;
 
@@ -27,6 +28,7 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
 
     Animator sherallAnimator;
     Animator groomAnimator;
+    Animator priestAnimator;
     Animator elderAnimator;
     Animator aswangAnimator;
     Camera sceneCamera;
@@ -49,6 +51,7 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
 
         sherallAnimator = FindAnimator(sherall);
         groomAnimator = FindAnimator(groom);
+        priestAnimator = FindAnimator(priest);
         elderAnimator = FindAnimator(elder);
         aswangAnimator = FindAnimator(aswangGuest);
         if (mainCamera != null)
@@ -60,6 +63,7 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
 
         SetSpeed(sherallAnimator, 0f);
         SetSpeed(groomAnimator, 0f);
+        SetSpeed(priestAnimator, 0f);
         SetSpeed(elderAnimator, 0f);
         SetSpeed(aswangAnimator, 0f);
 
@@ -71,25 +75,35 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
     {
         FaceEachOther(sherall, groom);
         SetShot(
-            new Vector3(303.46f, 7.2f, 51f),
-            new Vector3(303.46f, 3.6f, 35.5f),
-            55f);
+            Midpoint(sherall, groom, 0f) + new Vector3(3f, 4f, 9f),
+            Midpoint(sherall, groom, 1.4f),
+            52f);
 
         yield return ShowLine(
             "NARRATION",
             "Before the altar, Sherall and her groom stood one vow away from becoming husband and wife.",
             4.5f);
+        yield return MoveCamera(
+            priest.position + new Vector3(3.2f, 2f, 5.5f),
+            priest.position + Vector3.up * 1.4f,
+            1.2f,
+            42f);
         yield return ShowLine(
             "OFFICIANT",
             "Sherall, do you take him as your husband—in joy, in hardship, and for all your days?",
             4.8f);
         yield return MoveCamera(
-            new Vector3(298.2f, 5f, 44.5f),
+            Midpoint(sherall, groom, 0f) + new Vector3(-2.5f, 2.2f, 4.5f),
             Midpoint(sherall, groom, 1.45f),
             1.4f,
             45f);
         yield return ShowLine("SHERALL", "I do. Buong puso at buong buhay.", 3.2f);
 
+        yield return MoveCamera(
+            priest.position + new Vector3(-3f, 1.8f, 4.6f),
+            priest.position + Vector3.up * 1.4f,
+            1.1f,
+            40f);
         yield return ShowLine(
             "OFFICIANT",
             "And do you take Sherall as your wife?",
@@ -98,7 +112,7 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
 
         Coroutine groomActing = StartCoroutine(ActStrangely());
         yield return MoveCamera(
-            new Vector3(300.6f, 4f, 40.3f),
+            groom.position + new Vector3(2.8f, 1.4f, 3.8f),
             groom.position + Vector3.up * 1.45f,
             1.1f,
             38f);
@@ -115,7 +129,7 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         yield return ShowLine("GROOM", "Sherall... get away from me.", 3.2f);
 
         yield return MoveCamera(
-            new Vector3(303f, 5.8f, 54f),
+            elderDestination + new Vector3(4f, 3.3f, 12.5f),
             elderDestination + Vector3.up * 1.4f,
             1.5f,
             50f);
@@ -129,7 +143,7 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         yield return ShowLine("ELDER", "Sherall! Huwag mong tapusin ang seremonya!", 3.2f);
 
         yield return MoveCamera(
-            new Vector3(297.5f, 4.7f, 44f),
+            Midpoint(sherall, elder, 0f) + new Vector3(-3f, 2.2f, 4.5f),
             Midpoint(sherall, elder, 1.45f),
             1.3f,
             44f);
@@ -155,7 +169,7 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
             4.5f);
 
         yield return MoveCamera(
-            new Vector3(303.46f, 4.5f, 40f),
+            aswangDestination + new Vector3(-5.5f, 2f, -7f),
             aswangDestination + Vector3.up * 1.4f,
             1f,
             46f);
@@ -179,7 +193,7 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
             4.5f);
 
         yield return MoveCamera(
-            new Vector3(298.2f, 4.5f, 43.5f),
+            sherall.position + new Vector3(-2.5f, 1.8f, 4f),
             sherall.position + Vector3.up * 1.4f,
             1.2f,
             45f);
@@ -358,6 +372,7 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         currentDialogue = "";
         dialogueAlpha = 0f;
         SetSpeed(groomAnimator, 0f);
+        SetSpeed(priestAnimator, 0f);
         SetSpeed(elderAnimator, 0f);
         SetSpeed(aswangAnimator, 0f);
 
