@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 449df9f79e0dc3440a9f9cdd33d51f20
+guid: b7ee3bdd713f7ba499975fc64b3eeb23
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -93,19 +93,6 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites: []
@@ -128,10 +115,3 @@ TextureImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 348672
-  packageName: RPG Dungeon Kit DEMO
-  packageVersion: 1.0
-  assetPath: Assets/RPG Dungeon Pack Sample/Textures/Complete/Torch_torch_Emission.png
-  uploadId: 829346

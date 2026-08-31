@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: d0a2e28478faf98439b95e4c2135206a
+guid: c08929c34c5a66b4090b2f76e0652014
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -93,19 +93,6 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites: []
@@ -128,10 +115,3 @@ TextureImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 348672
-  packageName: RPG Dungeon Kit DEMO
-  packageVersion: 1.0
-  assetPath: Assets/RPG Dungeon Pack Sample/Textures/Complete/roof crossboard_roofxboard_MetallicSmoothness.png
-  uploadId: 829346

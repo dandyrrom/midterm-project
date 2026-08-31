@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: c0292cc1d75165c448b080f921926a75
+guid: ec9055feeafae32468338d2ab9d67006
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -93,19 +93,6 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites: []
@@ -128,10 +115,3 @@ TextureImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 348672
-  packageName: RPG Dungeon Kit DEMO
-  packageVersion: 1.0
-  assetPath: Assets/RPG Dungeon Pack Sample/Textures/Complete/joint mid_jointmid_MetallicSmoothness.png
-  uploadId: 829346
