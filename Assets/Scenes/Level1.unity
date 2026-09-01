@@ -17,7 +17,7 @@ RenderSettings:
   m_Fog: 1
   m_FogColor: {r: 0.05, g: 0.06, b: 0.12, a: 1}
   m_FogMode: 1
-  m_FogDensity: 0.01
+  m_FogDensity: 100
   m_LinearFogStart: 20
   m_LinearFogEnd: 180
   m_AmbientSkyColor: {r: 0.02, g: 0.03, b: 0.08, a: 1}
@@ -57430,7 +57430,7 @@ MonoBehaviour:
   enableFog: 1
   fogColor: {r: 0.05, g: 0.06, b: 0.12, a: 1}
   fogMode: 1
-  fogDensity: 0.01
+  fogDensity: 100
   linearFogStart: 20
   linearFogEnd: 180
 --- !u!4 &1608972955
@@ -62003,7 +62003,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 1
   m_VoxelSize: 0.022
   m_MinRegionArea: 5
-  m_NavMeshData: {fileID: 23800000, guid: 105d59e7f9e82e84b9f4fa1f1b44a1a3, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: e165bfd05399620469cd8731c6d1169a, type: 2}
   m_BuildHeightMesh: 1
 --- !u!4 &1705347928
 Transform:
