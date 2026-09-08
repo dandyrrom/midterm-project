@@ -23,9 +23,9 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
 
     [Header("Bridal Entrance")]
     [SerializeField] bool allowBrideControlBeforeCeremony = true;
-    [SerializeField] Vector3 brideEntryPosition = new Vector3(303.46f, 2.53f, 49f);
-    [SerializeField] Vector3 brideCeremonyPosition = new Vector3(302.35f, 3.03f, 38.15f);
-    [SerializeField] Vector3 brideCeremonyEuler = new Vector3(0f, 90f, 0f);
+    [SerializeField] Vector3 brideEntryPosition = new Vector3(296.72f, 2.53f, 49f);
+    [SerializeField] Vector3 brideCeremonyPosition = new Vector3(296.72f, 3.025f, 39.454f);
+    [SerializeField] Vector3 brideCeremonyEuler = new Vector3(0f, 124.775f, 0f);
     [SerializeField, Min(0.1f)] float ceremonyFadeDuration = 0.45f;
 
     [Header("Wedding Candlelight")]
@@ -35,9 +35,9 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
     [SerializeField, Min(0.1f)] float candleGlowRange = 5f;
 
     [Header("Blocking")]
-    [SerializeField] Vector3 groomDisturbedPosition = new Vector3(305.3f, 3.03f, 39.2f);
-    [SerializeField] Vector3 elderDestination = new Vector3(303.46f, 2.53f, 42.5f);
-    [SerializeField] Vector3 aswangDestination = new Vector3(308.2f, 2.53f, 45f);
+    [SerializeField] Vector3 groomDisturbedPosition = new Vector3(298.5f, 3.07f, 37.8f);
+    [SerializeField] Vector3 elderDestination = new Vector3(299f, 2.53f, 41.5f);
+    [SerializeField] Vector3 aswangDestination = new Vector3(309f, 2.53f, 48f);
     [SerializeField, Min(0.1f)] float elderWalkDuration = 3.5f;
     [SerializeField, Min(0.1f)] float aswangWalkDuration = 3f;
 
