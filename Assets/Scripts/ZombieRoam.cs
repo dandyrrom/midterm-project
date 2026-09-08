@@ -35,6 +35,8 @@ public class ZombieRoam : MonoBehaviour
     [Header("Bawang Hit")]
     [Tooltip("Seconds to scream in place before running at the MC.")]
     public float screamHoldDuration = 1.5f;
+    [Tooltip("How long the scream (and candle fire) lasts before death starts.")]
+    public float candleFireScreamHoldDuration = 3.5f;
     [Tooltip("NavMesh speed while running at MC after scream.")]
     public float hitRunSpeed = 0.5f;
     [Tooltip("Other zombies within this range path to the screamer.")]
@@ -62,6 +64,7 @@ public class ZombieRoam : MonoBehaviour
     float attackStartTime;
     bool hasDealtDamageThisSwing;
     bool isScreamingHit;
+    bool isCandleBurning;
     bool isApproachingHit;
     float screamUntil;
     AudioSource audioSource;
@@ -71,6 +74,7 @@ public class ZombieRoam : MonoBehaviour
     static readonly int SpeedHash = Animator.StringToHash("Speed");
     static readonly int AttackHash = Animator.StringToHash("Attack");
     static readonly int ScreamHash = Animator.StringToHash("Scream");
+    static readonly int OnFireHash = Animator.StringToHash("OnFire");
 
     float idleUntil;
     bool hasDestination;
@@ -96,6 +100,8 @@ public class ZombieRoam : MonoBehaviour
     public void ReactToBawangHit()
     {
         if (zombieHealth != null && zombieHealth.IsDead)
+            return;
+        if (isCandleBurning)
             return;
         if (player == null || isAttacking)
             return;
@@ -137,8 +143,43 @@ public class ZombieRoam : MonoBehaviour
             NoiseEvents.Emit(transform.position, screamAlertRadius);
     }
 
+    /// <summary>
+    /// Candle fire: freeze AI and play scream only (no chase). Death follows from ZombieHealth.
+    /// </summary>
+    public void BeginCandleBurn()
+    {
+        isCandleBurning = true;
+        isScreamingHit = true;
+        isApproachingHit = false;
+        isChasing = false;
+        isChasingBreathing = false;
+        isAttacking = false;
+        hasDestination = false;
+        screamUntil = Time.time + Mathf.Max(0f, candleFireScreamHoldDuration);
+
+        if (agent != null)
+        {
+            agent.isStopped = true;
+            agent.ResetPath();
+            agent.velocity = Vector3.zero;
+        }
+
+        if (animator != null)
+        {
+            animator.SetFloat(SpeedHash, 0f);
+            animator.SetBool(OnFireHash, true);
+            animator.ResetTrigger(ScreamHash);
+            animator.SetTrigger(ScreamHash);
+        }
+
+        StopRoamAudio();
+        SetScreamAudioFullVolume(true);
+        PlayRunAudio(); // same scream audio as bawang hit (looped, 2D)
+    }
+
     public void StopForDeath()
     {
+        isCandleBurning = false;
         isScreamingHit = false;
         isApproachingHit = false;
         isChasing = false;
@@ -156,7 +197,10 @@ public class ZombieRoam : MonoBehaviour
         }
 
         if (animator != null)
+        {
             animator.SetFloat(SpeedHash, 0f);
+            // Keep OnFire true so Any State→Death stays blocked and Scream→Death is used.
+        }
 
         StopRoamAudio();
         StopRunAudio();
@@ -205,6 +249,21 @@ public class ZombieRoam : MonoBehaviour
 
     void UpdateScreamHold()
     {
+        // Candle burn: stay in Scream (OnFire blocks Scream→Idle/Run) until Die.
+        if (isCandleBurning)
+        {
+            if (agent != null)
+            {
+                agent.isStopped = true;
+                agent.velocity = Vector3.zero;
+            }
+
+            if (animator != null)
+                animator.SetFloat(SpeedHash, 0f);
+
+            return;
+        }
+
         if (animator != null)
             animator.SetFloat(SpeedHash, 0f);
 
