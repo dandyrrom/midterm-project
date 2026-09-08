@@ -27638,10 +27638,11 @@ MonoBehaviour:
   - {fileID: 1675826752}
   - {fileID: 1675826753}
   allowBrideControlBeforeCeremony: 1
-  brideEntryPosition: {x: 296.72, y: 2.53, z: 49}
+  brideEntryPosition: {x: 303.46, y: 2.53, z: 58}
   brideCeremonyPosition: {x: 296.72, y: 3.025, z: 39.454}
   brideCeremonyEuler: {x: 0, y: 124.775, z: 0}
   ceremonyFadeDuration: 0.45
+  ceremonyTriggerDistance: 2.2
   createWarmCandleGlow: 1
   candleGlowColor: {r: 1, g: 0.58, b: 0.24, a: 1}
   candleGlowIntensity: 1.6

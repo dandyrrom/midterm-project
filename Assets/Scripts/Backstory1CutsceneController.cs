@@ -23,10 +23,11 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
 
     [Header("Bridal Entrance")]
     [SerializeField] bool allowBrideControlBeforeCeremony = true;
-    [SerializeField] Vector3 brideEntryPosition = new Vector3(296.72f, 2.53f, 49f);
+    [SerializeField] Vector3 brideEntryPosition = new Vector3(303.46f, 2.53f, 58f);
     [SerializeField] Vector3 brideCeremonyPosition = new Vector3(296.72f, 3.025f, 39.454f);
     [SerializeField] Vector3 brideCeremonyEuler = new Vector3(0f, 124.775f, 0f);
     [SerializeField, Min(0.1f)] float ceremonyFadeDuration = 0.45f;
+    [SerializeField, Min(0.5f)] float ceremonyTriggerDistance = 2.2f;
 
     [Header("Wedding Candlelight")]
     [SerializeField] bool createWarmCandleGlow = true;
@@ -82,6 +83,9 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         priestAnimator = FindAnimator(priest);
         elderAnimator = FindAnimator(elder);
         aswangAnimator = FindAnimator(aswangGuest);
+        if (elder != null)
+            elder.gameObject.SetActive(false);
+
         if (mainCamera != null)
         {
             sceneCamera = mainCamera.GetComponent<Camera>();
@@ -167,6 +171,9 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
             3.2f,
             groom,
             1f);
+
+        if (elder != null)
+            elder.gameObject.SetActive(true);
 
         yield return MoveCamera(
             elder.position + new Vector3(4.2f, 2.3f, 4.8f),
@@ -280,7 +287,7 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
 
     IEnumerator WaitForBrideToBeginCeremony()
     {
-        while (!CeremonyStartPressed())
+        while (!BrideReachedGroom())
             yield return null;
 
         awaitingCeremonyStart = false;
@@ -308,6 +315,16 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
             42f);
         yield return WaitUnscaled(0.15f);
         yield return FadeScreen(0f, ceremonyFadeDuration);
+    }
+
+    bool BrideReachedGroom()
+    {
+        if (sherall == null || groom == null)
+            return false;
+
+        Vector3 separation = sherall.position - groom.position;
+        separation.y = 0f;
+        return separation.sqrMagnitude <= ceremonyTriggerDistance * ceremonyTriggerDistance;
     }
 
     void TakeCinematicControl()
@@ -651,13 +668,6 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
             (keyboard.spaceKey.wasPressedThisFrame || keyboard.enterKey.wasPressedThisFrame);
     }
 
-    static bool CeremonyStartPressed()
-    {
-        Keyboard keyboard = Keyboard.current;
-        return keyboard != null &&
-            (keyboard.eKey.wasPressedThisFrame || keyboard.enterKey.wasPressedThisFrame);
-    }
-
     static bool SkipSequencePressed()
     {
         Keyboard keyboard = Keyboard.current;
@@ -736,7 +746,7 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
             speakerStyle);
         GUI.Label(
             new Rect(left, panelY + 44f * scale, panelWidth - 60f * scale, 50f * scale),
-            "Walk Sherall toward the altar. Press E or ENTER when you are ready to begin the vows.",
+            "Use WASD to walk Sherall down the flower aisle to the groom. The ceremony begins when you reach him.",
             dialogueStyle);
     }
 
