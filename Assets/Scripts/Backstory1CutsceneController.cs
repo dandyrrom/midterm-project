@@ -35,6 +35,12 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
     [SerializeField, Min(0f)] float candleGlowIntensity = 1.6f;
     [SerializeField, Min(0.1f)] float candleGlowRange = 5f;
 
+    [Header("Lively Wedding Lighting")]
+    [SerializeField] bool createCeilingWeddingLights = true;
+    [SerializeField] Color ceilingLightColor = new Color(1f, 0.88f, 0.68f, 1f);
+    [SerializeField, Min(0f)] float ceilingLightIntensity = 4.5f;
+    [SerializeField, Min(0.1f)] float ceilingLightRange = 12f;
+
     [Header("Blocking")]
     [SerializeField] Vector3 groomDisturbedPosition = new Vector3(298.5f, 3.07f, 37.8f);
     [SerializeField] Vector3 elderRearAisleWaypoint = new Vector3(297.2f, 2.53f, 54.5f);
@@ -109,6 +115,8 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
 
         if (createWarmCandleGlow)
             CreateCandleGlow();
+        if (createCeilingWeddingLights)
+            CreateCeilingLights();
     }
 
     IEnumerator Start()
@@ -216,32 +224,32 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
             -1f);
         yield return ShowCharacterLine(
             "ELDER",
-            "Hindi na sila ang mga bisita ninyo. Aswang hunt by sound. Keep your voice low.",
+            "Hindi na sila ang mga bisita ninyo. The aswang hunt by sound—keep your voice low.",
             5.2f,
             elder,
             1f);
         yield return ShowCharacterLine(
             "ELDER",
-            "Recite the orasyon. Find asin, bawang, and holy water. Only the lunas can hold them.",
+            "Find bawang and a blessed candle. Their smoke and sacred flame can destroy an aswang.",
             5f,
             elder,
             -1f);
         yield return ShowCharacterLine(
             "ELDER",
-            "Bring the three wards back to this altar. Finish the rite without calling them to you.",
+            "Use both against every creature on these grounds. Do not leave a single aswang alive.",
             5.2f,
             elder,
             1f);
 
         yield return ShowCharacterLine(
             "SHERALL",
-            "Can the lunas still save my husband?",
+            "Then I will find them and kill every aswang before they hurt anyone else.",
             3.4f,
             sherall,
             -1f);
         yield return ShowCharacterLine(
             "ELDER",
-            "If he still knows your name, there may be time. But you must go now.",
+            "Move quietly, gather the bawang and candle, and strike before they surround you.",
             4.5f,
             elder,
             1f);
@@ -273,7 +281,7 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
 
         yield return ShowCharacterLine(
             "ELDER",
-            "Go. Tapusin mo ang lunas. I will keep it away.",
+            "Go. Find the bawang and candle. Kill every last aswang.",
             3.8f,
             elder,
             -1f);
@@ -284,7 +292,7 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
             42f);
         yield return ShowLine(
             "OBJECTIVE",
-            "Find holy water, asin, and bawang. Return to the altar.",
+            "Collect bawang and a blessed candle. Kill all aswangs.",
             4.5f);
 
         yield return MoveCamera(
@@ -936,6 +944,51 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
             candleLight.intensity = candleGlowIntensity;
             candleLight.range = candleGlowRange;
             candleLight.shadows = LightShadows.None;
+        }
+    }
+
+    void CreateCeilingLights()
+    {
+        Transform ceilingFixture = null;
+        Transform[] sceneTransforms = FindObjectsByType<Transform>(
+            FindObjectsInactive.Include,
+            FindObjectsSortMode.None);
+        foreach (Transform sceneTransform in sceneTransforms)
+        {
+            if (!sceneTransform.name.Contains("Ceiling_lamp"))
+                continue;
+
+            ceilingFixture = sceneTransform;
+            Renderer fixtureRenderer = sceneTransform.GetComponent<Renderer>();
+            if (fixtureRenderer != null)
+                fixtureRenderer.enabled = true;
+            break;
+        }
+
+        Vector3[] positions =
+        {
+            new Vector3(298.5f, 7.2f, 39f),
+            new Vector3(300f, 7.2f, 44f),
+            new Vector3(302f, 7.2f, 49f),
+            new Vector3(304f, 7.2f, 54f),
+            new Vector3(305.5f, 7.2f, 58f)
+        };
+
+        for (int i = 0; i < positions.Length; i++)
+        {
+            GameObject ceilingLightObject = new GameObject($"Wedding Ceiling Light {i + 1}");
+            Transform lightTransform = ceilingLightObject.transform;
+            lightTransform.SetPositionAndRotation(positions[i], Quaternion.Euler(90f, 0f, 0f));
+            lightTransform.SetParent(ceilingFixture != null ? ceilingFixture : transform, true);
+
+            Light ceilingLight = ceilingLightObject.AddComponent<Light>();
+            ceilingLight.type = LightType.Spot;
+            ceilingLight.color = ceilingLightColor;
+            ceilingLight.intensity = ceilingLightIntensity;
+            ceilingLight.range = ceilingLightRange;
+            ceilingLight.spotAngle = 75f;
+            ceilingLight.innerSpotAngle = 48f;
+            ceilingLight.shadows = LightShadows.None;
         }
     }
 
