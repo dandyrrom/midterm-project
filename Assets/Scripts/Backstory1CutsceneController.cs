@@ -93,6 +93,7 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         aswangAnimator = FindAnimator(aswangGuest);
         EnsureEnvironmentColliders();
         EnsureCharacterColliders();
+        OpenExteriorChurchOpenings();
 
         if (elder != null)
             elder.gameObject.SetActive(false);
@@ -920,6 +921,33 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         texture.SetPixel(0, 0, color);
         texture.Apply();
         return texture;
+    }
+
+    void OpenExteriorChurchOpenings()
+    {
+        Transform[] sceneTransforms = FindObjectsByType<Transform>(
+            FindObjectsInactive.Exclude,
+            FindObjectsSortMode.None);
+
+        foreach (Transform sceneTransform in sceneTransforms)
+        {
+            if (sceneTransform == null)
+                continue;
+
+            string objectName = sceneTransform.name;
+            bool isExteriorDoorLeaf =
+                objectName == "Front_Door_L" ||
+                objectName == "Front_Door_R" ||
+                objectName == "Front_Door_L_1" ||
+                objectName == "Front_Door_R_1";
+            bool isExteriorWindow =
+                objectName == "OwenDoor_Bigwindow" ||
+                objectName == "Graveyard From";
+            if (!isExteriorDoorLeaf && !isExteriorWindow)
+                continue;
+
+            sceneTransform.gameObject.SetActive(false);
+        }
     }
 
     void CreateCandleGlow()
