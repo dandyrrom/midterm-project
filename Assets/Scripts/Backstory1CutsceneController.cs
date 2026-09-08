@@ -37,6 +37,8 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
 
     [Header("Blocking")]
     [SerializeField] Vector3 groomDisturbedPosition = new Vector3(298.5f, 3.07f, 37.8f);
+    [SerializeField] Vector3 elderRearAisleWaypoint = new Vector3(297.2f, 2.53f, 54.5f);
+    [SerializeField] Vector3 elderFrontAisleWaypoint = new Vector3(297.2f, 2.53f, 45f);
     [SerializeField] Vector3 elderDestination = new Vector3(299f, 2.53f, 41.5f);
     [SerializeField] Vector3 aswangDestination = new Vector3(309f, 2.53f, 48f);
     [SerializeField, Min(0.1f)] float elderWalkDuration = 3.5f;
@@ -83,6 +85,9 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         priestAnimator = FindAnimator(priest);
         elderAnimator = FindAnimator(elder);
         aswangAnimator = FindAnimator(aswangGuest);
+        EnsureEnvironmentColliders();
+        EnsureCharacterColliders();
+
         if (elder != null)
             elder.gameObject.SetActive(false);
 
@@ -181,7 +186,12 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
             0.9f,
             44f);
         Coroutine elderWalk = StartCoroutine(
-            MoveCharacter(elder, elderDestination, elderWalkDuration, elderAnimator, 0.5f));
+            MoveCharacterAlongPath(
+                elder,
+                new[] { elderRearAisleWaypoint, elderFrontAisleWaypoint, elderDestination },
+                elderWalkDuration,
+                elderAnimator,
+                0.5f));
         Coroutine elderCamera = StartCoroutine(
             FollowCharacterCamera(elder, new Vector3(4.2f, 2.3f, 4.8f), elderWalkDuration, 44f));
         yield return ShowLine(
@@ -330,6 +340,7 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
     void TakeCinematicControl()
     {
         SetPlayerControl(false);
+        SetSpeed(sherallAnimator, 0f);
         if (cinemachineBrain != null)
             cinemachineBrain.enabled = false;
     }
@@ -478,16 +489,88 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
 
         SetSpeed(animator, speed);
         float elapsed = 0f;
+        CharacterController characterController = character.GetComponent<CharacterController>();
         while (elapsed < duration && !sequenceComplete)
         {
             elapsed += Time.unscaledDeltaTime;
             float t = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(elapsed / duration));
-            character.position = Vector3.Lerp(start, destination, t);
+            Vector3 nextPosition = Vector3.Lerp(start, destination, t);
+            MoveWithCollision(character, characterController, nextPosition);
             yield return null;
         }
 
-        character.position = destination;
+        MoveWithCollision(character, characterController, destination);
         SetSpeed(animator, 0f);
+    }
+
+    IEnumerator MoveCharacterAlongPath(
+        Transform character,
+        Vector3[] waypoints,
+        float duration,
+        Animator animator,
+        float speed)
+    {
+        if (character == null || waypoints == null || waypoints.Length == 0)
+            yield break;
+
+        float totalDistance = 0f;
+        Vector3 previous = character.position;
+        foreach (Vector3 waypoint in waypoints)
+        {
+            totalDistance += Vector3.Distance(previous, waypoint);
+            previous = waypoint;
+        }
+
+        if (totalDistance <= 0.001f)
+            yield break;
+
+        CharacterController characterController = character.GetComponent<CharacterController>();
+        SetSpeed(animator, speed);
+
+        foreach (Vector3 waypoint in waypoints)
+        {
+            Vector3 start = character.position;
+            Vector3 direction = waypoint - start;
+            direction.y = 0f;
+            float segmentDistance = Vector3.Distance(start, waypoint);
+            float segmentDuration = duration * segmentDistance / totalDistance;
+            Quaternion targetRotation = direction.sqrMagnitude > 0.001f
+                ? Quaternion.LookRotation(direction)
+                : character.rotation;
+            Quaternion startRotation = character.rotation;
+            float elapsed = 0f;
+
+            while (elapsed < segmentDuration && !sequenceComplete)
+            {
+                elapsed += Time.unscaledDeltaTime;
+                float linearT = Mathf.Clamp01(elapsed / Mathf.Max(segmentDuration, 0.01f));
+                float smoothT = Mathf.SmoothStep(0f, 1f, linearT);
+                character.rotation = Quaternion.Slerp(startRotation, targetRotation, smoothT);
+                MoveWithCollision(
+                    character,
+                    characterController,
+                    Vector3.Lerp(start, waypoint, smoothT));
+                yield return null;
+            }
+
+            MoveWithCollision(character, characterController, waypoint);
+        }
+
+        SetSpeed(animator, 0f);
+    }
+
+    static void MoveWithCollision(
+        Transform character,
+        CharacterController characterController,
+        Vector3 destination)
+    {
+        if (characterController != null && characterController.enabled)
+        {
+            characterController.Move(destination - character.position);
+            return;
+        }
+
+        character.position = destination;
     }
 
     IEnumerator MoveCamera(
@@ -619,6 +702,56 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
             if (control != null)
                 control.enabled = enabled;
         }
+    }
+
+    void EnsureEnvironmentColliders()
+    {
+        MeshFilter[] meshFilters = FindObjectsByType<MeshFilter>(
+            FindObjectsInactive.Exclude,
+            FindObjectsSortMode.None);
+
+        foreach (MeshFilter meshFilter in meshFilters)
+        {
+            if (meshFilter == null || meshFilter.sharedMesh == null)
+                continue;
+
+            string objectName = meshFilter.gameObject.name.ToLowerInvariant();
+            bool needsCollider =
+                objectName.Contains("bench") ||
+                objectName.Contains("flowerstand") ||
+                objectName.Contains("foliageplant") ||
+                objectName.Contains("sm_flowers");
+            if (!needsCollider || meshFilter.GetComponent<Collider>() != null)
+                continue;
+
+            MeshCollider meshCollider = meshFilter.gameObject.AddComponent<MeshCollider>();
+            meshCollider.sharedMesh = meshFilter.sharedMesh;
+            meshCollider.convex = false;
+        }
+    }
+
+    void EnsureCharacterColliders()
+    {
+        EnsureCharacterController(sherall);
+        EnsureCharacterController(groom);
+        EnsureCharacterController(priest);
+        EnsureCharacterController(elder);
+        EnsureCharacterController(aswangGuest);
+    }
+
+    static void EnsureCharacterController(Transform character)
+    {
+        if (character == null || character.GetComponent<CharacterController>() != null)
+            return;
+
+        CharacterController controller = character.gameObject.AddComponent<CharacterController>();
+        controller.center = new Vector3(0f, 1f, 0f);
+        controller.height = 2f;
+        controller.radius = 0.3f;
+        controller.slopeLimit = 45f;
+        controller.stepOffset = 0.25f;
+        controller.skinWidth = 0.06f;
+        controller.minMoveDistance = 0.001f;
     }
 
     static Animator FindAnimator(Transform character)

@@ -27648,6 +27648,8 @@ MonoBehaviour:
   candleGlowIntensity: 1.6
   candleGlowRange: 5
   groomDisturbedPosition: {x: 298.5, y: 3.07, z: 37.8}
+  elderRearAisleWaypoint: {x: 297.2, y: 2.53, z: 54.5}
+  elderFrontAisleWaypoint: {x: 297.2, y: 2.53, z: 45}
   elderDestination: {x: 299, y: 2.53, z: 41.5}
   aswangDestination: {x: 309, y: 2.53, z: 48}
   elderWalkDuration: 3.5
