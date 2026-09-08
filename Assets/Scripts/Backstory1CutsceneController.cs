@@ -21,10 +21,23 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
     [SerializeField] Behaviour cinemachineBrain;
     [SerializeField] Behaviour[] playerControls;
 
+    [Header("Bridal Entrance")]
+    [SerializeField] bool allowBrideControlBeforeCeremony = true;
+    [SerializeField] Vector3 brideEntryPosition = new Vector3(303.46f, 2.53f, 49f);
+    [SerializeField] Vector3 brideCeremonyPosition = new Vector3(302.35f, 3.03f, 38.15f);
+    [SerializeField] Vector3 brideCeremonyEuler = new Vector3(0f, 90f, 0f);
+    [SerializeField, Min(0.1f)] float ceremonyFadeDuration = 0.45f;
+
+    [Header("Wedding Candlelight")]
+    [SerializeField] bool createWarmCandleGlow = true;
+    [SerializeField] Color candleGlowColor = new Color(1f, 0.58f, 0.24f, 1f);
+    [SerializeField, Min(0f)] float candleGlowIntensity = 1.6f;
+    [SerializeField, Min(0.1f)] float candleGlowRange = 5f;
+
     [Header("Blocking")]
-    [SerializeField] Vector3 groomDisturbedPosition = new Vector3(304.8f, 2.53f, 42f);
-    [SerializeField] Vector3 elderDestination = new Vector3(300.2f, 2.53f, 44.5f);
-    [SerializeField] Vector3 aswangDestination = new Vector3(309f, 2.53f, 48f);
+    [SerializeField] Vector3 groomDisturbedPosition = new Vector3(305.3f, 3.03f, 39.2f);
+    [SerializeField] Vector3 elderDestination = new Vector3(303.46f, 2.53f, 42.5f);
+    [SerializeField] Vector3 aswangDestination = new Vector3(308.2f, 2.53f, 45f);
     [SerializeField, Min(0.1f)] float elderWalkDuration = 3.5f;
     [SerializeField, Min(0.1f)] float aswangWalkDuration = 3f;
 
@@ -49,12 +62,20 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
     float screenFade;
     bool isTransitioning;
     bool sequenceComplete;
+    bool awaitingCeremonyStart;
 
     void Awake()
     {
-        SetPlayerControl(false);
+        awaitingCeremonyStart = allowBrideControlBeforeCeremony;
+        SetPlayerControl(awaitingCeremonyStart);
         if (cinemachineBrain != null)
-            cinemachineBrain.enabled = false;
+            cinemachineBrain.enabled = awaitingCeremonyStart;
+
+        if (awaitingCeremonyStart && sherall != null)
+        {
+            sherall.position = brideEntryPosition;
+            sherall.rotation = Quaternion.Euler(0f, 180f, 0f);
+        }
 
         sherallAnimator = FindAnimator(sherall);
         groomAnimator = FindAnimator(groom);
@@ -76,53 +97,55 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
 
         panelTexture = MakeTexture(new Color(0.015f, 0.012f, 0.018f, 0.92f));
         accentTexture = MakeTexture(new Color(0.78f, 0.58f, 0.24f, 1f));
+
+        if (createWarmCandleGlow)
+            CreateCandleGlow();
     }
 
     IEnumerator Start()
     {
+        if (awaitingCeremonyStart)
+            yield return WaitForBrideToBeginCeremony();
+        else
+            TakeCinematicControl();
+
         FaceEachOther(sherall, groom);
         SetShot(
-            Midpoint(sherall, groom, 0f) + new Vector3(3f, 4f, 9f),
-            Midpoint(sherall, groom, 1.4f),
-            52f);
+            Midpoint(sherall, groom, 0f) + new Vector3(0f, 2.4f, 4.8f),
+            Midpoint(sherall, groom, 1.35f),
+            42f);
 
         yield return ShowLine(
             "NARRATION",
             "Before the altar, Sherall and her groom stood one vow away from becoming husband and wife.",
             4.5f);
-        yield return MoveCamera(
-            priest.position + new Vector3(3.2f, 2f, 5.5f),
-            priest.position + Vector3.up * 1.4f,
-            1.2f,
-            42f);
-        yield return ShowLine(
+        yield return ShowCharacterLine(
             "OFFICIANT",
             "Sherall, do you take him as your husband—in joy, in hardship, and for all your days?",
-            4.8f);
-        yield return MoveCamera(
-            Midpoint(sherall, groom, 0f) + new Vector3(-2.5f, 2.2f, 4.5f),
-            Midpoint(sherall, groom, 1.45f),
-            1.4f,
-            45f);
-        yield return ShowLine("SHERALL", "I do. Buong puso at buong buhay.", 3.2f);
+            4.8f,
+            priest,
+            1f);
+        yield return ShowCharacterLine(
+            "SHERALL",
+            "I do. Buong puso at buong buhay.",
+            3.2f,
+            sherall,
+            -1f);
 
-        yield return MoveCamera(
-            priest.position + new Vector3(-3f, 1.8f, 4.6f),
-            priest.position + Vector3.up * 1.4f,
-            1.1f,
-            40f);
-        yield return ShowLine(
+        yield return ShowCharacterLine(
             "OFFICIANT",
             "And do you take Sherall as your wife?",
-            3.3f);
-        yield return ShowLine("GROOM", "I... do.", 2.8f);
+            3.3f,
+            priest,
+            -1f);
+        yield return ShowCharacterLine("GROOM", "I... do.", 2.8f, groom, 1f);
 
         Coroutine groomActing = StartCoroutine(ActStrangely());
         yield return MoveCamera(
-            groom.position + new Vector3(2.8f, 1.4f, 3.8f),
+            groom.position + new Vector3(2.4f, 1.65f, 3f),
             groom.position + Vector3.up * 1.45f,
-            1.1f,
-            38f);
+            0.8f,
+            36f);
         yield return ShowLine(
             "NARRATION",
             "His hand tightened around hers. His breathing changed, and his eyes followed a sound no one else could hear.",
@@ -132,54 +155,85 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
 
         TriggerReaction(sherallAnimator);
         FaceEachOther(sherall, groom);
-        yield return ShowLine("SHERALL", "What is happening to you?", 3f);
-        yield return ShowLine("GROOM", "Sherall... get away from me.", 3.2f);
+        yield return ShowCharacterLine(
+            "SHERALL",
+            "What is happening to you?",
+            3f,
+            sherall,
+            -1f);
+        yield return ShowCharacterLine(
+            "GROOM",
+            "Sherall... get away from me.",
+            3.2f,
+            groom,
+            1f);
 
         yield return MoveCamera(
-            elderDestination + new Vector3(4f, 3.3f, 12.5f),
-            elderDestination + Vector3.up * 1.4f,
-            1.5f,
-            50f);
+            elder.position + new Vector3(4.2f, 2.3f, 4.8f),
+            elder.position + Vector3.up * 1.4f,
+            0.9f,
+            44f);
         Coroutine elderWalk = StartCoroutine(
             MoveCharacter(elder, elderDestination, elderWalkDuration, elderAnimator, 0.5f));
+        Coroutine elderCamera = StartCoroutine(
+            FollowCharacterCamera(elder, new Vector3(4.2f, 2.3f, 4.8f), elderWalkDuration, 44f));
         yield return ShowLine(
             "NARRATION",
             "The church doors opened. An elder hurried down the aisle as the guests began to turn.",
             4.4f);
         yield return elderWalk;
-        yield return ShowLine("ELDER", "Sherall! Huwag mong tapusin ang seremonya!", 3.2f);
+        yield return elderCamera;
+        yield return ShowCharacterLine(
+            "ELDER",
+            "Sherall! Huwag mong tapusin ang seremonya!",
+            3.2f,
+            elder,
+            1f);
 
-        yield return MoveCamera(
-            Midpoint(sherall, elder, 0f) + new Vector3(-3f, 2.2f, 4.5f),
-            Midpoint(sherall, elder, 1.45f),
-            1.3f,
-            44f);
         FaceEachOther(elder, sherall);
-        yield return ShowLine("SHERALL", "Lolo, please—what is happening to him?", 3.4f);
-        yield return ShowLine(
+        yield return ShowCharacterLine(
+            "SHERALL",
+            "Lolo, please—what is happening to him?",
+            3.4f,
+            sherall,
+            -1f);
+        yield return ShowCharacterLine(
             "ELDER",
             "Hindi na sila ang mga bisita ninyo. Aswang hunt by sound. Keep your voice low.",
-            5.2f);
-        yield return ShowLine(
+            5.2f,
+            elder,
+            1f);
+        yield return ShowCharacterLine(
             "ELDER",
             "Recite the orasyon. Find asin, bawang, and holy water. Only the lunas can hold them.",
-            5f);
-        yield return ShowLine(
+            5f,
+            elder,
+            -1f);
+        yield return ShowCharacterLine(
             "ELDER",
             "Bring the three wards back to this altar. Finish the rite without calling them to you.",
-            5.2f);
+            5.2f,
+            elder,
+            1f);
 
-        yield return ShowLine("SHERALL", "Can the lunas still save my husband?", 3.4f);
-        yield return ShowLine(
+        yield return ShowCharacterLine(
+            "SHERALL",
+            "Can the lunas still save my husband?",
+            3.4f,
+            sherall,
+            -1f);
+        yield return ShowCharacterLine(
             "ELDER",
             "If he still knows your name, there may be time. But you must go now.",
-            4.5f);
+            4.5f,
+            elder,
+            1f);
 
         yield return MoveCamera(
-            aswangDestination + new Vector3(-5.5f, 2f, -7f),
-            aswangDestination + Vector3.up * 1.4f,
-            1f,
-            46f);
+            aswangGuest.position + new Vector3(-4f, 2.1f, 4.5f),
+            aswangGuest.position + Vector3.up * 1.4f,
+            0.8f,
+            42f);
         Coroutine aswangWalk = StartCoroutine(
             MoveCharacter(
                 aswangGuest,
@@ -187,13 +241,30 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
                 aswangWalkDuration,
                 aswangAnimator,
                 1f));
+        Coroutine aswangCamera = StartCoroutine(
+            FollowCharacterCamera(
+                aswangGuest,
+                new Vector3(-4f, 2.1f, 4.5f),
+                aswangWalkDuration,
+                42f));
         yield return ShowLine(
             "NARRATION",
             "Behind them, one of the wedding guests answered the groom's whisper with an inhuman step.",
             4.8f);
         yield return aswangWalk;
+        yield return aswangCamera;
 
-        yield return ShowLine("ELDER", "Go. Tapusin mo ang lunas. I will keep it away.", 3.8f);
+        yield return ShowCharacterLine(
+            "ELDER",
+            "Go. Tapusin mo ang lunas. I will keep it away.",
+            3.8f,
+            elder,
+            -1f);
+        yield return MoveCamera(
+            Midpoint(sherall, elder, 0f) + new Vector3(0f, 2.5f, 5f),
+            Midpoint(sherall, elder, 1.35f),
+            0.8f,
+            42f);
         yield return ShowLine(
             "OBJECTIVE",
             "Find holy water, asin, and bawang. Return to the altar.",
@@ -205,6 +276,78 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
             1.2f,
             45f);
         BeginGameplayTransition();
+    }
+
+    IEnumerator WaitForBrideToBeginCeremony()
+    {
+        while (!CeremonyStartPressed())
+            yield return null;
+
+        awaitingCeremonyStart = false;
+        TakeCinematicControl();
+        yield return FadeScreen(1f, ceremonyFadeDuration);
+
+        if (sherall != null)
+        {
+            CharacterController controller = sherall.GetComponent<CharacterController>();
+            bool controllerWasEnabled = controller != null && controller.enabled;
+            if (controllerWasEnabled)
+                controller.enabled = false;
+
+            sherall.position = brideCeremonyPosition;
+            sherall.rotation = Quaternion.Euler(brideCeremonyEuler);
+
+            if (controllerWasEnabled)
+                controller.enabled = true;
+        }
+
+        FaceEachOther(sherall, groom);
+        SetShot(
+            Midpoint(sherall, groom, 0f) + new Vector3(0f, 2.4f, 4.8f),
+            Midpoint(sherall, groom, 1.35f),
+            42f);
+        yield return WaitUnscaled(0.15f);
+        yield return FadeScreen(0f, ceremonyFadeDuration);
+    }
+
+    void TakeCinematicControl()
+    {
+        SetPlayerControl(false);
+        if (cinemachineBrain != null)
+            cinemachineBrain.enabled = false;
+    }
+
+    IEnumerator FadeScreen(float target, float duration)
+    {
+        float start = screenFade;
+        float elapsed = 0f;
+        while (elapsed < duration)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            screenFade = Mathf.Lerp(start, target, Mathf.Clamp01(elapsed / duration));
+            yield return null;
+        }
+
+        screenFade = target;
+    }
+
+    IEnumerator ShowCharacterLine(
+        string speaker,
+        string dialogue,
+        float duration,
+        Transform subject,
+        float side)
+    {
+        if (subject != null)
+        {
+            yield return MoveCamera(
+                subject.position + new Vector3(2.35f * side, 1.7f, 3f),
+                subject.position + Vector3.up * 1.4f,
+                0.65f,
+                36f);
+        }
+
+        yield return ShowLine(speaker, dialogue, duration);
     }
 
     IEnumerator ShowLine(string speaker, string dialogue, float duration)
@@ -357,6 +500,27 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         }
     }
 
+    IEnumerator FollowCharacterCamera(
+        Transform subject,
+        Vector3 offset,
+        float duration,
+        float fieldOfView)
+    {
+        if (mainCamera == null || subject == null)
+            yield break;
+
+        float elapsed = 0f;
+        while (elapsed < duration && !sequenceComplete)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            SetShot(
+                subject.position + offset,
+                subject.position + Vector3.up * 1.4f,
+                fieldOfView);
+            yield return null;
+        }
+    }
+
     void SetShot(Vector3 position, Vector3 lookTarget, float fieldOfView)
     {
         if (mainCamera == null)
@@ -487,6 +651,13 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
             (keyboard.spaceKey.wasPressedThisFrame || keyboard.enterKey.wasPressedThisFrame);
     }
 
+    static bool CeremonyStartPressed()
+    {
+        Keyboard keyboard = Keyboard.current;
+        return keyboard != null &&
+            (keyboard.eKey.wasPressedThisFrame || keyboard.enterKey.wasPressedThisFrame);
+    }
+
     static bool SkipSequencePressed()
     {
         Keyboard keyboard = Keyboard.current;
@@ -501,6 +672,12 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
             GUI.color = new Color(1f, 1f, 1f, screenFade);
             GUI.DrawTexture(new Rect(0f, 0f, Screen.width, Screen.height), panelTexture);
             GUI.color = previous;
+        }
+
+        if (awaitingCeremonyStart)
+        {
+            DrawCeremonyPrompt();
+            return;
         }
 
         if (sequenceComplete || string.IsNullOrEmpty(currentDialogue))
@@ -538,6 +715,31 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         GUI.color = previousColor;
     }
 
+    void DrawCeremonyPrompt()
+    {
+        EnsureStyles();
+        float scale = Mathf.Clamp(Mathf.Min(Screen.width / 1920f, Screen.height / 1080f), 0.7f, 1.4f);
+        float panelWidth = Mathf.Min(Screen.width * 0.62f, 980f * scale);
+        float panelHeight = 108f * scale;
+        float panelX = (Screen.width - panelWidth) * 0.5f;
+        float panelY = Screen.height - panelHeight - 48f * scale;
+
+        GUI.DrawTexture(new Rect(panelX, panelY, panelWidth, panelHeight), panelTexture);
+        GUI.DrawTexture(new Rect(panelX, panelY, 6f * scale, panelHeight), accentTexture);
+
+        speakerStyle.fontSize = Mathf.RoundToInt(20f * scale);
+        dialogueStyle.fontSize = Mathf.RoundToInt(24f * scale);
+        float left = panelX + 34f * scale;
+        GUI.Label(
+            new Rect(left, panelY + 14f * scale, panelWidth - 60f * scale, 28f * scale),
+            "BRIDAL ENTRANCE",
+            speakerStyle);
+        GUI.Label(
+            new Rect(left, panelY + 44f * scale, panelWidth - 60f * scale, 50f * scale),
+            "Walk Sherall toward the altar. Press E or ENTER when you are ready to begin the vows.",
+            dialogueStyle);
+    }
+
     void EnsureStyles()
     {
         if (speakerStyle != null)
@@ -567,6 +769,31 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         texture.SetPixel(0, 0, color);
         texture.Apply();
         return texture;
+    }
+
+    void CreateCandleGlow()
+    {
+        Vector3[] positions =
+        {
+            new Vector3(303.46f, 4.15f, 36.1f),
+            new Vector3(303.46f, 3.65f, 42f),
+            new Vector3(303.46f, 3.65f, 47.5f),
+            new Vector3(303.46f, 3.65f, 53.5f)
+        };
+
+        for (int i = 0; i < positions.Length; i++)
+        {
+            GameObject glow = new GameObject($"Wedding Candle Glow {i + 1}");
+            glow.transform.SetParent(transform, false);
+            glow.transform.position = positions[i];
+
+            Light candleLight = glow.AddComponent<Light>();
+            candleLight.type = LightType.Point;
+            candleLight.color = candleGlowColor;
+            candleLight.intensity = candleGlowIntensity;
+            candleLight.range = candleGlowRange;
+            candleLight.shadows = LightShadows.None;
+        }
     }
 
     void OnDisable()
