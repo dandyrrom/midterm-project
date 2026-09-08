@@ -15,6 +15,9 @@ public sealed class SplashScreenController : MonoBehaviour
     [SerializeField] float cameraDrift = 0.35f;
     [SerializeField] float cameraDriftSpeed = 0.22f;
 
+    [Header("Typography")]
+    [SerializeField] Font bloodVictimZombieFont;
+
     enum ScreenState
     {
         Splash,
@@ -43,6 +46,7 @@ public sealed class SplashScreenController : MonoBehaviour
     {
         state = ScreenState.Splash;
         stateStartedAt = Time.unscaledTime;
+        ResolveMenuFont();
         if (Camera.main != null)
             cameraStart = Camera.main.transform.position;
 
@@ -50,8 +54,27 @@ public sealed class SplashScreenController : MonoBehaviour
         Cursor.visible = true;
 
         darkTexture = MakeTexture(new Color(0.008f, 0.006f, 0.012f, 0.97f));
-        panelTexture = MakeTexture(new Color(0.015f, 0.012f, 0.02f, 0.88f));
-        goldTexture = MakeTexture(new Color(0.78f, 0.58f, 0.24f, 1f));
+        panelTexture = MakeTexture(new Color(0.035f, 0.006f, 0.012f, 0.9f));
+        goldTexture = MakeTexture(new Color(0.72f, 0.035f, 0.055f, 1f));
+    }
+
+    void ResolveMenuFont()
+    {
+        if (bloodVictimZombieFont != null)
+            return;
+
+        bloodVictimZombieFont = Resources.Load<Font>("Blood Victim Zombie");
+#if UNITY_EDITOR
+        if (bloodVictimZombieFont == null)
+        {
+            string[] fontGuids = UnityEditor.AssetDatabase.FindAssets("Blood Victim Zombie t:Font");
+            if (fontGuids.Length > 0)
+            {
+                string fontPath = UnityEditor.AssetDatabase.GUIDToAssetPath(fontGuids[0]);
+                bloodVictimZombieFont = UnityEditor.AssetDatabase.LoadAssetAtPath<Font>(fontPath);
+            }
+        }
+#endif
     }
 
     void Update()
@@ -194,7 +217,7 @@ public sealed class SplashScreenController : MonoBehaviour
             subtitleStyle);
         GUI.Label(
             new Rect(0f, height * 0.82f, width, 30f * scale),
-            "ORASYON  •  ASIN  •  BAWANG  •  BANAL NA TUBIG",
+            "BAWANG  •  KANDILA  •  PUKSAIN ANG MGA ASWANG",
             promptStyle);
         GUI.Label(
             new Rect(0f, height * 0.91f, width, 26f * scale),
@@ -221,7 +244,7 @@ public sealed class SplashScreenController : MonoBehaviour
             LeftAligned(titleStyle));
         GUI.Label(
             new Rect(68f * scale, 172f * scale, panelWidth - 100f * scale, 34f * scale),
-            "A FILIPINO FOLK-HORROR STORY",
+            "A FILIPINO ASWANG SURVIVAL STORY",
             LeftAligned(subtitleStyle));
 
         float buttonY = height * 0.4f;
@@ -275,7 +298,7 @@ public sealed class SplashScreenController : MonoBehaviour
             goldTexture);
         GUI.Label(
             new Rect(box.x + 38f * scale, box.y + 112f * scale, box.width - 76f * scale, box.height - 190f * scale),
-            "WASD     Move\nSHIFT      Run\nSPACE      Jump\nMOUSE      Look\n\nStay quiet. The aswang hunt by sound.\nFind holy water, asin, and bawang.\nReturn to the altar and complete the lunas.",
+            "WASD     Move\nSHIFT      Run\nSPACE      Jump\nMOUSE      Look\n\nStay quiet. The aswang hunt by sound.\nCollect bawang and a blessed candle.\nUse them to kill every aswang.\n\nGOAL: KILL ALL ASWANGS.",
             bodyStyle);
         GUI.Label(
             new Rect(box.x + 38f * scale, box.yMax - 58f * scale, box.width - 76f * scale, 28f * scale),
@@ -298,13 +321,21 @@ public sealed class SplashScreenController : MonoBehaviour
         if (titleStyle != null)
             return;
 
-        titleStyle = CreateStyle(FontStyle.Bold, new Color(0.9f, 0.76f, 0.48f), TextAnchor.MiddleCenter);
-        subtitleStyle = CreateStyle(FontStyle.Bold, new Color(0.82f, 0.76f, 0.66f), TextAnchor.MiddleCenter);
-        menuStyle = CreateStyle(FontStyle.Normal, new Color(0.75f, 0.71f, 0.66f), TextAnchor.MiddleLeft);
-        selectedMenuStyle = CreateStyle(FontStyle.Bold, new Color(0.94f, 0.79f, 0.5f), TextAnchor.MiddleLeft);
+        titleStyle = CreateStyle(FontStyle.Normal, new Color(0.9f, 0.08f, 0.1f), TextAnchor.MiddleCenter);
+        subtitleStyle = CreateStyle(FontStyle.Normal, new Color(0.92f, 0.78f, 0.7f), TextAnchor.MiddleCenter);
+        menuStyle = CreateStyle(FontStyle.Normal, new Color(0.82f, 0.7f, 0.68f), TextAnchor.MiddleLeft);
+        selectedMenuStyle = CreateStyle(FontStyle.Normal, new Color(1f, 0.2f, 0.22f), TextAnchor.MiddleLeft);
         bodyStyle = CreateStyle(FontStyle.Normal, new Color(0.94f, 0.91f, 0.86f), TextAnchor.UpperLeft);
         bodyStyle.wordWrap = true;
         promptStyle = CreateStyle(FontStyle.Normal, new Color(0.62f, 0.58f, 0.54f), TextAnchor.MiddleCenter);
+
+        if (bloodVictimZombieFont != null)
+        {
+            titleStyle.font = bloodVictimZombieFont;
+            subtitleStyle.font = bloodVictimZombieFont;
+            menuStyle.font = bloodVictimZombieFont;
+            selectedMenuStyle.font = bloodVictimZombieFont;
+        }
     }
 
     static GUIStyle CreateStyle(FontStyle fontStyle, Color color, TextAnchor alignment)
