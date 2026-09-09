@@ -126,6 +126,7 @@ public class Level1GameFlow : MonoBehaviour
 
         StopChurchBell();
         Time.timeScale = 1f;
+        AudioListener.pause = false;
     }
 
     void OnEnable()
@@ -361,6 +362,7 @@ public class Level1GameFlow : MonoBehaviour
         }
 
         Time.timeScale = 1f;
+        AudioListener.pause = false;
 
         if (!string.IsNullOrWhiteSpace(continueSceneName))
             SceneManager.LoadScene(continueSceneName);
@@ -371,13 +373,14 @@ public class Level1GameFlow : MonoBehaviour
     void FreezeGameplay(bool freeze)
     {
         Time.timeScale = freeze ? 0f : 1f;
+        AudioListener.pause = freeze;
 
         ThirdPersonController player = FindFirstObjectByType<ThirdPersonController>();
         if (player != null)
             player.enabled = !freeze;
 
         Cursor.visible = freeze;
-        Cursor.lockState = CursorLockMode.None;
+        Cursor.lockState = freeze ? CursorLockMode.None : CursorLockMode.Locked;
     }
 
     void CacheObjectiveVisuals()
