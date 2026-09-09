@@ -24518,6 +24518,10 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2034991891070462959, guid: ddc1605537d4bfe4097839f4529d1611, type: 3}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6443807554211976719, guid: ddc1605537d4bfe4097839f4529d1611, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3396189968973882350, guid: ddc1605537d4bfe4097839f4529d1611, type: 3}
@@ -28100,23 +28104,23 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4100100001, guid: c4e18f72a9b14d6e8f3c0a51d7b2e904, type: 3}
       propertyPath: m_Name
-      value: ChurchSideWall_DoorWindowFit
+      value: ChurchWalls_CreamShell
       objectReference: {fileID: 0}
     - target: {fileID: 4100100002, guid: c4e18f72a9b14d6e8f3c0a51d7b2e904, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 246.69
+      value: 315.95
       objectReference: {fileID: 0}
     - target: {fileID: 4100100002, guid: c4e18f72a9b14d6e8f3c0a51d7b2e904, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.54
+      value: 2.1730862
       objectReference: {fileID: 0}
     - target: {fileID: 4100100002, guid: c4e18f72a9b14d6e8f3c0a51d7b2e904, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -56.183
+      value: 99.38
       objectReference: {fileID: 0}
     - target: {fileID: 4100100002, guid: c4e18f72a9b14d6e8f3c0a51d7b2e904, type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.0049809963
+      value: 0.0050224788
       objectReference: {fileID: 0}
     - target: {fileID: 4100100002, guid: c4e18f72a9b14d6e8f3c0a51d7b2e904, type: 3}
       propertyPath: m_LocalRotation.x
@@ -28124,7 +28128,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4100100002, guid: c4e18f72a9b14d6e8f3c0a51d7b2e904, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.9999876
+      value: -0.9999874
       objectReference: {fileID: 0}
     - target: {fileID: 4100100002, guid: c4e18f72a9b14d6e8f3c0a51d7b2e904, type: 3}
       propertyPath: m_LocalRotation.z
@@ -28136,7 +28140,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4100100002, guid: c4e18f72a9b14d6e8f3c0a51d7b2e904, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 180.571
+      value: -179.424
       objectReference: {fileID: 0}
     - target: {fileID: 4100100002, guid: c4e18f72a9b14d6e8f3c0a51d7b2e904, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -28144,15 +28148,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4100100002, guid: c4e18f72a9b14d6e8f3c0a51d7b2e904, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1.4265565
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4100100002, guid: c4e18f72a9b14d6e8f3c0a51d7b2e904, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1.3479759
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4100100002, guid: c4e18f72a9b14d6e8f3c0a51d7b2e904, type: 3}
       propertyPath: m_LocalScale.z
-      value: 1.7140127
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
