@@ -3,44 +3,42 @@ using UnityEngine;
 
 /// <summary>
 /// Tracks run stats for the Level 1 end / game-over screen.
-/// "Hits missed" = times the MC took damage from aswang attacks.
+/// "Missed throws" = bawang/candle throws that expire or land without hitting an aswang.
 /// </summary>
 public class Level1RunStats : MonoBehaviour
 {
-    public int HitsMissed { get; private set; }
+    public int MissedThrows { get; private set; }
 
-    public event Action<int> OnHitsMissedChanged;
+    public event Action<int> OnMissedThrowsChanged;
 
-    PlayerHealth health;
-
-    void Awake()
+    public void RegisterMissedThrow()
     {
-        health = FindFirstObjectByType<PlayerHealth>();
+        MissedThrows++;
+        OnMissedThrowsChanged?.Invoke(MissedThrows);
     }
 
-    void OnEnable()
+    /// <summary>
+    /// Perfect clear (all aswangs dead, no missed throws, no lives lost) = perfectScore.
+    /// Partial progress on game over scales the base by kills/total.
+    /// </summary>
+    public int ComputeTotalScore(
+        int aswangKilled,
+        int aswangTotal,
+        int livesRemaining,
+        int maxLives,
+        int perfectScore,
+        int missedThrowPenalty,
+        int lifeLostPenalty)
     {
-        if (health != null)
-            health.OnDamaged += HandleDamaged;
-    }
+        float progress = aswangTotal > 0
+            ? Mathf.Clamp01((float)aswangKilled / aswangTotal)
+            : 0f;
 
-    void OnDisable()
-    {
-        if (health != null)
-            health.OnDamaged -= HandleDamaged;
-    }
+        int livesLost = Mathf.Max(0, maxLives - livesRemaining);
+        int score = Mathf.RoundToInt(perfectScore * progress)
+            - MissedThrows * missedThrowPenalty
+            - livesLost * lifeLostPenalty;
 
-    void HandleDamaged(int amount)
-    {
-        if (amount <= 0)
-            return;
-
-        HitsMissed++;
-        OnHitsMissedChanged?.Invoke(HitsMissed);
-    }
-
-    public int ComputeTotalScore(int aswangKilled, int livesRemaining, int pointsPerKill, int hitPenalty, int lifeBonus)
-    {
-        return Mathf.Max(0, aswangKilled * pointsPerKill - HitsMissed * hitPenalty + livesRemaining * lifeBonus);
+        return Mathf.Max(0, score);
     }
 }

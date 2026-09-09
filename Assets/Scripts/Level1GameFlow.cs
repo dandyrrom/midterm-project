@@ -8,34 +8,39 @@ using UnityEngine.UI;
 /// <summary>
 /// Level 1 objective flip: kill all aswangs → looping church bell → go to bloody krus → end panel.
 /// Game over panel when lives run out before clearing.
-/// Assign Objective Text in the Inspector so you can move/font/style it in the scene.
+/// ObjectiveText (phase A) and GoalText (phase B) are separate scene objects you can style.
 /// </summary>
 public class Level1GameFlow : MonoBehaviour
 {
     public static Level1GameFlow Instance { get; private set; }
 
     [Header("Objectives")]
-    [Tooltip("Written into Objective Text at start / when phase A is active.")]
-    public string phaseAObjective = "Kill all aswangs";
-    [Tooltip("Written into Objective Text when all aswangs are dead.")]
-    public string phaseBObjective = "Go to the bloody krus inside the old church";
-    [Tooltip("Drag the scene ObjectiveText (TMP) here. Edit that object for position/font/color.")]
+    [Tooltip("Phase A HUD text (Kill all aswangs). Edit font/position on this object.")]
     public TMP_Text objectiveText;
+    [Tooltip("Phase B HUD text (bloody krus). Edit font/position on this object.")]
+    public TMP_Text goalText;
 
-    [Header("Objective beat (Phase B)")]
-    public bool beatObjectiveInPhaseB = true;
-    public float beatSpeed = 3.2f;
-    [Range(0f, 0.25f)] public float beatScaleAmount = 0.1f;
-    [Range(0.2f, 1f)] public float beatAlphaMin = 0.55f;
+    [Header("Objective intro (ObjectiveText)")]
+    [Tooltip("Beat ObjectiveText at level start to announce the objective, then hide it.")]
+    public bool beatObjectiveOnStart = true;
+    [Tooltip("How many seconds ObjectiveText stays visible (beating), then disappears.")]
+    public float objectiveIntroDuration = 4f;
+
+    [Header("Goal beat (GoalText / Phase B)")]
+    public bool beatGoalInPhaseB = true;
+    public float beatSpeed = 6.5f;
+    [Range(0f, 0.35f)] public float beatScaleAmount = 0.2f;
+    [Range(0.15f, 1f)] public float beatAlphaMin = 0.35f;
 
     [Header("Audio")]
     public AudioClip churchBellClip;
     [Range(0f, 1f)] public float churchBellVolume = 0.85f;
 
     [Header("Score")]
-    public int pointsPerKill = 100;
-    public int hitMissedPenalty = 25;
-    public int pointsPerLifeRemaining = 50;
+    [Tooltip("Perfect clear score (all aswangs, 0 missed throws, all lives).")]
+    public int perfectScore = 200;
+    public int missedThrowPenalty = 10;
+    public int lifeLostPenalty = 25;
 
     [Header("Continue")]
     [Tooltip("Scene loaded after SPACE on the end / game-over panel.")]
@@ -43,7 +48,6 @@ public class Level1GameFlow : MonoBehaviour
 
     [Header("Krus Marker")]
     public Vector3 krusTriggerSize = new Vector3(2.5f, 3f, 2.5f);
-    public Color markerColor = new Color(0.7f, 0f, 0.05f, 0.35f);
 
     [Header("Optional refs (auto-found if empty)")]
     public ZombieKillScore killScore;
@@ -62,10 +66,14 @@ public class Level1GameFlow : MonoBehaviour
     bool phaseB;
     bool panelOpen;
     bool waitingForSpace;
-    bool beating;
+    bool beatingObjective;
+    bool beatingGoal;
+    Coroutine objectiveIntroRoutine;
 
     Vector3 objectiveBaseScale = Vector3.one;
     Color objectiveBaseColor = Color.white;
+    Vector3 goalBaseScale = Vector3.one;
+    Color goalBaseColor = Color.white;
 
     public bool IsPhaseB => phaseB;
     public bool IsPanelOpen => panelOpen;
@@ -95,6 +103,13 @@ public class Level1GameFlow : MonoBehaviour
             GameObject existing = GameObject.Find("ObjectiveText");
             if (existing != null)
                 objectiveText = existing.GetComponent<TMP_Text>();
+        }
+
+        if (goalText == null)
+        {
+            GameObject existing = GameObject.Find("GoalText");
+            if (existing != null)
+                goalText = existing.GetComponent<TMP_Text>();
         }
 
         bellSource = gameObject.AddComponent<AudioSource>();
@@ -127,17 +142,22 @@ public class Level1GameFlow : MonoBehaviour
 
     void Start()
     {
-        CacheObjectiveVisuals();
         BuildEndPanelIfNeeded();
         SetupKrusMarker();
-        SetObjective(phaseAObjective);
+        ShowPhaseATexts();
+        CacheObjectiveVisuals();
         if (krusMarker != null)
             krusMarker.SetActive(false);
+
+        if (objectiveIntroRoutine != null)
+            StopCoroutine(objectiveIntroRoutine);
+        objectiveIntroRoutine = StartCoroutine(ObjectiveIntroRoutine());
     }
 
     void Update()
     {
         UpdateObjectiveBeat();
+        UpdateGoalBeat();
 
         if (!waitingForSpace || Keyboard.current == null)
             return;
@@ -166,13 +186,72 @@ public class Level1GameFlow : MonoBehaviour
             return;
 
         phaseB = true;
+        StopObjectiveIntro();
         StartChurchBellLoop();
-        SetObjective(phaseBObjective);
-        CacheObjectiveVisuals();
-        beating = beatObjectiveInPhaseB;
+        ShowPhaseBTexts();
+        CacheGoalVisuals();
+        beatingGoal = beatGoalInPhaseB;
 
         if (krusMarker != null)
             krusMarker.SetActive(true);
+    }
+
+    void ShowPhaseATexts()
+    {
+        SetTextActive(objectiveText, true);
+        SetTextActive(goalText, false);
+        beatingObjective = false;
+        beatingGoal = false;
+    }
+
+    void ShowPhaseBTexts()
+    {
+        RestoreObjectiveVisuals();
+        SetTextActive(objectiveText, false);
+        SetTextActive(goalText, true);
+    }
+
+    IEnumerator ObjectiveIntroRoutine()
+    {
+        if (objectiveText == null)
+            yield break;
+
+        SetTextActive(objectiveText, true);
+        beatingObjective = beatObjectiveOnStart;
+
+        float duration = Mathf.Max(0f, objectiveIntroDuration);
+        float elapsed = 0f;
+        while (elapsed < duration && !phaseB && !panelOpen)
+        {
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        beatingObjective = false;
+        RestoreObjectiveVisuals();
+
+        if (!phaseB && !panelOpen)
+            SetTextActive(objectiveText, false);
+
+        objectiveIntroRoutine = null;
+    }
+
+    void StopObjectiveIntro()
+    {
+        beatingObjective = false;
+        if (objectiveIntroRoutine != null)
+        {
+            StopCoroutine(objectiveIntroRoutine);
+            objectiveIntroRoutine = null;
+        }
+
+        RestoreObjectiveVisuals();
+    }
+
+    static void SetTextActive(TMP_Text text, bool active)
+    {
+        if (text != null)
+            text.gameObject.SetActive(active);
     }
 
     void StartChurchBellLoop()
@@ -217,18 +296,25 @@ public class Level1GameFlow : MonoBehaviour
     {
         panelOpen = true;
         waitingForSpace = true;
-        beating = false;
+        beatingGoal = false;
+        StopObjectiveIntro();
         StopChurchBell();
-        RestoreObjectiveVisuals();
+        RestoreGoalVisuals();
+        SetTextActive(objectiveText, false);
+        SetTextActive(goalText, false);
 
         FreezeGameplay(true);
 
         int killed = killScore != null ? killScore.Killed : 0;
-        int hits = runStats != null ? runStats.HitsMissed : 0;
+        int total = killScore != null ? killScore.Total : 0;
+        int misses = runStats != null ? runStats.MissedThrows : 0;
         int livesLeft = lives != null ? lives.CurrentLives : 0;
+        int maxLives = lives != null ? lives.MaxLives : 0;
         int totalScore = runStats != null
-            ? runStats.ComputeTotalScore(killed, livesLeft, pointsPerKill, hitMissedPenalty, pointsPerLifeRemaining)
-            : killed * pointsPerKill;
+            ? runStats.ComputeTotalScore(
+                killed, total, livesLeft, maxLives,
+                perfectScore, missedThrowPenalty, lifeLostPenalty)
+            : 0;
 
         if (endTitleText != null)
             endTitleText.text = victory ? "Level 1 Complete" : "Game Over";
@@ -239,7 +325,7 @@ public class Level1GameFlow : MonoBehaviour
             {
                 endBodyText.text =
                     $"Aswang killed: {killed}\n" +
-                    $"Hits missed: {hits}\n" +
+                    $"Missed throws: {misses}\n" +
                     $"Remaining lives: {livesLeft}\n" +
                     $"Total score: {totalScore}\n\n" +
                     "Press SPACE to continue";
@@ -247,7 +333,8 @@ public class Level1GameFlow : MonoBehaviour
             else
             {
                 endBodyText.text =
-                    $"Hits missed: {hits}\n" +
+                    $"Aswang killed: {killed}\n" +
+                    $"Missed throws: {misses}\n" +
                     $"Remaining lives: {livesLeft}\n" +
                     $"Total score: {totalScore}\n\n" +
                     "Press SPACE to continue";
@@ -293,12 +380,6 @@ public class Level1GameFlow : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
     }
 
-    void SetObjective(string text)
-    {
-        if (objectiveText != null)
-            objectiveText.text = text;
-    }
-
     void CacheObjectiveVisuals()
     {
         if (objectiveText == null)
@@ -313,25 +394,59 @@ public class Level1GameFlow : MonoBehaviour
 
     void RestoreObjectiveVisuals()
     {
-        if (objectiveText == null)
+        if (objectiveText == null || !objectiveText.gameObject.activeInHierarchy)
             return;
 
         objectiveText.rectTransform.localScale = objectiveBaseScale;
         objectiveText.color = objectiveBaseColor;
     }
 
-    void UpdateObjectiveBeat()
+    void CacheGoalVisuals()
     {
-        if (!beating || objectiveText == null || panelOpen)
+        if (goalText == null)
             return;
 
+        goalBaseScale = goalText.rectTransform.localScale;
+        if (goalBaseScale.sqrMagnitude < 0.0001f)
+            goalBaseScale = Vector3.one;
+
+        goalBaseColor = goalText.color;
+    }
+
+    void RestoreGoalVisuals()
+    {
+        if (goalText == null)
+            return;
+
+        goalText.rectTransform.localScale = goalBaseScale;
+        goalText.color = goalBaseColor;
+    }
+
+    void UpdateObjectiveBeat()
+    {
+        if (!beatingObjective || objectiveText == null || panelOpen || phaseB)
+            return;
+
+        ApplyBeat(objectiveText, objectiveBaseScale, objectiveBaseColor);
+    }
+
+    void UpdateGoalBeat()
+    {
+        if (!beatingGoal || goalText == null || panelOpen)
+            return;
+
+        ApplyBeat(goalText, goalBaseScale, goalBaseColor);
+    }
+
+    void ApplyBeat(TMP_Text text, Vector3 baseScale, Color baseColor)
+    {
         float wave = (Mathf.Sin(Time.time * beatSpeed) + 1f) * 0.5f;
         float scale = 1f + wave * beatScaleAmount;
-        objectiveText.rectTransform.localScale = objectiveBaseScale * scale;
+        text.rectTransform.localScale = baseScale * scale;
 
-        Color c = objectiveBaseColor;
-        c.a = Mathf.Lerp(beatAlphaMin, objectiveBaseColor.a, wave);
-        objectiveText.color = c;
+        Color c = baseColor;
+        c.a = Mathf.Lerp(beatAlphaMin, baseColor.a, wave);
+        text.color = c;
     }
 
     void SetupKrusMarker()
@@ -366,18 +481,12 @@ public class Level1GameFlow : MonoBehaviour
 
         MeshRenderer mr = krusMarker.GetComponent<MeshRenderer>();
         if (mr != null)
-        {
-            Shader shader = Shader.Find("Universal Render Pipeline/Unlit");
-            if (shader == null)
-                shader = Shader.Find("Unlit/Color");
-            Material mat = new Material(shader);
-            if (mat.HasProperty("_BaseColor"))
-                mat.SetColor("_BaseColor", markerColor);
-            else
-                mat.color = markerColor;
-            mr.sharedMaterial = mat;
-            mr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
-        }
+            mr.enabled = false;
+
+        // Drop the default mesh so Play Mode never shows a solid cube.
+        MeshFilter mf = krusMarker.GetComponent<MeshFilter>();
+        if (mf != null)
+            Destroy(mf);
 
         KrusObjectiveTrigger trigger = krusMarker.AddComponent<KrusObjectiveTrigger>();
         trigger.flow = this;
@@ -415,9 +524,13 @@ public class Level1GameFlow : MonoBehaviour
         if (hudCanvas == null)
             return;
 
-        TMP_FontAsset font = objectiveText != null && objectiveText.font != null
-            ? objectiveText.font
-            : TMP_Settings.defaultFontAsset;
+        TMP_FontAsset font = null;
+        if (objectiveText != null && objectiveText.font != null)
+            font = objectiveText.font;
+        else if (goalText != null && goalText.font != null)
+            font = goalText.font;
+        else
+            font = TMP_Settings.defaultFontAsset;
 
         endPanel = new GameObject("Level1EndPanel", typeof(RectTransform), typeof(Image));
         endPanel.transform.SetParent(hudCanvas.transform, false);

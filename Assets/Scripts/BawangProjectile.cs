@@ -45,6 +45,7 @@ public class BawangProjectile : MonoBehaviour
 
         if (Time.time - spawnTime >= maxLifetime)
         {
+            RegisterMissedThrow();
             Destroy(gameObject);
             return;
         }
@@ -83,6 +84,7 @@ public class BawangProjectile : MonoBehaviour
             return;
 
         landed = true;
+        RegisterMissedThrow();
 
         NoiseEvents.Emit(position, landNoiseRadius);
 
@@ -90,5 +92,12 @@ public class BawangProjectile : MonoBehaviour
             audioSource.PlayOneShot(landClip, 0.35f);
 
         Destroy(gameObject, landClip != null ? landClip.length + 0.1f : 0.05f);
+    }
+
+    static void RegisterMissedThrow()
+    {
+        Level1RunStats stats = FindFirstObjectByType<Level1RunStats>();
+        if (stats != null)
+            stats.RegisterMissedThrow();
     }
 }
