@@ -56,13 +56,13 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
     [Header("Church Ground")]
     [SerializeField] float churchFloorY = 2.53f;
     [SerializeField] float altarFloorY = 3.03f;
-    [SerializeField] float sittingRootY = 2.95f;
-    [SerializeField] float sittingHipY = 3.48f;
-    [SerializeField] float sittingSeatClearance = 0.08f;
+    [SerializeField] float sittingRootY = 2.94f;
+    [SerializeField] float sittingHipY = 3.16f;
+    [SerializeField] float sittingSeatClearance = 0.14f;
     [SerializeField] float standingHipHeight = 0.9f;
     [SerializeField] float altarFrontZ = 41.4f;
-    [SerializeField] float pewSeatOffset = 0.02f;
-    [SerializeField] float pewBackOffset = 0.06f;
+    [SerializeField] float pewSeatOffset = 0.04f;
+    [SerializeField] float pewBackOffset = 0.05f;
 
     [Header("Infection Reactions")]
     [SerializeField, Min(0.1f)] float groomHitHoldDuration = 2.35f;
@@ -301,7 +301,7 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
             1f);
         yield return ShowCharacterLine(
             "ELDER",
-            "Find bawang and a blessed candle. Their smoke and sacred flame can destroy an aswang.",
+            "Find bawang and a candle. Their smoke and flame can destroy an aswang.",
             5f,
             elder,
             -1f);
@@ -363,7 +363,7 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
             42f);
         yield return ShowLine(
             "OBJECTIVE",
-            "Collect bawang and a blessed candle. Kill all aswangs.",
+            "Collect bawang and a candle. Kill all aswangs.",
             4.5f);
 
         yield return MoveCamera(
@@ -953,6 +953,7 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         capsule.center = new Vector3(0f, 0.92f, 0.02f);
         capsule.height = 0.95f;
         capsule.radius = 0.2f;
+        capsule.isTrigger = true;
         capsule.enabled = true;
     }
 
@@ -1022,31 +1023,15 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
             {
                 float slot = guestCount == 1 ? 0f : (i - (guestCount - 1) * 0.5f) * 0.38f;
                 Vector3 position = pew.position + along * slot + face * pewSeatOffset - face * pewBackOffset;
-                float seatY = pew.position.y + sittingSeatClearance;
-                if (TryFindSeatSurface(position, pew.position.y, out RaycastHit hit))
-                    seatY = Mathf.Max(seatY, hit.point.y);
-
                 position.y = sittingRootY;
-                float hipY = Mathf.Max(sittingHipY, seatY + 0.4f);
+                float hipY = pew.position.y + sittingSeatClearance;
+                if (hipY < sittingHipY)
+                    hipY = sittingHipY;
                 seats.Add(new GuestSeat(position, yaw, hipY, sitIndex++));
             }
         }
 
         return seats.ToArray();
-    }
-
-    bool TryFindSeatSurface(Vector3 pewPoint, float pewY, out RaycastHit hit)
-    {
-        Vector3 origin = new Vector3(pewPoint.x, pewY + 1.4f, pewPoint.z);
-        if (Physics.Raycast(origin, Vector3.down, out hit, 1.6f) &&
-            hit.normal.y > 0.45f &&
-            hit.point.y >= pewY - 0.04f)
-        {
-            return true;
-        }
-
-        hit = default;
-        return false;
     }
 
     Transform[] FindOriginalWeddingPews()
@@ -1415,7 +1400,6 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         if (seatedGuestHipYs != null && index < seatedGuestHipYs.Length && seatedGuestHipYs[index] > 0.1f)
             hipY = seatedGuestHipYs[index];
         PinHipsTo(character, hipY);
-        LiftMeshAbove(character, hipY - 0.32f);
     }
 
     static void LiftHipsToMinimum(Transform character, float minHipY)

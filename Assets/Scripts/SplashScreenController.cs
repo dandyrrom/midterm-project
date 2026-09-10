@@ -309,7 +309,7 @@ public sealed class SplashScreenController : MonoBehaviour
             goldTexture);
         GUI.Label(
             new Rect(box.x + 38f * scale, box.y + 112f * scale, box.width - 76f * scale, box.height - 190f * scale),
-            "WASD     Move\nSHIFT      Run\nSPACE      Jump\nMOUSE      Look\n\nStay quiet. The aswang hunt by sound.\nCollect bawang and a blessed candle.\nUse them to kill every aswang.\n\nGOAL: KILL ALL ASWANGS.",
+            "WASD     Move\nSHIFT      Run\nSPACE      Jump\nMOUSE      Look\n\nStay quiet. The aswang hunt by sound.\nCollect bawang and a candle.\nUse them to kill every aswang.\n\nGOAL: KILL ALL ASWANGS.",
             bodyStyle);
         GUI.Label(
             new Rect(box.x + 38f * scale, box.yMax - 58f * scale, box.width - 76f * scale, 28f * scale),
