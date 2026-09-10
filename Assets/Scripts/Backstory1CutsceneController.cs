@@ -62,8 +62,9 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
     [SerializeField] float sittingThighPad = 0.13f;
     [SerializeField] float standingHipHeight = 0.9f;
     [SerializeField] float altarFrontZ = 41.4f;
-    [SerializeField] float pewSeatOffset = 0.04f;
-    [SerializeField] float pewBackOffset = 0.05f;
+    [SerializeField] float pewSeatOffset = 0.22f;
+    [SerializeField] float pewBackOffset = 0.02f;
+    [SerializeField] float sitForwardOffset = 0.32f;
 
     [Header("Infection Reactions")]
     [SerializeField, Min(0.1f)] float groomHitHoldDuration = 2.35f;
@@ -1400,8 +1401,19 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
             ? seatedGuestYaws[index]
             : guest.eulerAngles.y;
 
-        // Keep the guest's aisle/pew XZ placement; only correct vertical sit height.
-        guest.position = home;
+        Vector3 face = Horizontal(Quaternion.Euler(0f, yaw, 0f) * Vector3.forward);
+        if (face.sqrMagnitude < 0.0001f)
+            face = Vector3.forward;
+        face.Normalize();
+
+        // Move a bit toward the aisle so butts rest on the plank and legs clear the bench.
+        Vector3 sitPos = home + face * sitForwardOffset;
+        float seatSurfaceY = EstimateInPlaceSeatHeight(home.y);
+        Transform pew = FindNearestWeddingPew(home);
+        if (pew != null)
+            sitPos = BuildForwardSitPosition(pew, home, face, out seatSurfaceY);
+
+        guest.position = new Vector3(sitPos.x, home.y, sitPos.z);
         guest.rotation = Quaternion.Euler(0f, yaw, 0f);
 
         Animator animator = FindAnimator(guest);
@@ -1420,16 +1432,58 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         animator.Play(SittingStates[index % SittingStates.Length], 0, 0.2f + (index * 0.07f) % 0.6f);
         animator.Update(0f);
 
-        float seatSurfaceY = EstimateInPlaceSeatHeight(home.y);
-        SitGuestOnSurface(guest, animator, seatSurfaceY);
-
-        // Preserve exact XZ/yaw after the vertical settle.
-        Vector3 seated = guest.position;
-        seated.x = home.x;
-        seated.z = home.z;
-        guest.position = seated;
+        SettleSittingGuest(guest, seatSurfaceY);
         guest.rotation = Quaternion.Euler(0f, yaw, 0f);
         CaptureGuestHomePose(guest, index);
+        if (seatedGuestSeatYs != null && index < seatedGuestSeatYs.Length)
+            seatedGuestSeatYs[index] = seatSurfaceY;
+    }
+
+    Vector3 BuildForwardSitPosition(Transform pew, Vector3 home, Vector3 face, out float seatY)
+    {
+        Vector3 pewFace = Horizontal(pew.up);
+        if (pewFace.sqrMagnitude < 0.0001f)
+            pewFace = Horizontal(-pew.forward);
+        pewFace.Normalize();
+        if (Vector3.Dot(pewFace, face) < 0f)
+            pewFace = -pewFace;
+
+        Vector3 along = Horizontal(pew.right);
+        if (along.sqrMagnitude < 0.0001f)
+            along = Vector3.Cross(Vector3.up, pewFace);
+        along.Normalize();
+
+        Vector3 origin = PewSeatOrigin(pew, pewFace);
+        float lateral = Vector3.Dot(home - origin, along);
+        Vector3 sitPos = origin + along * lateral + pewFace * sitForwardOffset;
+
+        Vector3 seatPoint;
+        seatY = MeasurePewSeatY(pew, sitPos, out seatPoint);
+        sitPos.x = seatPoint.x;
+        sitPos.z = seatPoint.z;
+        return sitPos;
+    }
+
+    Transform FindNearestWeddingPew(Vector3 position)
+    {
+        Transform[] pews = FindOriginalWeddingPews();
+        Transform best = null;
+        float bestDist = float.MaxValue;
+        for (int i = 0; i < pews.Length; i++)
+        {
+            Transform pew = pews[i];
+            if (pew == null)
+                continue;
+
+            float dist = HorizontalDistanceSq(position, pew.position);
+            if (dist < bestDist)
+            {
+                bestDist = dist;
+                best = pew;
+            }
+        }
+
+        return best;
     }
 
     float EstimateInPlaceSeatHeight(float standingRootY)
@@ -1715,7 +1769,7 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
             for (int i = 0; i < sittingGuests.Length; i++)
             {
                 if (guestsAreSeated)
-                    KeepGuestAtHomePose(sittingGuests[i], i);
+                    KeepSittingOnBench(sittingGuests[i], i);
                 else
                     KeepGuestAtHomePose(sittingGuests[i], i);
             }
