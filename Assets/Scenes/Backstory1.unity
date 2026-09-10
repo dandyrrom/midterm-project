@@ -28269,7 +28269,8 @@ MonoBehaviour:
   altarFloorY: 3.03
   sittingRootY: 2.94
   sittingHipY: 3.16
-  sittingSeatClearance: 0.14
+  sittingSeatClearance: 0.08
+  sittingThighPad: 0.13
   standingHipHeight: 0.9
   altarFrontZ: 41.4
   pewSeatOffset: 0.04

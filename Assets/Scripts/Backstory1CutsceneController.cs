@@ -58,7 +58,8 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
     [SerializeField] float altarFloorY = 3.03f;
     [SerializeField] float sittingRootY = 2.94f;
     [SerializeField] float sittingHipY = 3.16f;
-    [SerializeField] float sittingSeatClearance = 0.14f;
+    [SerializeField] float sittingSeatClearance = 0.08f;
+    [SerializeField] float sittingThighPad = 0.13f;
     [SerializeField] float standingHipHeight = 0.9f;
     [SerializeField] float altarFrontZ = 41.4f;
     [SerializeField] float pewSeatOffset = 0.04f;
@@ -108,7 +109,7 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
     Animator[] infectedRearAnimators;
     Vector3[] seatedGuestPositions;
     float[] seatedGuestYaws;
-    float[] seatedGuestHipYs;
+    float[] seatedGuestSeatYs;
     Camera sceneCamera;
     float gameplayFieldOfView;
     Texture2D panelTexture;
@@ -989,7 +990,7 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         {
             seatedGuestPositions = new Vector3[sittingGuests.Length];
             seatedGuestYaws = new float[sittingGuests.Length];
-            seatedGuestHipYs = new float[sittingGuests.Length];
+            seatedGuestSeatYs = new float[sittingGuests.Length];
             for (int i = 0; i < sittingGuests.Length; i++)
             {
                 Transform guest = sittingGuests[i];
@@ -1036,6 +1037,7 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
             along.Normalize();
             face.Normalize();
             float yaw = Quaternion.LookRotation(face).eulerAngles.y;
+            Vector3 origin = PewSeatOrigin(pew, face);
             bool longPew = pew.lossyScale.x >= 1.05f && pew.position.z >= 43.2f;
             int guestCount = longPew ? 2 : 1;
             if (seats.Count + guestCount > 40)
@@ -1044,19 +1046,95 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
             for (int i = 0; i < guestCount; i++)
             {
                 float slot = guestCount == 1 ? 0f : (i - (guestCount - 1) * 0.5f) * 0.38f;
-                Vector3 position = pew.position + along * slot + face * pewSeatOffset - face * pewBackOffset;
+                Vector3 position = origin + along * slot;
                 if (Mathf.Abs(position.x - brideEntryPosition.x) < 1.2f)
                     continue;
 
-                position.y = sittingRootY;
-                float hipY = pew.position.y + sittingSeatClearance;
-                if (hipY < sittingHipY)
-                    hipY = sittingHipY;
-                seats.Add(new GuestSeat(position, yaw, hipY, sitIndex++));
+                Vector3 seatPoint;
+                float seatY = MeasurePewSeatY(pew, position, out seatPoint);
+                position.x = seatPoint.x;
+                position.z = seatPoint.z;
+                position.y = seatY;
+                seats.Add(new GuestSeat(position, yaw, seatY, sitIndex++));
             }
         }
 
         return seats.ToArray();
+    }
+
+    Vector3 PewSeatOrigin(Transform pew, Vector3 face)
+    {
+        Renderer renderer = pew.GetComponent<Renderer>();
+        if (renderer == null)
+            renderer = pew.GetComponentInChildren<Renderer>();
+        if (renderer == null)
+            return pew.position + face * pewSeatOffset - face * pewBackOffset;
+
+        Vector3 center = renderer.bounds.center;
+        float depth = Vector3.Dot(Horizontal(center - pew.position), face);
+        return pew.position + face * depth + face * pewSeatOffset - face * pewBackOffset;
+    }
+
+    float MeasurePewSeatY(Transform pew, Vector3 sitPoint, out Vector3 seatPoint)
+    {
+        seatPoint = sitPoint;
+        Renderer renderer = pew.GetComponent<Renderer>();
+        if (renderer == null)
+            renderer = pew.GetComponentInChildren<Renderer>();
+
+        float minY = pew.position.y - 0.2f;
+        float maxY = pew.position.y + 0.8f;
+        if (renderer != null)
+        {
+            minY = renderer.bounds.min.y;
+            maxY = renderer.bounds.max.y;
+        }
+
+        float fallbackY = Mathf.Lerp(minY, maxY, 0.36f);
+        Vector3 origin = new Vector3(sitPoint.x, maxY + 0.08f, sitPoint.z);
+        RaycastHit[] hits = Physics.RaycastAll(
+            origin,
+            Vector3.down,
+            maxY - minY + 0.35f,
+            ~0,
+            QueryTriggerInteraction.Ignore);
+
+        float bestY = float.MinValue;
+        bool found = false;
+        float backrestCut = maxY - 0.14f;
+        float legCut = minY + 0.12f;
+        for (int i = 0; i < hits.Length; i++)
+        {
+            RaycastHit hit = hits[i];
+            if (hit.collider == null || !IsPartOfPew(pew, hit.collider.transform))
+                continue;
+            if (hit.normal.y < 0.45f)
+                continue;
+            if (hit.point.y < legCut || hit.point.y > backrestCut)
+                continue;
+            if (hit.point.y < churchFloorY + 0.2f)
+                continue;
+            if (hit.point.y > bestY)
+            {
+                bestY = hit.point.y;
+                seatPoint = hit.point;
+                found = true;
+            }
+        }
+
+        if (!found)
+        {
+            seatPoint = sitPoint;
+            seatPoint.y = fallbackY;
+            return fallbackY;
+        }
+
+        return bestY;
+    }
+
+    static bool IsPartOfPew(Transform pew, Transform hit)
+    {
+        return hit == pew || hit.IsChildOf(pew);
     }
 
     Transform[] FindOriginalWeddingPews()
@@ -1115,7 +1193,7 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         DisableCharacterController(guest);
         float weddingScale = WeddingGuestScale();
         guest.localScale = new Vector3(weddingScale, weddingScale, weddingScale);
-        Vector3 seated = new Vector3(seat.position.x, sittingRootY, seat.position.z);
+        Vector3 seated = new Vector3(seat.position.x, seat.seatY, seat.position.z);
         guest.position = seated;
         guest.rotation = Quaternion.Euler(0f, seat.yaw, 0f);
         AttachSittingCollider(guest);
@@ -1123,7 +1201,7 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         {
             seatedGuestPositions[index] = seated;
             seatedGuestYaws[index] = seat.yaw;
-            seatedGuestHipYs[index] = seat.hipY;
+            seatedGuestSeatYs[index] = seat.seatY;
         }
 
         Animator animator = FindAnimator(guest);
@@ -1141,6 +1219,9 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         animator.speed = 0.9f + (index % 4) * 0.05f;
         animator.Play(SittingStates[seat.sitIndex % SittingStates.Length], 0, 0.2f + (index * 0.07f) % 0.6f);
         animator.Update(0f);
+        SettleSittingGuest(guest, seat.seatY);
+        if (seatedGuestPositions != null && index < seatedGuestPositions.Length)
+            seatedGuestPositions[index] = guest.position;
     }
 
     void SpawnInfectedRearGuests()
@@ -1301,14 +1382,14 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
     {
         public Vector3 position;
         public float yaw;
-        public float hipY;
+        public float seatY;
         public int sitIndex;
 
-        public GuestSeat(Vector3 position, float yaw, float hipY, int sitIndex)
+        public GuestSeat(Vector3 position, float yaw, float seatY, int sitIndex)
         {
             this.position = position;
             this.yaw = yaw;
-            this.hipY = hipY;
+            this.seatY = seatY;
             this.sitIndex = sitIndex;
         }
     }
@@ -1462,19 +1543,44 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         DisableCharacterController(character);
         Vector3 seated = character.position;
         float yaw = character.eulerAngles.y;
+        float seatY = sittingHipY;
         if (seatedGuestPositions != null && index < seatedGuestPositions.Length && seatedGuestPositions[index] != Vector3.zero)
         {
-            seated = seatedGuestPositions[index];
+            seated.x = seatedGuestPositions[index].x;
+            seated.z = seatedGuestPositions[index].z;
             yaw = seatedGuestYaws[index];
         }
 
-        seated.y = sittingRootY;
+        if (seatedGuestSeatYs != null && index < seatedGuestSeatYs.Length && seatedGuestSeatYs[index] > 0.1f)
+            seatY = seatedGuestSeatYs[index];
+
         character.position = seated;
         character.rotation = Quaternion.Euler(0f, yaw, 0f);
-        float hipY = sittingHipY;
-        if (seatedGuestHipYs != null && index < seatedGuestHipYs.Length && seatedGuestHipYs[index] > 0.1f)
-            hipY = seatedGuestHipYs[index];
-        PinHipsTo(character, hipY);
+        SettleSittingGuest(character, seatY);
+    }
+
+    void SettleSittingGuest(Transform character, float seatY)
+    {
+        if (character == null)
+            return;
+
+        Animator animator = FindAnimator(character);
+        float scale = Mathf.Max(character.lossyScale.y, 0.25f);
+        Transform leftThigh = animator != null ? animator.GetBoneTransform(HumanBodyBones.LeftUpperLeg) : null;
+        Transform rightThigh = animator != null ? animator.GetBoneTransform(HumanBodyBones.RightUpperLeg) : null;
+        Transform hips = animator != null ? animator.GetBoneTransform(HumanBodyBones.Hips) : null;
+
+        float referenceY;
+        if (leftThigh != null && rightThigh != null)
+            referenceY = (leftThigh.position.y + rightThigh.position.y) * 0.5f;
+        else if (hips != null)
+            referenceY = hips.position.y;
+        else
+            return;
+
+        float contactY = referenceY - sittingThighPad * scale;
+        float targetY = seatY + sittingSeatClearance;
+        character.position += Vector3.up * (targetY - contactY);
     }
 
     static void LiftHipsToMinimum(Transform character, float minHipY)
