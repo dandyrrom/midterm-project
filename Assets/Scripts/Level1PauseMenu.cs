@@ -302,27 +302,27 @@ public class Level1PauseMenu : MonoBehaviour
         GUI.DrawTexture(new Rect(0f, 0f, panelWidth, height), panelTexture);
         GUI.DrawTexture(new Rect(panelWidth, 0f, 2f * scale, height), goldTexture);
 
-        titleStyle.fontSize = Mathf.RoundToInt(82f * scale);
-        subtitleStyle.fontSize = Mathf.RoundToInt(17f * scale);
+        titleStyle.fontSize = Mathf.RoundToInt(160f * scale);
+        subtitleStyle.fontSize = Mathf.RoundToInt(22f * scale);
         GUI.Label(
-            new Rect(62f * scale, 82f * scale, panelWidth - 100f * scale, 100f * scale),
+            new Rect(62f * scale, 72f * scale, panelWidth - 100f * scale, 180f * scale),
             "LUNAS",
             LeftAligned(titleStyle));
         GUI.Label(
-            new Rect(68f * scale, 172f * scale, panelWidth - 100f * scale, 34f * scale),
+            new Rect(68f * scale, 248f * scale, panelWidth - 100f * scale, 40f * scale),
             "PAUSED",
             LeftAligned(subtitleStyle));
 
-        float buttonY = height * 0.4f;
-        float buttonHeight = 58f * scale;
-        menuStyle.fontSize = Mathf.RoundToInt(25f * scale);
+        float buttonY = height * 0.42f;
+        float buttonHeight = 72f * scale;
+        menuStyle.fontSize = Mathf.RoundToInt(38f * scale);
         selectedMenuStyle.fontSize = menuStyle.fontSize;
 
         for (int i = 0; i < menuItems.Length; i++)
         {
             Rect buttonRect = new Rect(
                 68f * scale,
-                buttonY + i * 76f * scale,
+                buttonY + i * 92f * scale,
                 panelWidth - 136f * scale,
                 buttonHeight);
 
@@ -331,7 +331,7 @@ public class Level1PauseMenu : MonoBehaviour
 
             if (i == selectedItem)
                 GUI.DrawTexture(
-                    new Rect(buttonRect.x - 18f * scale, buttonRect.y + 9f * scale, 4f * scale, 35f * scale),
+                    new Rect(buttonRect.x - 18f * scale, buttonRect.y + 14f * scale, 4f * scale, 42f * scale),
                     goldTexture);
 
             GUIStyle style = i == selectedItem ? selectedMenuStyle : menuStyle;
