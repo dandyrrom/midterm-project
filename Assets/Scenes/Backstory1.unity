@@ -27774,12 +27774,27 @@ MonoBehaviour:
   ceilingLightIntensity: 4.5
   ceilingLightRange: 12
   groomDisturbedPosition: {x: 298.5, y: 3.07, z: 37.8}
-  elderRearAisleWaypoint: {x: 297.2, y: 2.53, z: 54.5}
-  elderFrontAisleWaypoint: {x: 297.2, y: 2.53, z: 45}
-  elderDestination: {x: 299, y: 2.53, z: 41.5}
+  elderStartPosition: {x: 303.46, y: 2.53, z: 58.2}
+  elderRearAisleWaypoint: {x: 303.46, y: 2.53, z: 52}
+  elderFrontAisleWaypoint: {x: 303.46, y: 2.53, z: 45.5}
+  elderDestination: {x: 300.2, y: 2.53, z: 41.1}
+  elderWatchCameraPosition: {x: 298.6, y: 4.15, z: 37.4}
   aswangDestination: {x: 309, y: 2.53, z: 48}
-  elderWalkDuration: 3.5
+  elderWalkDuration: 7.2
   aswangWalkDuration: 3
+  groomHitHoldDuration: 1.9
+  brideShockStepDuration: 1.15
+  brideShockStepDistance: 0.75
+  maleGuestSource: {fileID: 2147000081}
+  femaleGuestSource: {fileID: 2147000031}
+  spawnSittingGuests: 1
+  spawnInfectedRearGuests: 1
+  infectedRearStartPositions:
+  - {x: 300.4, y: 2.53, z: 57.2}
+  - {x: 306.3, y: 2.53, z: 56.8}
+  infectedRearDestinations:
+  - {x: 301, y: 2.53, z: 49.6}
+  - {x: 306.9, y: 2.53, z: 50.1}
 --- !u!1001 &2147000030
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -27818,7 +27833,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 7831b9c8a3c896a4b94cac9bb2c6ddae, type: 3}
       propertyPath: m_Name
-      value: Elder
+      value: Female Guest Source
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 7831b9c8a3c896a4b94cac9bb2c6ddae, type: 3}
       propertyPath: m_IsActive
@@ -27837,6 +27852,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7831b9c8a3c896a4b94cac9bb2c6ddae, type: 3}
+--- !u!4 &2147000031 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 7831b9c8a3c896a4b94cac9bb2c6ddae, type: 3}
+  m_PrefabInstance: {fileID: 2147000030}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2147000040
 PrefabInstance:
   m_ObjectHideFlags: 0
