@@ -478,6 +478,11 @@ MonoBehaviour:
   fadeDuration: 1.4
   cameraDrift: 0.35
   cameraDriftSpeed: 0.22
+  bloodVictimZombieFont: {fileID: 0}
+  menuMusicClip: {fileID: 8300000, guid: 5b301153558564b468e5818a240924af, type: 3}
+  menuMusicVolume: 0.4
+  menuMusicFadeIn: 1.5
+  menuMusicFadeOut: 0.75
   darkTexture: {fileID: 0}
   goldTexture: {fileID: 0}
   titleStyle:

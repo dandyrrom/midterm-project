@@ -18,6 +18,13 @@ public sealed class SplashScreenController : MonoBehaviour
     [Header("Typography")]
     [SerializeField] Font bloodVictimZombieFont;
 
+    [Header("Start menu music")]
+    [Tooltip("Loops only while the start menu (and How To Play) is open — not during splash.")]
+    [SerializeField] AudioClip menuMusicClip;
+    [SerializeField, Range(0f, 1f)] float menuMusicVolume = 0.4f;
+    [SerializeField, Min(0f)] float menuMusicFadeIn = 1.5f;
+    [SerializeField, Min(0f)] float menuMusicFadeOut = 0.75f;
+
     enum ScreenState
     {
         Splash,
@@ -49,6 +56,8 @@ public sealed class SplashScreenController : MonoBehaviour
     ScreenState state;
     float stateStartedAt;
     int selectedItem;
+    AudioSource menuMusicSource;
+    Coroutine menuMusicFadeRoutine;
 
     void Awake()
     {
@@ -66,6 +75,14 @@ public sealed class SplashScreenController : MonoBehaviour
         goldTexture = MakeTexture(new Color(0.86f, 0.16f, 0.18f, 1f));
         discTexture = MakeDisc(256, new Color(0.1f, 0.02f, 0.03f, 1f));
         ringTexture = MakeRing(256, new Color(0.92f, 0.78f, 0.55f, 1f), 0.78f, 0.97f);
+
+        menuMusicSource = gameObject.GetComponent<AudioSource>();
+        if (menuMusicSource == null)
+            menuMusicSource = gameObject.AddComponent<AudioSource>();
+        menuMusicSource.playOnAwake = false;
+        menuMusicSource.loop = true;
+        menuMusicSource.spatialBlend = 0f;
+        menuMusicSource.volume = 0f;
     }
 
     void ResolveMenuFont()
@@ -128,6 +145,7 @@ public sealed class SplashScreenController : MonoBehaviour
     {
         state = ScreenState.Menu;
         stateStartedAt = Time.unscaledTime;
+        StartMenuMusic();
     }
 
     void ActivateMenuItem(int index)
@@ -155,6 +173,7 @@ public sealed class SplashScreenController : MonoBehaviour
 
         state = ScreenState.Loading;
         stateStartedAt = Time.unscaledTime;
+        StopMenuMusic();
         yield return new WaitForSecondsRealtime(0.35f);
 
         if (Application.CanStreamedLevelBeLoaded(nextScene))
@@ -164,6 +183,74 @@ public sealed class SplashScreenController : MonoBehaviour
             Debug.LogError($"Cannot load '{nextScene}'. Add the scene to Build Settings.");
             ShowMenu();
         }
+    }
+
+    void StartMenuMusic()
+    {
+        if (menuMusicSource == null || menuMusicClip == null)
+            return;
+
+        if (menuMusicSource.clip != menuMusicClip)
+            menuMusicSource.clip = menuMusicClip;
+
+        menuMusicSource.loop = true;
+        if (!menuMusicSource.isPlaying)
+            menuMusicSource.Play();
+
+        float target = Mathf.Clamp01(menuMusicVolume);
+        if (menuMusicFadeIn > 0f)
+            StartMenuMusicFade(menuMusicSource.volume, target, menuMusicFadeIn, stopWhenDone: false);
+        else
+            menuMusicSource.volume = target;
+    }
+
+    void StopMenuMusic()
+    {
+        if (menuMusicSource == null || !menuMusicSource.isPlaying)
+            return;
+
+        if (menuMusicFadeOut > 0f)
+            StartMenuMusicFade(menuMusicSource.volume, 0f, menuMusicFadeOut, stopWhenDone: true);
+        else
+        {
+            StopMenuMusicFade();
+            menuMusicSource.Stop();
+            menuMusicSource.volume = 0f;
+        }
+    }
+
+    void StartMenuMusicFade(float from, float to, float duration, bool stopWhenDone)
+    {
+        StopMenuMusicFade();
+        menuMusicFadeRoutine = StartCoroutine(MenuMusicFadeRoutine(from, to, duration, stopWhenDone));
+    }
+
+    void StopMenuMusicFade()
+    {
+        if (menuMusicFadeRoutine == null)
+            return;
+
+        StopCoroutine(menuMusicFadeRoutine);
+        menuMusicFadeRoutine = null;
+    }
+
+    IEnumerator MenuMusicFadeRoutine(float from, float to, float duration, bool stopWhenDone)
+    {
+        menuMusicSource.volume = from;
+        float elapsed = 0f;
+        while (elapsed < duration)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            float t = duration <= 0f ? 1f : Mathf.Clamp01(elapsed / duration);
+            menuMusicSource.volume = Mathf.Lerp(from, to, t);
+            yield return null;
+        }
+
+        menuMusicSource.volume = to;
+        menuMusicFadeRoutine = null;
+
+        if (stopWhenDone && menuMusicSource.isPlaying)
+            menuMusicSource.Stop();
     }
 
     static void QuitGame()
@@ -533,6 +620,10 @@ public sealed class SplashScreenController : MonoBehaviour
 
     void OnDestroy()
     {
+        StopMenuMusicFade();
+        if (menuMusicSource != null && menuMusicSource.isPlaying)
+            menuMusicSource.Stop();
+
         if (darkTexture != null)
             Destroy(darkTexture);
         if (panelTexture != null)
