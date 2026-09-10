@@ -7922,9 +7922,9 @@ MonoBehaviour:
   investigateTime: 3
   attackDuration: 1.8
   breathingRange: 1
-  attackRange: 0.5
-  attackReachPadding: 0.5
-  attackDamage: 5
+  attackRange: 0.8
+  attackReachPadding: 0.8
+  attackDamage: 10
   attackHitNormalized: 0.45
   screamHoldDuration: 0.777
   candleFireScreamHoldDuration: 2.3
@@ -29477,9 +29477,9 @@ MonoBehaviour:
   investigateTime: 3
   attackDuration: 1.8
   breathingRange: 1
-  attackRange: 0.5
-  attackReachPadding: 0.5
-  attackDamage: 5
+  attackRange: 0.8
+  attackReachPadding: 0.8
+  attackDamage: 10
   attackHitNormalized: 0.45
   screamHoldDuration: 0.777
   candleFireScreamHoldDuration: 2.3
@@ -44783,9 +44783,9 @@ MonoBehaviour:
   investigateTime: 3
   attackDuration: 1.8
   breathingRange: 1
-  attackRange: 0.5
-  attackReachPadding: 0.5
-  attackDamage: 5
+  attackRange: 0.8
+  attackReachPadding: 0.8
+  attackDamage: 10
   attackHitNormalized: 0.45
   screamHoldDuration: 0.777
   candleFireScreamHoldDuration: 2.3
@@ -47953,9 +47953,9 @@ MonoBehaviour:
   investigateTime: 3
   attackDuration: 1.8
   breathingRange: 1
-  attackRange: 0.5
-  attackReachPadding: 0.5
-  attackDamage: 5
+  attackRange: 0.8
+  attackReachPadding: 0.8
+  attackDamage: 10
   attackHitNormalized: 0.45
   screamHoldDuration: 0.777
   candleFireScreamHoldDuration: 2.3
@@ -70236,9 +70236,9 @@ MonoBehaviour:
   investigateTime: 3
   attackDuration: 1.8
   breathingRange: 1
-  attackRange: 0.5
-  attackReachPadding: 0.5
-  attackDamage: 5
+  attackRange: 0.8
+  attackReachPadding: 0.8
+  attackDamage: 10
   attackHitNormalized: 0.45
   screamHoldDuration: 0.777
   candleFireScreamHoldDuration: 2.3
@@ -74496,9 +74496,9 @@ MonoBehaviour:
   investigateTime: 3
   attackDuration: 1.8
   breathingRange: 1
-  attackRange: 0.5
-  attackReachPadding: 0.5
-  attackDamage: 5
+  attackRange: 0.8
+  attackReachPadding: 0.8
+  attackDamage: 10
   attackHitNormalized: 0.45
   screamHoldDuration: 0.777
   candleFireScreamHoldDuration: 2.3
@@ -87311,9 +87311,9 @@ MonoBehaviour:
   investigateTime: 3
   attackDuration: 1.8
   breathingRange: 1
-  attackRange: 0.5
-  attackReachPadding: 0.5
-  attackDamage: 5
+  attackRange: 0.8
+  attackReachPadding: 0.8
+  attackDamage: 10
   attackHitNormalized: 0.45
   screamHoldDuration: 0.777
   candleFireScreamHoldDuration: 2.3
