@@ -29077,7 +29077,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7071067811865476
+      value: 0.70710677
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
       propertyPath: m_LocalRotation.x
@@ -29085,7 +29085,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.7071067811865475
+      value: 0.70710677
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
       propertyPath: m_LocalRotation.z
@@ -29139,7 +29139,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7071067811865476
+      value: 0.70710677
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
       propertyPath: m_LocalRotation.x
@@ -29147,7 +29147,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.7071067811865475
+      value: 0.70710677
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
       propertyPath: m_LocalRotation.z
@@ -29201,7 +29201,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7071067811865476
+      value: 0.70710677
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
       propertyPath: m_LocalRotation.x
@@ -29209,7 +29209,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.7071067811865475
+      value: 0.70710677
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
       propertyPath: m_LocalRotation.z
@@ -29227,6 +29227,19 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 820f6afb0887e6a42ad92c726a4bfde8, type: 2}
+    - target: {fileID: 5866666021909216657, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_WarningMessage
+      value: "\nBinding warning: Some generic clip(s) animate transforms that are
+        already bound by a Humanoid avatar. These transforms can only be changed
+        by Humanoid clips.\n\tTransform 'mixamorig:Hips'\n\tTransform 'mixamorig:LeftFoot'\n\tTransform
+        'mixamorig:LeftHandThumb2'\n\tTransform 'mixamorig:LeftHandIndex1'\n\tTransform
+        'mixamorig:LeftHandPinky2'\n\tTransform 'mixamorig:RightHandRing2'\n\tTransform
+        'mixamorig:Spine1'\n\tTransform 'mixamorig:LeftToeBase'\n\tTransform 'mixamorig:LeftHandThumb3'\n\tTransform
+        'mixamorig:RightArm'\n\tand more ...\n\tFrom animation clip 'kick-to-the-groin'\n\tFrom
+        animation clip 'getting-hit'\n\tFrom animation clip 'walking-backwards'\n\tFrom
+        animation clip 'female-sitting-pose'\n\tFrom animation clip 'sitting-and-pointing'\n\tFrom
+        animation clip 'sitting-rubbing-arm'"
+      objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
       propertyPath: m_ApplyRootMotion
       value: 0
@@ -29263,7 +29276,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7193398003386512
+      value: 0.7193398
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
       propertyPath: m_LocalRotation.x
@@ -29271,7 +29284,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.6946583704589973
+      value: 0.6946584
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
       propertyPath: m_LocalRotation.z
@@ -29289,6 +29302,19 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 820f6afb0887e6a42ad92c726a4bfde8, type: 2}
+    - target: {fileID: 5866666021909216657, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_WarningMessage
+      value: "\nBinding warning: Some generic clip(s) animate transforms that are
+        already bound by a Humanoid avatar. These transforms can only be changed
+        by Humanoid clips.\n\tTransform 'mixamorig:Hips'\n\tTransform 'mixamorig:LeftFoot'\n\tTransform
+        'mixamorig:LeftHandThumb2'\n\tTransform 'mixamorig:LeftHandIndex1'\n\tTransform
+        'mixamorig:LeftHandPinky2'\n\tTransform 'mixamorig:RightHandRing2'\n\tTransform
+        'mixamorig:Spine1'\n\tTransform 'mixamorig:LeftToeBase'\n\tTransform 'mixamorig:LeftHandThumb3'\n\tTransform
+        'mixamorig:RightArm'\n\tand more ...\n\tFrom animation clip 'kick-to-the-groin'\n\tFrom
+        animation clip 'getting-hit'\n\tFrom animation clip 'walking-backwards'\n\tFrom
+        animation clip 'female-sitting-pose'\n\tFrom animation clip 'sitting-and-pointing'\n\tFrom
+        animation clip 'sitting-rubbing-arm'"
+      objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
       propertyPath: m_ApplyRootMotion
       value: 0
@@ -29325,7 +29351,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.6946583704589973
+      value: 0.6946584
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
       propertyPath: m_LocalRotation.x
@@ -29333,7 +29359,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.7193398003386511
+      value: 0.7193398
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
       propertyPath: m_LocalRotation.z
@@ -29375,7 +29401,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 307.95
+      value: 305.53
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
       propertyPath: m_LocalPosition.y
@@ -29383,11 +29409,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 43.26
+      value: 41.09
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7071067811865476
+      value: 0.70710677
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
       propertyPath: m_LocalRotation.x
@@ -29395,7 +29421,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.7071067811865475
+      value: -0.70710677
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
       propertyPath: m_LocalRotation.z
@@ -29437,7 +29463,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 309.2
+      value: 305.12
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
       propertyPath: m_LocalPosition.y
@@ -29445,11 +29471,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 43.28
+      value: 41.48
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7071067811865476
+      value: 0.70710677
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
       propertyPath: m_LocalRotation.x
@@ -29457,7 +29483,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.7071067811865475
+      value: -0.70710677
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
       propertyPath: m_LocalRotation.z
@@ -29499,7 +29525,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 306.55
+      value: 301.8
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
       propertyPath: m_LocalPosition.y
@@ -29507,11 +29533,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 50.7
+      value: 45.49
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7071067811865476
+      value: 0.70710677
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
       propertyPath: m_LocalRotation.x
@@ -29519,7 +29545,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.7071067811865475
+      value: -0.70710677
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
       propertyPath: m_LocalRotation.z
@@ -29561,7 +29587,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 307.5
+      value: 301.31
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
       propertyPath: m_LocalPosition.y
@@ -29569,11 +29595,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 51.64
+      value: 46.02
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7193398003386512
+      value: 0.7193398
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
       propertyPath: m_LocalRotation.x
@@ -29581,7 +29607,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.6946583704589973
+      value: -0.6946584
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
       propertyPath: m_LocalRotation.z
@@ -29623,7 +29649,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 307.7
+      value: 301.96
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
       propertyPath: m_LocalPosition.y
@@ -29631,11 +29657,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 52.52
+      value: 47.74
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.6946583704589973
+      value: 0.6946584
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
       propertyPath: m_LocalRotation.x
@@ -29643,7 +29669,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.7193398003386511
+      value: -0.7193398
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
       propertyPath: m_LocalRotation.z
@@ -29661,6 +29687,19 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 820f6afb0887e6a42ad92c726a4bfde8, type: 2}
+    - target: {fileID: 5866666021909216657, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_WarningMessage
+      value: "\nBinding warning: Some generic clip(s) animate transforms that are
+        already bound by a Humanoid avatar. These transforms can only be changed
+        by Humanoid clips.\n\tTransform 'mixamorig:Hips'\n\tTransform 'mixamorig:LeftFoot'\n\tTransform
+        'mixamorig:LeftHandThumb2'\n\tTransform 'mixamorig:LeftHandIndex1'\n\tTransform
+        'mixamorig:LeftHandPinky2'\n\tTransform 'mixamorig:RightHandRing2'\n\tTransform
+        'mixamorig:Spine1'\n\tTransform 'mixamorig:LeftToeBase'\n\tTransform 'mixamorig:LeftHandThumb3'\n\tTransform
+        'mixamorig:RightArm'\n\tand more ...\n\tFrom animation clip 'kick-to-the-groin'\n\tFrom
+        animation clip 'getting-hit'\n\tFrom animation clip 'walking-backwards'\n\tFrom
+        animation clip 'female-sitting-pose'\n\tFrom animation clip 'sitting-and-pointing'\n\tFrom
+        animation clip 'sitting-rubbing-arm'"
+      objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
       propertyPath: m_ApplyRootMotion
       value: 0
