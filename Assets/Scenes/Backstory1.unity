@@ -28349,7 +28349,7 @@ MonoBehaviour:
   infectedRearGuests:
   - {fileID: 2148000201}
   - {fileID: 2148000211}
-  guestSitController: {fileID: 9100000, guid: 820f6afb0887e6a42ad92c726a4bfde8, type: 2}
+  guestSitController: {fileID: 9100000, guid: 5bfdcfbb64544cf6b4e818324bfb41f7, type: 2}
   spawnSittingGuests: 1
   spawnInfectedRearGuests: 1
   infectedRearStartPositions:
