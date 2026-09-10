@@ -1391,8 +1391,18 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
 
         guest.gameObject.SetActive(true);
         DisableCharacterController(guest);
-        KeepGuestAtHomePose(guest, index);
         AttachSittingCollider(guest);
+
+        Vector3 home = seatedGuestPositions != null && index < seatedGuestPositions.Length
+            ? seatedGuestPositions[index]
+            : guest.position;
+        float yaw = seatedGuestYaws != null && index < seatedGuestYaws.Length
+            ? seatedGuestYaws[index]
+            : guest.eulerAngles.y;
+
+        // Keep the guest's aisle/pew XZ placement; only correct vertical sit height.
+        guest.position = home;
+        guest.rotation = Quaternion.Euler(0f, yaw, 0f);
 
         Animator animator = FindAnimator(guest);
         if (animator == null)
@@ -1410,32 +1420,60 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         animator.Play(SittingStates[index % SittingStates.Length], 0, 0.2f + (index * 0.07f) % 0.6f);
         animator.Update(0f);
 
-        // Keep XZ/yaw, but lift so the sit pose does not sink through the floor/pew.
-        KeepGuestAtHomePose(guest, index);
-        float floorY = seatedGuestPositions[index].y;
-        RaiseGuestAboveFloor(guest, floorY);
+        float seatSurfaceY = EstimateInPlaceSeatHeight(home.y);
+        SitGuestOnSurface(guest, animator, seatSurfaceY);
+
+        // Preserve exact XZ/yaw after the vertical settle.
+        Vector3 seated = guest.position;
+        seated.x = home.x;
+        seated.z = home.z;
+        guest.position = seated;
+        guest.rotation = Quaternion.Euler(0f, yaw, 0f);
         CaptureGuestHomePose(guest, index);
     }
 
-    static void RaiseGuestAboveFloor(Transform guest, float floorY)
+    float EstimateInPlaceSeatHeight(float standingRootY)
+    {
+        // Mixamo sit clips drop the hips a lot. Raise them onto a seat-like height
+        // without changing the guest's placed XZ position.
+        float fromStanding = standingRootY + 0.55f;
+        float fromChurch = churchFloorY + 0.55f;
+        return Mathf.Max(fromStanding, fromChurch, sittingRootY);
+    }
+
+    static void SitGuestOnSurface(Transform guest, Animator animator, float seatSurfaceY)
     {
         if (guest == null)
             return;
 
-        float lowest = float.PositiveInfinity;
-        SkinnedMeshRenderer[] meshes = guest.GetComponentsInChildren<SkinnedMeshRenderer>();
-        for (int i = 0; i < meshes.Length; i++)
+        Transform leftThigh = animator != null ? animator.GetBoneTransform(HumanBodyBones.LeftUpperLeg) : null;
+        Transform rightThigh = animator != null ? animator.GetBoneTransform(HumanBodyBones.RightUpperLeg) : null;
+        Transform hips = animator != null ? animator.GetBoneTransform(HumanBodyBones.Hips) : null;
+
+        float contactY;
+        if (leftThigh != null && rightThigh != null)
+            contactY = (leftThigh.position.y + rightThigh.position.y) * 0.5f;
+        else if (hips != null)
+            contactY = hips.position.y - 0.12f;
+        else
         {
-            if (meshes[i] != null)
-                lowest = Mathf.Min(lowest, meshes[i].bounds.min.y);
+            // Fallback: hard lift so they cannot remain buried in the floor.
+            guest.position += Vector3.up * 0.6f;
+            return;
         }
 
-        if (float.IsPositiveInfinity(lowest))
-            return;
-
-        float lift = (floorY + 0.02f) - lowest;
-        if (lift > 0.001f)
+        float lift = seatSurfaceY - contactY;
+        if (Mathf.Abs(lift) > 0.001f)
             guest.position += Vector3.up * lift;
+
+        // Second pass after moving root, because humanoid bones move with it.
+        if (leftThigh != null && rightThigh != null)
+        {
+            contactY = (leftThigh.position.y + rightThigh.position.y) * 0.5f;
+            lift = seatSurfaceY - contactY;
+            if (Mathf.Abs(lift) > 0.001f)
+                guest.position += Vector3.up * lift;
+        }
     }
 
     void KeepGuestAtHomePose(Transform character, int index)
