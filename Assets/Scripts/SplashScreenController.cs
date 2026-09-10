@@ -396,10 +396,11 @@ public sealed class SplashScreenController : MonoBehaviour
 
     void DrawLoading()
     {
+        float scale = UiScale();
         GUI.DrawTexture(new Rect(0f, 0f, Screen.width, Screen.height), darkTexture);
-        subtitleStyle.fontSize = Mathf.RoundToInt(22f * UiScale());
+        subtitleStyle.fontSize = Mathf.RoundToInt(40f * scale);
         GUI.Label(
-            new Rect(0f, Screen.height * 0.48f, Screen.width, 40f * UiScale()),
+            new Rect(0f, Screen.height * 0.46f, Screen.width, 70f * scale),
             "ENTERING THE WEDDING...",
             subtitleStyle);
     }
