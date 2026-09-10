@@ -75,6 +75,7 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
     [SerializeField] Transform[] guestSources;
     [SerializeField] Transform[] infectedRearGuests;
     [SerializeField] RuntimeAnimatorController guestSitController;
+    [SerializeField] RuntimeAnimatorController guestStandController;
     [SerializeField] bool spawnSittingGuests = true;
     [SerializeField] bool spawnInfectedRearGuests = true;
     [SerializeField] Vector3[] infectedRearStartPositions =
@@ -126,6 +127,7 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
     bool isTransitioning;
     bool sequenceComplete;
     bool awaitingCeremonyStart;
+    bool guestsAreSeated;
     bool faceBrideTowardElder;
 
     void Awake()
@@ -195,6 +197,9 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
             Midpoint(sherall, groom, 0f) + new Vector3(0f, 2.4f, 4.8f),
             Midpoint(sherall, groom, 1.35f),
             42f);
+
+        // Guests stand during the bridal entrance; sit once the vows begin.
+        SeatGuestsInPlaceForVows();
 
         yield return ShowLine(
             "NARRATION",
@@ -1084,17 +1089,19 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         GuestSeat[] seats = BuildPewSeats();
         if (sittingGuests != null && sittingGuests.Length > 0)
         {
+            // Keep guests at their scene placements. Stand first; sit at vows.
             seatedGuestPositions = new Vector3[sittingGuests.Length];
             seatedGuestYaws = new float[sittingGuests.Length];
             seatedGuestSeatYs = new float[sittingGuests.Length];
+            guestsAreSeated = false;
             for (int i = 0; i < sittingGuests.Length; i++)
             {
                 Transform guest = sittingGuests[i];
                 if (guest == null)
                     continue;
 
-                GuestSeat seat = seats[i % seats.Length];
-                ApplySittingPose(guest, seat, i);
+                CaptureGuestHomePose(guest, i);
+                ApplyStandingPoseInPlace(guest, i);
             }
 
             return;
@@ -1281,6 +1288,120 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
     {
         value.y = 0f;
         return value;
+    }
+
+    void CaptureGuestHomePose(Transform guest, int index)
+    {
+        if (guest == null || seatedGuestPositions == null || index < 0 || index >= seatedGuestPositions.Length)
+            return;
+
+        seatedGuestPositions[index] = guest.position;
+        seatedGuestYaws[index] = guest.eulerAngles.y;
+        seatedGuestSeatYs[index] = guest.position.y;
+    }
+
+    void ApplyStandingPoseInPlace(Transform guest, int index)
+    {
+        if (guest == null)
+            return;
+
+        guest.gameObject.SetActive(true);
+        DisableCharacterController(guest);
+        KeepGuestAtHomePose(guest, index);
+
+        Animator animator = FindAnimator(guest);
+        if (animator == null)
+            return;
+
+        RuntimeAnimatorController controller = guestStandController;
+        if (controller == null && guestSitController == null && sherallAnimator != null)
+            controller = sherallAnimator.runtimeAnimatorController;
+        if (controller == null)
+            controller = guestSitController;
+        if (controller != null)
+            animator.runtimeAnimatorController = controller;
+
+        animator.applyRootMotion = false;
+        animator.cullingMode = AnimatorCullingMode.AlwaysAnimate;
+        animator.speed = 1f;
+        if (guestStandController != null)
+            animator.Play("idle", 0, (index * 0.13f) % 1f);
+        else
+        {
+            animator.SetFloat(SpeedHash, 0f);
+            animator.Play("Blend Tree", 0, 0f);
+        }
+        animator.Update(0f);
+        KeepGuestAtHomePose(guest, index);
+    }
+
+    void SeatGuestsInPlaceForVows()
+    {
+        if (sittingGuests == null || sittingGuests.Length == 0)
+            return;
+
+        if (seatedGuestPositions == null || seatedGuestPositions.Length != sittingGuests.Length)
+        {
+            seatedGuestPositions = new Vector3[sittingGuests.Length];
+            seatedGuestYaws = new float[sittingGuests.Length];
+            seatedGuestSeatYs = new float[sittingGuests.Length];
+        }
+
+        for (int i = 0; i < sittingGuests.Length; i++)
+        {
+            Transform guest = sittingGuests[i];
+            if (guest == null)
+                continue;
+
+            if (seatedGuestPositions[i] == Vector3.zero)
+                CaptureGuestHomePose(guest, i);
+            ApplySittingPoseInPlace(guest, i);
+        }
+
+        guestsAreSeated = true;
+    }
+
+    void ApplySittingPoseInPlace(Transform guest, int index)
+    {
+        if (guest == null)
+            return;
+
+        guest.gameObject.SetActive(true);
+        DisableCharacterController(guest);
+        KeepGuestAtHomePose(guest, index);
+        AttachSittingCollider(guest);
+
+        Animator animator = FindAnimator(guest);
+        if (animator == null)
+            return;
+
+        RuntimeAnimatorController controller = guestSitController;
+        if (controller == null && sherallAnimator != null)
+            controller = sherallAnimator.runtimeAnimatorController;
+        if (controller != null)
+            animator.runtimeAnimatorController = controller;
+
+        animator.applyRootMotion = false;
+        animator.cullingMode = AnimatorCullingMode.AlwaysAnimate;
+        animator.speed = 0.9f + (index % 4) * 0.05f;
+        animator.Play(SittingStates[index % SittingStates.Length], 0, 0.2f + (index * 0.07f) % 0.6f);
+        animator.Update(0f);
+        // Do not settle/move them — keep the exact scene placement.
+        KeepGuestAtHomePose(guest, index);
+    }
+
+    void KeepGuestAtHomePose(Transform character, int index)
+    {
+        if (character == null || !character.gameObject.activeInHierarchy)
+            return;
+        if (seatedGuestPositions == null || index < 0 || index >= seatedGuestPositions.Length)
+            return;
+        if (seatedGuestPositions[index] == Vector3.zero)
+            return;
+
+        DisableCharacterController(character);
+        character.position = seatedGuestPositions[index];
+        character.rotation = Quaternion.Euler(0f, seatedGuestYaws[index], 0f);
     }
 
     void ApplySittingPose(Transform guest, GuestSeat seat, int index)
@@ -1506,7 +1627,12 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         if (sittingGuests != null)
         {
             for (int i = 0; i < sittingGuests.Length; i++)
-                KeepSittingOnBench(sittingGuests[i], i);
+            {
+                if (guestsAreSeated)
+                    KeepGuestAtHomePose(sittingGuests[i], i);
+                else
+                    KeepGuestAtHomePose(sittingGuests[i], i);
+            }
         }
 
         if (infectedRearGuests != null)
