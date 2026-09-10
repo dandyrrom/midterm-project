@@ -233,10 +233,6 @@ public sealed class SplashScreenController : MonoBehaviour
             new Rect(0f, height * 0.82f, width, 30f * scale),
             "BAWANG  •  KANDILA  •  PUKSAIN ANG MGA ASWANG",
             promptStyle);
-        GUI.Label(
-            new Rect(0f, height * 0.91f, width, 26f * scale),
-            "PRESS ANY KEY",
-            promptStyle);
         GUI.color = previous;
     }
 
