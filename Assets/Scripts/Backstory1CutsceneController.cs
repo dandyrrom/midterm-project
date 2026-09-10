@@ -174,6 +174,7 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
 
         SpawnSittingGuests();
         SpawnInfectedRearGuests();
+        OpenAisleForBride();
         LockAllAnimatorsToGround();
     }
 
@@ -408,12 +409,21 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
 
     bool BrideReachedGroom()
     {
-        if (sherall == null || groom == null)
+        if (sherall == null)
             return false;
 
-        Vector3 separation = sherall.position - groom.position;
-        separation.y = 0f;
-        return separation.sqrMagnitude <= ceremonyTriggerDistance * ceremonyTriggerDistance;
+        Vector3 bride = sherall.position;
+        if (groom != null && HorizontalDistanceSq(bride, groom.position) <=
+            ceremonyTriggerDistance * ceremonyTriggerDistance)
+            return true;
+
+        if (HorizontalDistanceSq(bride, brideCeremonyPosition) <=
+            ceremonyTriggerDistance * ceremonyTriggerDistance)
+            return true;
+
+        bool inAisle = Mathf.Abs(bride.x - brideEntryPosition.x) <= 3.6f;
+        bool atFront = bride.z <= altarFrontZ + 2.4f && bride.z >= altarFrontZ - 5.5f;
+        return inAisle && atFront;
     }
 
     void TakeCinematicControl()
@@ -893,13 +903,9 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
 
             string objectName = meshFilter.gameObject.name.ToLowerInvariant();
             bool needsCollider =
-                objectName.Contains("bench") ||
                 objectName.Contains("owenground") ||
                 objectName.Contains("ground") ||
-                objectName.Contains("floor") ||
-                objectName.Contains("flowerstand") ||
-                objectName.Contains("foliageplant") ||
-                objectName.Contains("sm_flowers");
+                objectName.Contains("floor");
             if (!needsCollider || meshFilter.GetComponent<Collider>() != null)
                 continue;
 
@@ -934,6 +940,7 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
             BoxCollider box = seat.AddComponent<BoxCollider>();
             box.center = new Vector3(0f, 0.02f, 0.02f);
             box.size = new Vector3(1.6f, 0.42f, 0.1f);
+            box.isTrigger = true;
         }
 
         Physics.SyncTransforms();
@@ -1023,6 +1030,9 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
             {
                 float slot = guestCount == 1 ? 0f : (i - (guestCount - 1) * 0.5f) * 0.38f;
                 Vector3 position = pew.position + along * slot + face * pewSeatOffset - face * pewBackOffset;
+                if (Mathf.Abs(position.x - brideEntryPosition.x) < 1.2f)
+                    continue;
+
                 position.y = sittingRootY;
                 float hipY = pew.position.y + sittingSeatClearance;
                 if (hipY < sittingHipY)
@@ -1228,6 +1238,13 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         foreach (CharacterController controller in guest.GetComponentsInChildren<CharacterController>(true))
             Destroy(controller);
 
+        foreach (Collider collider in guest.GetComponentsInChildren<Collider>(true))
+        {
+            if (collider == null || collider is CharacterController)
+                continue;
+            collider.isTrigger = true;
+        }
+
         foreach (Camera camera in guest.GetComponentsInChildren<Camera>(true))
             Destroy(camera);
 
@@ -1286,7 +1303,8 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         if (sequenceComplete && !awaitingCeremonyStart)
             return;
 
-        KeepStandingOnFloor(sherall, standingHipHeight);
+        if (!awaitingCeremonyStart)
+            KeepStandingOnFloor(sherall, standingHipHeight);
         KeepStandingOnFloor(groom, standingHipHeight);
         KeepStandingOnFloor(priest, standingHipHeight);
         KeepStandingOnFloor(elder, standingHipHeight);
@@ -1308,12 +1326,96 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
     {
         CreateChurchGround(
             "Church Ceremony Floor",
-            new Vector3(303.46f, churchFloorY, 49f),
-            new Vector3(22f, 0.25f, 26f));
-        CreateChurchGround(
-            "Church Altar Floor",
-            new Vector3(300.5f, altarFloorY, 38.2f),
-            new Vector3(16f, 0.25f, 8f));
+            new Vector3(303.46f, churchFloorY, 47f),
+            new Vector3(22f, 0.25f, 32f));
+    }
+
+    void OpenAisleForBride()
+    {
+        if (sherall == null)
+            return;
+
+        CharacterController bride = sherall.GetComponent<CharacterController>();
+        if (bride == null)
+            return;
+
+        Transform[] pews = FindOriginalWeddingPews();
+        for (int i = 0; i < pews.Length; i++)
+        {
+            IgnoreColliders(bride, pews[i]);
+            DisableSolidColliders(pews[i]);
+        }
+
+        Transform[] props = FindObjectsByType<Transform>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
+        for (int i = 0; i < props.Length; i++)
+        {
+            Transform prop = props[i];
+            if (prop == null || !InWeddingNave(prop.position))
+                continue;
+
+            string objectName = prop.name.ToLowerInvariant();
+            if (objectName.Contains("flower") ||
+                objectName.Contains("foliage") ||
+                objectName.Contains("plant") ||
+                objectName.Contains("bench"))
+            {
+                IgnoreColliders(bride, prop);
+                DisableSolidColliders(prop);
+            }
+        }
+
+        if (sittingGuests != null)
+        {
+            for (int i = 0; i < sittingGuests.Length; i++)
+                IgnoreColliders(bride, sittingGuests[i]);
+        }
+
+        IgnoreColliders(bride, groom);
+        IgnoreColliders(bride, priest);
+    }
+
+    static bool InWeddingNave(Vector3 position)
+    {
+        return position.x >= 290f && position.x <= 320f &&
+            position.z >= 35f && position.z <= 65f &&
+            position.y >= 2f && position.y <= 6f;
+    }
+
+    static void IgnoreColliders(CharacterController bride, Transform root)
+    {
+        if (bride == null || root == null)
+            return;
+
+        Collider[] colliders = root.GetComponentsInChildren<Collider>(true);
+        for (int i = 0; i < colliders.Length; i++)
+        {
+            Collider other = colliders[i];
+            if (other == null || other == bride)
+                continue;
+            Physics.IgnoreCollision(bride, other, true);
+        }
+    }
+
+    static void DisableSolidColliders(Transform root)
+    {
+        if (root == null)
+            return;
+
+        Collider[] colliders = root.GetComponentsInChildren<Collider>(true);
+        for (int i = 0; i < colliders.Length; i++)
+        {
+            Collider other = colliders[i];
+            if (other == null || other.isTrigger || other is CharacterController)
+                continue;
+            other.enabled = false;
+        }
+    }
+
+    static float HorizontalDistanceSq(Vector3 a, Vector3 b)
+    {
+        float dx = a.x - b.x;
+        float dz = a.z - b.z;
+        return dx * dx + dz * dz;
     }
 
     void CreateChurchGround(string objectName, Vector3 position, Vector3 size)
@@ -1626,7 +1728,7 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
             speakerStyle);
         GUI.Label(
             new Rect(left, panelY + 44f * scale, panelWidth - 60f * scale, 50f * scale),
-            "Use WASD to walk Sherall down the flower aisle to the groom. The ceremony begins when you reach him.",
+            "Use WASD to walk Sherall down the flower aisle. The ceremony begins when you reach the front, before the groom.",
             dialogueStyle);
     }
 
