@@ -57,10 +57,10 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
     [SerializeField] float churchFloorY = 2.53f;
     [SerializeField] float altarFloorY = 3.03f;
     [SerializeField] float sittingRootY = 2.72f;
-    [SerializeField] float sittingHipY = 3.14f;
+    [SerializeField] float sittingHipY = 3.12f;
     [SerializeField] float standingHipHeight = 0.9f;
     [SerializeField] float altarFrontZ = 41.4f;
-    [SerializeField] float pewSeatOffset = 0.28f;
+    [SerializeField] float pewSeatOffset = 0.12f;
 
     [Header("Infection Reactions")]
     [SerializeField, Min(0.1f)] float groomHitHoldDuration = 2.35f;
@@ -946,7 +946,7 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
             if (IsForbiddenGuestSource(source))
                 continue;
 
-            Transform guest = InstantiateGuest(source, $"Wedding Guest {i + 1}", 0.98f + (i % 3) * 0.02f);
+            Transform guest = InstantiateGuest(source, $"Wedding Guest {i + 1}", WeddingGuestScale());
             if (guest == null)
                 continue;
 
@@ -956,32 +956,91 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
 
     GuestSeat[] BuildPewSeats()
     {
-        float[] rowZ =
-        {
-            43.9f, 45.5f, 47.1f, 48.7f, 50.3f, 51.9f, 53.5f, 55.1f, 56.7f
-        };
-        float[] leftX = { 297.45f, 299.15f, 300.75f };
-        float[] rightX = { 307.05f, 308.75f, 310.35f };
         var seats = new List<GuestSeat>(40);
+        Transform[] pews = FindOriginalWeddingPews();
         int sitIndex = 0;
-        for (int row = 0; row < rowZ.Length; row++)
+        for (int p = 0; p < pews.Length && seats.Count < 40; p++)
         {
-            float seatZ = rowZ[row] - pewSeatOffset;
-            int leftCount = row == 2 || row == 5 || row == 8 ? 3 : 2;
-            int rightCount = row == 1 || row == 4 || row == 7 ? 3 : 2;
-            for (int i = 0; i < leftCount && seats.Count < 40; i++)
-                seats.Add(new GuestSeat(new Vector3(leftX[i], sittingRootY, seatZ), 180f, sitIndex++));
-            for (int i = 0; i < rightCount && seats.Count < 40; i++)
-                seats.Add(new GuestSeat(new Vector3(rightX[i], sittingRootY, seatZ), 180f, sitIndex++));
+            Transform pew = pews[p];
+            Vector3 along = Horizontal(pew.right);
+            Vector3 face = Horizontal(pew.up);
+            if (face.sqrMagnitude < 0.0001f)
+                face = Horizontal(-pew.forward);
+            along.Normalize();
+            face.Normalize();
+            float yaw = Quaternion.LookRotation(face).eulerAngles.y;
+            int guestCount = pew.position.z >= 43.2f ? 2 : 1;
+            if (seats.Count + guestCount > 40)
+                guestCount = 40 - seats.Count;
+
+            for (int i = 0; i < guestCount; i++)
+            {
+                float slot = guestCount == 1 ? 0f : (i - (guestCount - 1) * 0.5f) * 0.52f;
+                Vector3 position = pew.position + along * slot + face * pewSeatOffset;
+                position.y = sittingRootY;
+                seats.Add(new GuestSeat(position, yaw, sitIndex++));
+            }
         }
 
         return seats.ToArray();
+    }
+
+    Transform[] FindOriginalWeddingPews()
+    {
+        var pews = new List<Transform>();
+        Transform[] all = FindObjectsByType<Transform>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
+        for (int i = 0; i < all.Length; i++)
+        {
+            Transform candidate = all[i];
+            if (candidate == null || !candidate.name.StartsWith("Bench 2"))
+                continue;
+
+            Vector3 position = candidate.position;
+            if (position.x < 290f || position.x > 320f || position.z < 35f || position.z > 65f || position.y < 2f)
+                continue;
+
+            pews.Add(candidate);
+        }
+
+        pews.Sort((a, b) =>
+        {
+            int z = a.position.z.CompareTo(b.position.z);
+            return z != 0 ? z : a.position.x.CompareTo(b.position.x);
+        });
+        return pews.ToArray();
+    }
+
+    float WeddingGuestScale()
+    {
+        float scale = 0f;
+        int count = 0;
+        if (sherall != null)
+        {
+            scale += sherall.localScale.y;
+            count++;
+        }
+
+        if (groom != null)
+        {
+            scale += groom.localScale.y;
+            count++;
+        }
+
+        return count > 0 ? scale / count : 1.25f;
+    }
+
+    static Vector3 Horizontal(Vector3 value)
+    {
+        value.y = 0f;
+        return value;
     }
 
     void ApplySittingPose(Transform guest, GuestSeat seat, int index)
     {
         guest.gameObject.SetActive(true);
         DisableCharacterController(guest);
+        float weddingScale = WeddingGuestScale();
+        guest.localScale = new Vector3(weddingScale, weddingScale, weddingScale);
         Vector3 seated = new Vector3(seat.position.x, sittingRootY, seat.position.z);
         guest.position = seated;
         guest.rotation = Quaternion.Euler(0f, seat.yaw, 0f);
