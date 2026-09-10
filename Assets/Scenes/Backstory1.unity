@@ -28299,9 +28299,9 @@ MonoBehaviour:
   sittingThighPad: 0.13
   standingHipHeight: 0.9
   altarFrontZ: 41.4
-  pewSeatOffset: 0.22
-  pewBackOffset: 0.02
-  sitForwardOffset: 0.32
+  pewSeatOffset: 0.08
+  pewBackOffset: 0.06
+  sitForwardOffset: -0.12
   groomHitHoldDuration: 2.35
   brideShockStepDuration: 3
   brideShockStepDistance: 1.15
