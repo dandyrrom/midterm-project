@@ -53,6 +53,14 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
     [SerializeField, Min(0.1f)] float elderWalkDuration = 7.2f;
     [SerializeField, Min(0.1f)] float aswangWalkDuration = 3f;
 
+    [Header("Church Ground")]
+    [SerializeField] float churchFloorY = 2.53f;
+    [SerializeField] float altarFloorY = 3.03f;
+    [SerializeField] float sittingRootY = 2.92f;
+    [SerializeField] float sittingHipY = 3.08f;
+    [SerializeField] float standingHipHeight = 0.9f;
+    [SerializeField] float altarFrontZ = 41.4f;
+
     [Header("Infection Reactions")]
     [SerializeField, Min(0.1f)] float groomHitHoldDuration = 2.35f;
     [SerializeField, Min(0.1f)] float brideShockStepDuration = 1.35f;
@@ -118,7 +126,7 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
 
         if (awaitingCeremonyStart && sherall != null)
         {
-            sherall.position = brideEntryPosition;
+            sherall.position = SnapToChurchFloor(brideEntryPosition);
             sherall.rotation = Quaternion.Euler(0f, 180f, 0f);
         }
 
@@ -128,6 +136,7 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         elderAnimator = FindAnimator(elder);
         aswangAnimator = FindAnimator(aswangGuest);
         EnsureEnvironmentColliders();
+        EnsureChurchFloor();
         EnsureCharacterColliders();
         OpenExteriorChurchOpenings();
 
@@ -157,6 +166,7 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
 
         SpawnSittingGuests();
         SpawnInfectedRearGuests();
+        LockAllAnimatorsToGround();
     }
 
     IEnumerator Start()
@@ -372,7 +382,7 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
             if (controllerWasEnabled)
                 controller.enabled = false;
 
-            sherall.position = brideCeremonyPosition;
+            sherall.position = SnapToChurchFloor(brideCeremonyPosition);
             sherall.rotation = Quaternion.Euler(brideCeremonyEuler);
 
             if (controllerWasEnabled)
@@ -513,7 +523,7 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         if (away.sqrMagnitude < 0.01f)
             away = -sherall.forward;
 
-        Vector3 destination = start + away.normalized * brideShockStepDistance;
+        Vector3 destination = SnapToChurchFloor(start + away.normalized * brideShockStepDistance);
         FaceTarget(sherall, groom.position);
 
         CharacterController controller = sherall.GetComponent<CharacterController>();
@@ -590,12 +600,12 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         {
             elapsed += Time.unscaledDeltaTime;
             float t = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(elapsed / duration));
-            Vector3 nextPosition = Vector3.Lerp(start, destination, t);
+            Vector3 nextPosition = SnapToChurchFloor(Vector3.Lerp(start, destination, t));
             MoveWithCollision(character, characterController, nextPosition);
             yield return null;
         }
 
-        MoveWithCollision(character, characterController, destination);
+        MoveWithCollision(character, characterController, SnapToChurchFloor(destination));
         SetSpeed(animator, 0f);
     }
 
@@ -647,7 +657,7 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
                 float linearT = Mathf.Clamp01(elapsed / Mathf.Max(segmentDuration, 0.01f));
                 float smoothT = Mathf.SmoothStep(0f, 1f, linearT);
                 character.rotation = Quaternion.Slerp(startRotation, targetRotation, smoothT);
-                Vector3 nextPosition = Vector3.Lerp(start, waypoint, smoothT);
+                Vector3 nextPosition = SnapToChurchFloor(Vector3.Lerp(start, waypoint, smoothT));
                 if (ignoreCollision)
                     character.position = nextPosition;
                 else
@@ -655,10 +665,11 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
                 yield return null;
             }
 
+            Vector3 groundedWaypoint = SnapToChurchFloor(waypoint);
             if (ignoreCollision)
-                character.position = waypoint;
+                character.position = groundedWaypoint;
             else
-                MoveWithCollision(character, characterController, waypoint);
+                MoveWithCollision(character, characterController, groundedWaypoint);
         }
 
         SetSpeed(animator, 0f);
@@ -666,18 +677,22 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
             characterController.enabled = false;
     }
 
-    static void MoveWithCollision(
+    void MoveWithCollision(
         Transform character,
         CharacterController characterController,
         Vector3 destination)
     {
         if (characterController != null && characterController.enabled)
-        {
             characterController.Move(destination - character.position);
-            return;
-        }
+        else
+            character.position = destination;
 
-        character.position = destination;
+        if (character != null)
+        {
+            Vector3 grounded = SnapToChurchFloor(character.position);
+            if (Mathf.Abs(character.position.y - grounded.y) > 0.001f)
+                character.position = grounded;
+        }
     }
 
     IEnumerator MoveCamera(
@@ -743,7 +758,7 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         if (controller != null)
             controller.enabled = false;
 
-        elder.position = elderStartPosition;
+        elder.position = SnapToChurchFloor(elderStartPosition);
         elder.rotation = Quaternion.Euler(0f, 180f, 0f);
     }
 
@@ -871,6 +886,9 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
             string objectName = meshFilter.gameObject.name.ToLowerInvariant();
             bool needsCollider =
                 objectName.Contains("bench") ||
+                objectName.Contains("owenground") ||
+                objectName.Contains("ground") ||
+                objectName.Contains("floor") ||
                 objectName.Contains("flowerstand") ||
                 objectName.Contains("foliageplant") ||
                 objectName.Contains("sm_flowers");
@@ -906,6 +924,10 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
                     continue;
 
                 guest.gameObject.SetActive(true);
+                DisableCharacterController(guest);
+                Vector3 seated = guest.position;
+                seated.y = sittingRootY;
+                guest.position = seated;
                 Animator animator = FindAnimator(guest);
                 if (animator == null)
                     continue;
@@ -945,8 +967,9 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
             if (guest == null)
                 continue;
 
-            guest.position = seats[i].position;
+            guest.position = new Vector3(seats[i].position.x, sittingRootY, seats[i].position.z);
             guest.rotation = Quaternion.Euler(0f, seats[i].yaw, 0f);
+            DisableCharacterController(guest);
             Animator animator = FindAnimator(guest);
             if (animator != null)
             {
@@ -1116,6 +1139,173 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
             this.yaw = yaw;
             this.sitIndex = sitIndex;
         }
+    }
+
+    void LateUpdate()
+    {
+        if (sequenceComplete && !awaitingCeremonyStart)
+            return;
+
+        KeepStandingOnFloor(sherall, standingHipHeight);
+        KeepStandingOnFloor(groom, standingHipHeight);
+        KeepStandingOnFloor(priest, standingHipHeight);
+        KeepStandingOnFloor(elder, standingHipHeight);
+        KeepStandingOnFloor(aswangGuest, standingHipHeight);
+        if (sittingGuests != null)
+        {
+            for (int i = 0; i < sittingGuests.Length; i++)
+                KeepSittingOnBench(sittingGuests[i]);
+        }
+
+        if (infectedRearGuests != null)
+        {
+            for (int i = 0; i < infectedRearGuests.Length; i++)
+                KeepStandingOnFloor(infectedRearGuests[i], standingHipHeight);
+        }
+    }
+
+    void EnsureChurchFloor()
+    {
+        CreateChurchGround(
+            "Church Ceremony Floor",
+            new Vector3(303.46f, churchFloorY, 49f),
+            new Vector3(22f, 0.25f, 26f));
+        CreateChurchGround(
+            "Church Altar Floor",
+            new Vector3(300.5f, altarFloorY, 38.2f),
+            new Vector3(16f, 0.25f, 8f));
+    }
+
+    void CreateChurchGround(string objectName, Vector3 position, Vector3 size)
+    {
+        GameObject ground = new GameObject(objectName);
+        ground.layer = 0;
+        ground.transform.SetParent(transform, false);
+        ground.transform.position = position;
+        BoxCollider collider = ground.AddComponent<BoxCollider>();
+        collider.size = size;
+        collider.center = new Vector3(0f, -size.y * 0.5f + 0.01f, 0f);
+    }
+
+    void LockAllAnimatorsToGround()
+    {
+        LockAnimator(sherallAnimator);
+        LockAnimator(groomAnimator);
+        LockAnimator(priestAnimator);
+        LockAnimator(elderAnimator);
+        LockAnimator(aswangAnimator);
+        if (sittingGuests != null)
+        {
+            for (int i = 0; i < sittingGuests.Length; i++)
+                LockAnimator(FindAnimator(sittingGuests[i]));
+        }
+
+        if (infectedRearGuests != null)
+        {
+            for (int i = 0; i < infectedRearGuests.Length; i++)
+                LockAnimator(FindAnimator(infectedRearGuests[i]));
+        }
+    }
+
+    static void LockAnimator(Animator animator)
+    {
+        if (animator == null)
+            return;
+
+        animator.applyRootMotion = false;
+        animator.updateMode = AnimatorUpdateMode.Normal;
+    }
+
+    float GetChurchFloorY(Vector3 position)
+    {
+        return position.z <= altarFrontZ ? altarFloorY : churchFloorY;
+    }
+
+    Vector3 SnapToChurchFloor(Vector3 position)
+    {
+        position.y = GetChurchFloorY(position);
+        return position;
+    }
+
+    void KeepStandingOnFloor(Transform character, float hipHeight)
+    {
+        if (character == null || !character.gameObject.activeInHierarchy)
+            return;
+
+        float floorY = GetChurchFloorY(character.position);
+        Vector3 position = character.position;
+        position.y = floorY;
+        character.position = position;
+        LiftHipsToMinimum(character, floorY + hipHeight);
+    }
+
+    void KeepSittingOnBench(Transform character)
+    {
+        if (character == null || !character.gameObject.activeInHierarchy)
+            return;
+
+        DisableCharacterController(character);
+        Vector3 position = character.position;
+        position.y = sittingRootY;
+        character.position = position;
+        PinHipsTo(character, sittingHipY);
+    }
+
+    static void LiftHipsToMinimum(Transform character, float minHipY)
+    {
+        Transform hips = GetHips(character);
+        if (hips != null)
+        {
+            float lift = minHipY - hips.position.y;
+            if (lift > 0.01f)
+                character.position += Vector3.up * lift;
+            return;
+        }
+
+        LiftMeshAbove(character, minHipY - 0.9f);
+    }
+
+    static void PinHipsTo(Transform character, float hipY)
+    {
+        Transform hips = GetHips(character);
+        if (hips != null)
+        {
+            character.position += Vector3.up * (hipY - hips.position.y);
+            return;
+        }
+
+        LiftMeshAbove(character, hipY - 0.45f);
+    }
+
+    static void LiftMeshAbove(Transform character, float minY)
+    {
+        SkinnedMeshRenderer renderer = character.GetComponentInChildren<SkinnedMeshRenderer>();
+        if (renderer == null)
+            return;
+
+        float lift = minY - renderer.bounds.min.y;
+        if (lift > 0.01f)
+            character.position += Vector3.up * lift;
+    }
+
+    static Transform GetHips(Transform character)
+    {
+        Animator animator = FindAnimator(character);
+        if (animator == null)
+            return null;
+
+        animator.applyRootMotion = false;
+        return animator.GetBoneTransform(HumanBodyBones.Hips);
+    }
+
+    static void DisableCharacterController(Transform character)
+    {
+        if (character == null)
+            return;
+
+        CharacterController controller = character.GetComponent<CharacterController>();
+        if (controller != null)
+            controller.enabled = false;
     }
 
     static void EnsureCharacterController(Transform character)
