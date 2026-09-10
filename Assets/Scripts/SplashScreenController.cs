@@ -40,6 +40,11 @@ public sealed class SplashScreenController : MonoBehaviour
     GUIStyle bodyStyle;
     GUIStyle promptStyle;
     GUIStyle markStyle;
+    GUIStyle howToTitleStyle;
+    GUIStyle sectionStyle;
+    GUIStyle keyStyle;
+    GUIStyle actionStyle;
+    GUIStyle tipStyle;
     Vector3 cameraStart;
     ScreenState state;
     float stateStartedAt;
@@ -293,26 +298,98 @@ public sealed class SplashScreenController : MonoBehaviour
         float width = Screen.width;
         float height = Screen.height;
         float scale = UiScale();
-        Rect box = new Rect(width * 0.48f, height * 0.12f, width * 0.46f, height * 0.76f);
+        Rect box = new Rect(width * 0.48f, height * 0.08f, width * 0.46f, height * 0.84f);
         GUI.DrawTexture(box, darkTexture);
 
-        subtitleStyle.fontSize = Mathf.RoundToInt(25f * scale);
-        bodyStyle.fontSize = Mathf.RoundToInt(18f * scale);
+        float pad = 42f * scale;
+        float contentLeft = box.x + pad;
+        float contentWidth = box.width - pad * 2f;
+        float keyWidth = contentWidth * 0.38f;
+        float actionLeft = contentLeft + keyWidth + 18f * scale;
+        float actionWidth = contentWidth - keyWidth - 18f * scale;
+        float y = box.y + 28f * scale;
+
+        howToTitleStyle.fontSize = Mathf.RoundToInt(44f * scale);
+        sectionStyle.fontSize = Mathf.RoundToInt(20f * scale);
+        keyStyle.fontSize = Mathf.RoundToInt(20f * scale);
+        actionStyle.fontSize = Mathf.RoundToInt(20f * scale);
+        tipStyle.fontSize = Mathf.RoundToInt(18f * scale);
         promptStyle.fontSize = Mathf.RoundToInt(15f * scale);
 
         GUI.Label(
-            new Rect(box.x + 38f * scale, box.y + 28f * scale, box.width - 76f * scale, 42f * scale),
+            new Rect(contentLeft, y, contentWidth, 52f * scale),
             "HOW TO PLAY",
-            LeftAligned(subtitleStyle));
-        GUI.DrawTexture(
-            new Rect(box.x + 38f * scale, box.y + 78f * scale, 80f * scale, 3f * scale),
-            goldTexture);
+            howToTitleStyle);
+        y += 54f * scale;
+        GUI.DrawTexture(new Rect(contentLeft, y, 96f * scale, 3f * scale), goldTexture);
+        y += 28f * scale;
+
+        GUI.Label(new Rect(contentLeft, y, contentWidth, 28f * scale), "CONTROLS", sectionStyle);
+        y += 34f * scale;
+
+        string[] keys =
+        {
+            "WASD",
+            "CTRL + WASD",
+            "SHIFT",
+            "SPACE",
+            "MOUSE",
+            "E",
+            "F",
+            "G"
+        };
+        string[] actions =
+        {
+            "Walk",
+            "Sneak (silent)",
+            "Run",
+            "Jump",
+            "Look",
+            "Collect bawang / candle",
+            "Throw bawang",
+            "Throw candle"
+        };
+
+        float rowHeight = 30f * scale;
+        for (int i = 0; i < keys.Length; i++)
+        {
+            GUI.Label(new Rect(contentLeft, y, keyWidth, rowHeight), keys[i], keyStyle);
+            GUI.Label(new Rect(actionLeft, y, actionWidth, rowHeight), actions[i], actionStyle);
+            y += rowHeight;
+        }
+
+        y += 18f * scale;
+        GUI.DrawTexture(new Rect(contentLeft, y, contentWidth * 0.55f, 1.5f * scale), goldTexture);
+        y += 20f * scale;
+
+        GUI.Label(new Rect(contentLeft, y, contentWidth, 28f * scale), "SURVIVE", sectionStyle);
+        y += 32f * scale;
+
+        string[] tips =
+        {
+            "Aswang hunt by sound. Hold CTRL to sneak so they cannot hear you.",
+            "Walking, running, and landing from a jump make noise.",
+            "Bawang wounds an aswang. Candle fire burns one to death.",
+            "Carry up to 5 bawang and 1 candle at a time."
+        };
+
+        float tipHeight = 48f * scale;
+        for (int i = 0; i < tips.Length; i++)
+        {
+            GUI.Label(new Rect(contentLeft, y, contentWidth, tipHeight), tips[i], tipStyle);
+            y += 40f * scale;
+        }
+
+        y += 8f * scale;
+        GUI.Label(new Rect(contentLeft, y, contentWidth, 28f * scale), "GOAL", sectionStyle);
+        y += 30f * scale;
         GUI.Label(
-            new Rect(box.x + 38f * scale, box.y + 100f * scale, box.width - 76f * scale, box.height - 170f * scale),
-            "WASD              Move\nCTRL + WASD     Sneak\nSHIFT               Run\nSPACE               Jump\nMOUSE               Look\nE                       Collect candle / bawang\nF                       Throw bawang\nG                       Throw candle\n\nStay quiet. The aswang hunt by sound.\nUse bawang and candles to kill every aswang.\n\nGOAL: KILL ALL ASWANGS.",
-            bodyStyle);
+            new Rect(contentLeft, y, contentWidth, 28f * scale),
+            "Kill every aswang on the wedding grounds.",
+            actionStyle);
+
         GUI.Label(
-            new Rect(box.x + 38f * scale, box.yMax - 58f * scale, box.width - 76f * scale, 28f * scale),
+            new Rect(contentLeft, box.yMax - 52f * scale, contentWidth, 28f * scale),
             "ENTER / SPACE / ESC  BACK",
             LeftAligned(promptStyle));
     }
@@ -340,6 +417,12 @@ public sealed class SplashScreenController : MonoBehaviour
         bodyStyle.wordWrap = true;
         promptStyle = CreateStyle(FontStyle.Normal, new Color(0.62f, 0.58f, 0.54f), TextAnchor.MiddleCenter);
         markStyle = CreateStyle(FontStyle.Bold, new Color(0.95f, 0.12f, 0.14f), TextAnchor.MiddleCenter);
+        howToTitleStyle = CreateStyle(FontStyle.Normal, new Color(0.9f, 0.08f, 0.1f), TextAnchor.MiddleLeft);
+        sectionStyle = CreateStyle(FontStyle.Normal, new Color(1f, 0.28f, 0.3f), TextAnchor.MiddleLeft);
+        keyStyle = CreateStyle(FontStyle.Bold, new Color(0.94f, 0.79f, 0.5f), TextAnchor.MiddleLeft);
+        actionStyle = CreateStyle(FontStyle.Normal, new Color(0.94f, 0.91f, 0.86f), TextAnchor.MiddleLeft);
+        tipStyle = CreateStyle(FontStyle.Normal, new Color(0.86f, 0.8f, 0.76f), TextAnchor.UpperLeft);
+        tipStyle.wordWrap = true;
 
         if (bloodVictimZombieFont != null)
         {
@@ -348,6 +431,8 @@ public sealed class SplashScreenController : MonoBehaviour
             menuStyle.font = bloodVictimZombieFont;
             selectedMenuStyle.font = bloodVictimZombieFont;
             markStyle.font = bloodVictimZombieFont;
+            howToTitleStyle.font = bloodVictimZombieFont;
+            sectionStyle.font = bloodVictimZombieFont;
         }
     }
 
