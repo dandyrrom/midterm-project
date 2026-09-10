@@ -269,7 +269,8 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
                 elderWalkDuration,
                 elderAnimator,
                 0.85f,
-                true));
+                true,
+                CoupleLookPoint()));
         Coroutine elderCamera = StartCoroutine(
             WatchApproachFromAltar(elder, elderWalkDuration, 48f));
         yield return ShowLine(
@@ -278,53 +279,62 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
             4.4f);
         yield return elderWalk;
         yield return elderCamera;
-        if (elder != null && sherall != null)
-            FaceEachOther(elder, sherall);
+        FaceTarget(elder, CoupleLookPoint());
+        yield return MoveCamera(
+            ElderCounselCameraPosition(),
+            ElderCounselLookTarget(),
+            0.7f,
+            42f);
+
         yield return ShowCharacterLine(
             "ELDER",
             "Sherall! Huwag mong tapusin ang seremonya!",
             3.2f,
             elder,
-            1f);
-
-        FaceEachOther(elder, sherall);
+            1f,
+            false);
         yield return ShowCharacterLine(
             "SHERALL",
             "Lolo, please—what is happening to him?",
             3.4f,
             sherall,
-            -1f);
+            -1f,
+            false);
         yield return ShowCharacterLine(
             "ELDER",
             "Hindi na sila ang mga bisita ninyo. The aswang hunt by sound—keep your voice low.",
             5.2f,
             elder,
-            1f);
+            1f,
+            false);
         yield return ShowCharacterLine(
             "ELDER",
             "Find bawang and a candle. Their smoke and flame can destroy an aswang.",
             5f,
             elder,
-            -1f);
+            -1f,
+            false);
         yield return ShowCharacterLine(
             "ELDER",
             "Use both against every creature on these grounds. Do not leave a single aswang alive.",
             5.2f,
             elder,
-            1f);
-
+            1f,
+            false);
         yield return ShowCharacterLine(
             "SHERALL",
             "Then I will find them and kill every aswang before they hurt anyone else.",
             3.4f,
             sherall,
-            -1f);
+            -1f,
+            false);
         yield return ShowCharacterLine(
             "ELDER",
             "Move quietly, gather the bawang and candle, and strike before they surround you.",
             4.5f,
             elder,
-            1f);
+            1f,
+            false);
 
         yield return MoveCamera(
             aswangGuest.position + new Vector3(-4f, 2.1f, 4.5f),
@@ -338,40 +348,28 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
                 aswangWalkDuration,
                 aswangAnimator,
                 1f));
-        Coroutine aswangCamera = StartCoroutine(
-            FollowCharacterCamera(
-                aswangGuest,
-                new Vector3(-4f, 2.1f, 4.5f),
-                aswangWalkDuration,
-                42f));
         yield return ShowLine(
             "NARRATION",
             "Behind them, one of the wedding guests answered the groom's whisper with an inhuman step.",
             4.8f);
         yield return aswangWalk;
-        yield return aswangCamera;
 
+        yield return MoveCamera(
+            ElderCounselCameraPosition(),
+            ElderCounselLookTarget(),
+            0.7f,
+            42f);
         yield return ShowCharacterLine(
             "ELDER",
             "Go. Find the bawang and candle. Kill every last aswang.",
             3.8f,
             elder,
-            -1f);
-        yield return MoveCamera(
-            Midpoint(sherall, elder, 0f) + new Vector3(0f, 2.5f, 5f),
-            Midpoint(sherall, elder, 1.35f),
-            0.8f,
-            42f);
+            -1f,
+            false);
         yield return ShowLine(
             "OBJECTIVE",
             "Collect bawang and a candle. Kill all aswangs.",
             4.5f);
-
-        yield return MoveCamera(
-            sherall.position + new Vector3(-2.5f, 1.8f, 4f),
-            sherall.position + Vector3.up * 1.4f,
-            1.2f,
-            45f);
         BeginGameplayTransition();
     }
 
@@ -453,9 +451,10 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         string dialogue,
         float duration,
         Transform subject,
-        float side)
+        float side,
+        bool cutToSpeaker = true)
     {
-        if (subject != null)
+        if (cutToSpeaker && subject != null)
         {
             yield return MoveCamera(
                 subject.position + new Vector3(2.35f * side, 1.7f, 3f),
@@ -633,7 +632,8 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         float duration,
         Animator animator,
         float speed,
-        bool ignoreCollision = false)
+        bool ignoreCollision = false,
+        Vector3 faceWorldTarget = default)
     {
         if (character == null || waypoints == null || waypoints.Length == 0)
             yield break;
@@ -654,6 +654,7 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         if (ignoreCollision && controllerWasEnabled)
             characterController.enabled = false;
 
+        bool lockFacing = faceWorldTarget.sqrMagnitude > 0.01f;
         SetSpeed(animator, speed);
 
         foreach (Vector3 waypoint in waypoints)
@@ -663,18 +664,19 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
             direction.y = 0f;
             float segmentDistance = Vector3.Distance(start, waypoint);
             float segmentDuration = duration * segmentDistance / totalDistance;
-            Quaternion targetRotation = direction.sqrMagnitude > 0.001f
-                ? Quaternion.LookRotation(direction)
-                : character.rotation;
-            Quaternion startRotation = character.rotation;
-            float elapsed = 0f;
+            if (lockFacing)
+                FaceTarget(character, faceWorldTarget);
+            else if (direction.sqrMagnitude > 0.001f)
+                character.rotation = Quaternion.LookRotation(direction);
 
+            float elapsed = 0f;
             while (elapsed < segmentDuration && !sequenceComplete)
             {
                 elapsed += Time.unscaledDeltaTime;
                 float linearT = Mathf.Clamp01(elapsed / Mathf.Max(segmentDuration, 0.01f));
                 float smoothT = Mathf.SmoothStep(0f, 1f, linearT);
-                character.rotation = Quaternion.Slerp(startRotation, targetRotation, smoothT);
+                if (lockFacing)
+                    FaceTarget(character, faceWorldTarget);
                 Vector3 nextPosition = SnapToChurchFloor(Vector3.Lerp(start, waypoint, smoothT));
                 if (ignoreCollision)
                     character.position = nextPosition;
@@ -688,6 +690,8 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
                 character.position = groundedWaypoint;
             else
                 MoveWithCollision(character, characterController, groundedWaypoint);
+            if (lockFacing)
+                FaceTarget(character, faceWorldTarget);
         }
 
         SetSpeed(animator, 0f);
@@ -777,28 +781,34 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
             controller.enabled = false;
 
         elder.position = SnapToChurchFloor(elderStartPosition);
-        elder.rotation = Quaternion.Euler(0f, 180f, 0f);
+        FaceTarget(elder, CoupleLookPoint());
     }
 
-    IEnumerator FollowCharacterCamera(
-        Transform subject,
-        Vector3 offset,
-        float duration,
-        float fieldOfView)
+    Vector3 CoupleLookPoint()
     {
-        if (mainCamera == null || subject == null)
-            yield break;
+        if (sherall != null && groom != null)
+            return Midpoint(sherall, groom, 0f);
+        if (groom != null)
+            return groom.position;
+        if (sherall != null)
+            return sherall.position;
+        return elderDestination;
+    }
 
-        float elapsed = 0f;
-        while (elapsed < duration && !sequenceComplete)
-        {
-            elapsed += Time.unscaledDeltaTime;
-            SetShot(
-                subject.position + offset,
-                subject.position + Vector3.up * 1.4f,
-                fieldOfView);
-            yield return null;
-        }
+    Vector3 ElderCounselCameraPosition()
+    {
+        Vector3 anchor = sherall != null && elder != null
+            ? Midpoint(sherall, elder, 0f)
+            : CoupleLookPoint();
+        return anchor + new Vector3(0f, 2.35f, 5f);
+    }
+
+    Vector3 ElderCounselLookTarget()
+    {
+        Vector3 couple = CoupleLookPoint() + Vector3.up * 1.2f;
+        if (elder == null)
+            return couple;
+        return Vector3.Lerp(couple, elder.position + Vector3.up * 1.4f, 0.3f);
     }
 
     void SetShot(Vector3 position, Vector3 lookTarget, float fieldOfView)
