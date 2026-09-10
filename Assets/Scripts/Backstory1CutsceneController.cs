@@ -237,14 +237,17 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
             3.2f,
             groom,
             1f);
+        Coroutine shockCamera = StartCoroutine(WatchBrideShock(Mathf.Max(brideShockStepDuration, 3f)));
         Coroutine brideShock = StartCoroutine(StepBackInShock());
         yield return ShowCharacterLine(
             "SHERALL",
             "What is happening to you?",
             3f,
             sherall,
-            -1f);
+            -1f,
+            false);
         yield return brideShock;
+        yield return shockCamera;
 
         PlaceElderAtAisleStart();
         if (elder != null)
@@ -524,12 +527,21 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
             yield break;
 
         FaceTarget(groom, sherall != null ? sherall.position : groom.position + groom.forward);
+        CharacterController controller = groom.GetComponent<CharacterController>();
+        bool controllerWasEnabled = controller != null && controller.enabled;
+        if (controllerWasEnabled)
+            controller.enabled = false;
+
         EnsureCutsceneAnimator(groomAnimator);
         PlayState(groomAnimator, KickState);
         yield return WaitUnscaled(groomHitHoldDuration);
         PlayState(groomAnimator, GettingHitState);
         yield return WaitUnscaled(1.4f);
         FaceTarget(groom, sherall != null ? sherall.position : groom.position + groom.forward);
+        KeepStandingOnFloor(groom, standingHipHeight);
+
+        if (controllerWasEnabled)
+            controller.enabled = true;
     }
 
     IEnumerator StepBackInShock()
@@ -573,6 +585,31 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
 
         if (controllerWasEnabled)
             controller.enabled = true;
+    }
+
+    IEnumerator WatchBrideShock(float duration)
+    {
+        if (mainCamera == null || sherall == null || groom == null)
+            yield break;
+
+        Vector3 across = Horizontal(sherall.position - groom.position);
+        Vector3 side = Vector3.Cross(Vector3.up, across.sqrMagnitude > 0.01f ? across.normalized : Vector3.forward);
+        if (side.sqrMagnitude < 0.01f)
+            side = Vector3.right;
+        side.Normalize();
+
+        Vector3 startLook = Vector3.Lerp(groom.position, sherall.position, 0.55f) + Vector3.up * 1.35f;
+        Vector3 cameraPosition = startLook + side * 3.3f + new Vector3(0f, 0.45f, 3.4f);
+
+        float elapsed = 0f;
+        while (elapsed < duration && !sequenceComplete)
+        {
+            Vector3 brideChest = sherall.position + Vector3.up * 1.35f;
+            Vector3 look = Vector3.Lerp(groom.position + Vector3.up * 1.4f, brideChest, 0.62f);
+            SetShot(cameraPosition, look, 46f);
+            elapsed += Time.unscaledDeltaTime;
+            yield return null;
+        }
     }
 
     IEnumerator RotateCharacter(Transform character, Quaternion destination, float duration)
@@ -1522,7 +1559,8 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
 
     float GetChurchFloorY(Vector3 position)
     {
-        return position.z <= altarFrontZ ? altarFloorY : churchFloorY;
+        bool onAltarPlatform = position.z <= 40f && position.x >= 294f && position.x <= 301.2f;
+        return onAltarPlatform ? altarFloorY : churchFloorY;
     }
 
     Vector3 SnapToChurchFloor(Vector3 position)
@@ -1536,11 +1574,40 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         if (character == null || !character.gameObject.activeInHierarchy)
             return;
 
-        float floorY = GetChurchFloorY(character.position);
-        Vector3 position = character.position;
-        position.y = floorY;
-        character.position = position;
-        LiftMeshAbove(character, floorY);
+        GroundFeetToFloor(character, GetChurchFloorY(character.position));
+    }
+
+    static void GroundFeetToFloor(Transform character, float floorY)
+    {
+        if (character == null)
+            return;
+
+        Animator animator = FindAnimator(character);
+        Transform leftFoot = animator != null ? animator.GetBoneTransform(HumanBodyBones.LeftFoot) : null;
+        Transform rightFoot = animator != null ? animator.GetBoneTransform(HumanBodyBones.RightFoot) : null;
+        Transform leftToes = animator != null ? animator.GetBoneTransform(HumanBodyBones.LeftToes) : null;
+        Transform rightToes = animator != null ? animator.GetBoneTransform(HumanBodyBones.RightToes) : null;
+        if (leftFoot == null && rightFoot == null)
+        {
+            Vector3 position = character.position;
+            position.y = floorY;
+            character.position = position;
+            return;
+        }
+
+        float lowest = float.PositiveInfinity;
+        if (leftFoot != null)
+            lowest = Mathf.Min(lowest, leftFoot.position.y);
+        if (rightFoot != null)
+            lowest = Mathf.Min(lowest, rightFoot.position.y);
+        if (leftToes != null)
+            lowest = Mathf.Min(lowest, leftToes.position.y);
+        if (rightToes != null)
+            lowest = Mathf.Min(lowest, rightToes.position.y);
+
+        float lift = floorY - lowest;
+        if (Mathf.Abs(lift) > 0.004f)
+            character.position += Vector3.up * lift;
     }
 
     void KeepSittingOnBench(Transform character, int index)
