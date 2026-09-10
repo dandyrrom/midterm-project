@@ -67,7 +67,7 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
 
     [Header("Infection Reactions")]
     [SerializeField, Min(0.1f)] float groomHitHoldDuration = 2.35f;
-    [SerializeField, Min(0.1f)] float brideShockStepDuration = 1.8f;
+    [SerializeField, Min(0.1f)] float brideShockStepDuration = 3f;
     [SerializeField, Min(0.2f)] float brideShockStepDistance = 1.15f;
 
     [Header("Guests")]
@@ -532,13 +532,14 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         if (controllerWasEnabled)
             controller.enabled = false;
 
-        EnsureCutsceneAnimator(groomAnimator);
-        PlayState(groomAnimator, KickState);
-        yield return WaitUnscaled(groomHitHoldDuration);
-        PlayState(groomAnimator, GettingHitState);
-        yield return WaitUnscaled(1.4f);
+        yield return PlayStandingClip(
+            groom,
+            groomAnimator,
+            GettingHitState,
+            groomHitHoldDuration + 1.4f);
         FaceTarget(groom, sherall != null ? sherall.position : groom.position + groom.forward);
         KeepStandingOnFloor(groom, standingHipHeight);
+        RestoreStandingIdle(groomAnimator);
 
         if (controllerWasEnabled)
             controller.enabled = true;
@@ -564,11 +565,10 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
             controller.enabled = false;
 
         EnsureCutsceneAnimator(sherallAnimator);
-        PlayState(sherallAnimator, WalkBackState);
-
         float elapsed = 0f;
         while (elapsed < brideShockStepDuration && !sequenceComplete)
         {
+            HoldAnimatorState(sherallAnimator, WalkBackState);
             elapsed += Time.unscaledDeltaTime;
             float t = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(elapsed / brideShockStepDuration));
             Vector3 next = Vector3.Lerp(start, destination, t);
@@ -580,11 +580,57 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
 
         sherall.position = destination;
         KeepStandingOnFloor(sherall, standingHipHeight);
-        RestoreAnimatorPlayback(sherallAnimator);
+        RestoreStandingIdle(sherallAnimator);
         FaceTarget(sherall, groom.position);
 
         if (controllerWasEnabled)
             controller.enabled = true;
+    }
+
+    IEnumerator PlayStandingClip(Transform body, Animator animator, string stateName, float duration)
+    {
+        EnsureCutsceneAnimator(animator);
+        float elapsed = 0f;
+        while (elapsed < duration && !sequenceComplete)
+        {
+            HoldAnimatorState(animator, stateName);
+            KeepStandingOnFloor(body, standingHipHeight);
+            elapsed += Time.unscaledDeltaTime;
+            yield return null;
+        }
+    }
+
+    static void HoldAnimatorState(Animator animator, string stateName)
+    {
+        if (animator == null || string.IsNullOrEmpty(stateName))
+            return;
+
+        animator.applyRootMotion = false;
+        AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
+        if (!info.IsName(stateName))
+        {
+            animator.speed = 1f;
+            animator.Play(stateName, 0, 0f);
+            animator.Update(0f);
+            return;
+        }
+
+        if (info.normalizedTime >= 0.92f && !info.loop)
+            animator.speed = 0f;
+        else
+            animator.speed = 1f;
+    }
+
+    static void RestoreStandingIdle(Animator animator)
+    {
+        if (animator == null)
+            return;
+
+        animator.applyRootMotion = false;
+        animator.speed = 1f;
+        animator.SetFloat(SpeedHash, 0f);
+        animator.Play("Blend Tree", 0, 0f);
+        animator.Update(0f);
     }
 
     IEnumerator WatchBrideShock(float duration)
@@ -1779,7 +1825,7 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         RuntimeAnimatorController controller = guestSitController;
         if (controller == null && sherallAnimator != null)
             controller = sherallAnimator.runtimeAnimatorController;
-        if (controller != null)
+        if (controller != null && animator.runtimeAnimatorController != controller)
             animator.runtimeAnimatorController = controller;
 
         animator.applyRootMotion = false;
