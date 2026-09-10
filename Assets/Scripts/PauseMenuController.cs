@@ -1,32 +1,18 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
-public sealed class SplashScreenController : MonoBehaviour
+public sealed class PauseMenuController : MonoBehaviour
 {
-    [Header("Flow")]
-    [SerializeField] string nextScene = "Backstory1";
-    [SerializeField, Min(1f)] float displayDuration = 8f;
-    [SerializeField, Min(0f)] float inputDelay = 1.1f;
-    [SerializeField, Min(0.1f)] float fadeDuration = 1.4f;
+    const string SplashSceneName = "SplashScreen";
 
-    [Header("Camera")]
-    [SerializeField] float cameraDrift = 0.35f;
-    [SerializeField] float cameraDriftSpeed = 0.22f;
+    [Header("Flow")]
+    [SerializeField] string titleScene = SplashSceneName;
 
     [Header("Typography")]
     [SerializeField] Font bloodVictimZombieFont;
 
-    enum ScreenState
-    {
-        Splash,
-        Menu,
-        HowToPlay,
-        Loading
-    }
-
-    readonly string[] menuItems = { "BEGIN THE STORY", "HOW TO PLAY", "QUIT" };
+    readonly string[] menuItems = { "RESUME", "HOW TO PLAY", "QUIT TO TITLE" };
 
     Texture2D darkTexture;
     Texture2D panelTexture;
@@ -40,22 +26,29 @@ public sealed class SplashScreenController : MonoBehaviour
     GUIStyle bodyStyle;
     GUIStyle promptStyle;
     GUIStyle markStyle;
-    Vector3 cameraStart;
-    ScreenState state;
-    float stateStartedAt;
+    bool paused;
+    bool showHowToPlay;
     int selectedItem;
+    CursorLockMode previousLockMode;
+    bool previousCursorVisible;
+    float previousTimeScale = 1f;
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
+    static void Bootstrap()
+    {
+        string sceneName = SceneManager.GetActiveScene().name;
+        if (string.IsNullOrEmpty(sceneName) || sceneName == SplashSceneName)
+            return;
+        if (FindObjectOfType<PauseMenuController>() != null)
+            return;
+
+        GameObject host = new GameObject("PauseMenu");
+        host.AddComponent<PauseMenuController>();
+    }
 
     void Awake()
     {
-        state = ScreenState.Splash;
-        stateStartedAt = Time.unscaledTime;
         ResolveMenuFont();
-        if (Camera.main != null)
-            cameraStart = Camera.main.transform.position;
-
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
-
         darkTexture = MakeTexture(new Color(0.008f, 0.006f, 0.012f, 0.97f));
         panelTexture = MakeTexture(new Color(0.035f, 0.006f, 0.012f, 0.9f));
         goldTexture = MakeTexture(new Color(0.86f, 0.16f, 0.18f, 1f));
@@ -84,45 +77,59 @@ public sealed class SplashScreenController : MonoBehaviour
 
     void Update()
     {
-        float elapsed = Time.unscaledTime - stateStartedAt;
-        if (Camera.main != null)
-        {
-            Vector3 drift = Vector3.right * (Mathf.Sin(elapsed * cameraDriftSpeed) * cameraDrift);
-            Camera.main.transform.position = cameraStart + drift;
-        }
-
         Keyboard keyboard = Keyboard.current;
-        if (state == ScreenState.Splash)
+        if (keyboard == null)
+            return;
+
+        if (keyboard.escapeKey.wasPressedThisFrame)
         {
-            bool keyboardSkip = keyboard != null && keyboard.anyKey.wasPressedThisFrame;
-            bool mouseSkip = Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame;
-            if (elapsed >= displayDuration || (elapsed >= inputDelay && (keyboardSkip || mouseSkip)))
-                ShowMenu();
+            if (showHowToPlay)
+                showHowToPlay = false;
+            else if (paused)
+                Resume();
+            else
+                Pause();
             return;
         }
 
-        if (state == ScreenState.Menu && keyboard != null)
+        if (!paused)
+            return;
+
+        if (showHowToPlay)
         {
-            if (keyboard.upArrowKey.wasPressedThisFrame || keyboard.wKey.wasPressedThisFrame)
-                selectedItem = (selectedItem + menuItems.Length - 1) % menuItems.Length;
-            if (keyboard.downArrowKey.wasPressedThisFrame || keyboard.sKey.wasPressedThisFrame)
-                selectedItem = (selectedItem + 1) % menuItems.Length;
             if (keyboard.enterKey.wasPressedThisFrame || keyboard.spaceKey.wasPressedThisFrame)
-                ActivateMenuItem(selectedItem);
+                showHowToPlay = false;
+            return;
         }
-        else if (state == ScreenState.HowToPlay && keyboard != null &&
-                 (keyboard.escapeKey.wasPressedThisFrame ||
-                  keyboard.enterKey.wasPressedThisFrame ||
-                  keyboard.spaceKey.wasPressedThisFrame))
-        {
-            ShowMenu();
-        }
+
+        if (keyboard.upArrowKey.wasPressedThisFrame || keyboard.wKey.wasPressedThisFrame)
+            selectedItem = (selectedItem + menuItems.Length - 1) % menuItems.Length;
+        if (keyboard.downArrowKey.wasPressedThisFrame || keyboard.sKey.wasPressedThisFrame)
+            selectedItem = (selectedItem + 1) % menuItems.Length;
+        if (keyboard.enterKey.wasPressedThisFrame || keyboard.spaceKey.wasPressedThisFrame)
+            ActivateMenuItem(selectedItem);
     }
 
-    void ShowMenu()
+    void Pause()
     {
-        state = ScreenState.Menu;
-        stateStartedAt = Time.unscaledTime;
+        paused = true;
+        showHowToPlay = false;
+        selectedItem = 0;
+        previousTimeScale = Time.timeScale;
+        previousLockMode = Cursor.lockState;
+        previousCursorVisible = Cursor.visible;
+        Time.timeScale = 0f;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+
+    void Resume()
+    {
+        paused = false;
+        showHowToPlay = false;
+        Time.timeScale = previousTimeScale > 0f ? previousTimeScale : 1f;
+        Cursor.lockState = previousLockMode;
+        Cursor.visible = previousCursorVisible;
     }
 
     void ActivateMenuItem(int index)
@@ -131,108 +138,37 @@ public sealed class SplashScreenController : MonoBehaviour
         switch (index)
         {
             case 0:
-                StartCoroutine(BeginStory());
+                Resume();
                 break;
             case 1:
-                state = ScreenState.HowToPlay;
-                stateStartedAt = Time.unscaledTime;
+                showHowToPlay = true;
                 break;
             case 2:
-                QuitGame();
+                QuitToTitle();
                 break;
         }
     }
 
-    IEnumerator BeginStory()
+    void QuitToTitle()
     {
-        if (state == ScreenState.Loading)
-            yield break;
-
-        state = ScreenState.Loading;
-        stateStartedAt = Time.unscaledTime;
-        yield return new WaitForSecondsRealtime(0.35f);
-
-        if (Application.CanStreamedLevelBeLoaded(nextScene))
-            SceneManager.LoadScene(nextScene);
+        Time.timeScale = 1f;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        if (Application.CanStreamedLevelBeLoaded(titleScene))
+            SceneManager.LoadScene(titleScene);
         else
-        {
-            Debug.LogError($"Cannot load '{nextScene}'. Add the scene to Build Settings.");
-            ShowMenu();
-        }
-    }
-
-    static void QuitGame()
-    {
-#if UNITY_EDITOR
-        Debug.Log("Quit selected. Application.Quit only closes a built game.");
-#else
-        Application.Quit();
-#endif
+            Debug.LogError($"Cannot load '{titleScene}'. Add the scene to Build Settings.");
     }
 
     void OnGUI()
     {
+        if (!paused)
+            return;
+
         EnsureStyles();
-        switch (state)
-        {
-            case ScreenState.Splash:
-                DrawSplash();
-                break;
-            case ScreenState.Menu:
-                DrawMenu();
-                break;
-            case ScreenState.HowToPlay:
-                DrawMenu();
-                DrawHowToPlay();
-                break;
-            case ScreenState.Loading:
-                DrawLoading();
-                break;
-        }
-    }
-
-    void DrawSplash()
-    {
-        float width = Screen.width;
-        float height = Screen.height;
-        float scale = UiScale();
-        float elapsed = Time.unscaledTime - stateStartedAt;
-        float fadeIn = Mathf.Clamp01(elapsed / fadeDuration);
-        float fadeOut = Mathf.Clamp01((displayDuration - elapsed) / fadeDuration);
-        float alpha = Mathf.Min(fadeIn, fadeOut);
-
-        GUI.DrawTexture(new Rect(0f, 0f, width, height), darkTexture);
-
-        Color previous = GUI.color;
-        GUI.color = new Color(1f, 1f, 1f, alpha);
-        titleStyle.fontSize = Mathf.RoundToInt(220f * scale);
-        subtitleStyle.fontSize = Mathf.RoundToInt(34f * scale);
-        promptStyle.fontSize = Mathf.RoundToInt(22f * scale);
-
-        DrawMark(
-            new Rect(width * 0.5f - 78f * scale, height * 0.05f, 156f * scale, 156f * scale),
-            156f * scale);
-
-        GUI.Label(
-            new Rect(0f, height * 0.30f, width, 250f * scale),
-            "LUNAS",
-            titleStyle);
-        GUI.DrawTexture(
-            new Rect(width * 0.5f - 90f * scale, height * 0.56f, 180f * scale, 3f * scale),
-            goldTexture);
-        GUI.Label(
-            new Rect(0f, height * 0.58f, width, 56f * scale),
-            "THE WEDDING NIGHT",
-            subtitleStyle);
-        GUI.Label(
-            new Rect(0f, height * 0.81f, width, 34f * scale),
-            "BAWANG  •  KANDILA  •  PUKSAIN ANG MGA ASWANG",
-            promptStyle);
-        GUI.Label(
-            new Rect(0f, height * 0.90f, width, 30f * scale),
-            "PRESS ANY KEY",
-            promptStyle);
-        GUI.color = previous;
+        DrawMenu();
+        if (showHowToPlay)
+            DrawHowToPlay();
     }
 
     void DrawMenu()
@@ -242,6 +178,7 @@ public sealed class SplashScreenController : MonoBehaviour
         float scale = UiScale();
         float panelWidth = Mathf.Max(width * 0.46f, 520f * scale);
 
+        GUI.DrawTexture(new Rect(0f, 0f, width, height), darkTexture);
         GUI.DrawTexture(new Rect(0f, 0f, panelWidth, height), panelTexture);
         GUI.DrawTexture(new Rect(panelWidth, 0f, 2f * scale, height), goldTexture);
 
@@ -255,7 +192,7 @@ public sealed class SplashScreenController : MonoBehaviour
             LeftAligned(titleStyle));
         GUI.Label(
             new Rect(68f * scale, 278f * scale, panelWidth - 100f * scale, 40f * scale),
-            "A FILIPINO ASWANG SURVIVAL STORY",
+            "PAUSED",
             LeftAligned(subtitleStyle));
 
         float buttonY = height * 0.42f;
@@ -284,7 +221,7 @@ public sealed class SplashScreenController : MonoBehaviour
         promptStyle.fontSize = Mathf.RoundToInt(18f * scale);
         GUI.Label(
             new Rect(68f * scale, height - 74f * scale, panelWidth - 100f * scale, 34f * scale),
-            "W/S OR ↑/↓  SELECT     ENTER  CONFIRM",
+            "ESC  RESUME     W/S OR ↑/↓  SELECT     ENTER  CONFIRM",
             LeftAligned(promptStyle));
     }
 
@@ -315,16 +252,6 @@ public sealed class SplashScreenController : MonoBehaviour
             new Rect(box.x + 38f * scale, box.yMax - 62f * scale, box.width - 76f * scale, 34f * scale),
             "ENTER / SPACE / ESC  BACK",
             LeftAligned(promptStyle));
-    }
-
-    void DrawLoading()
-    {
-        GUI.DrawTexture(new Rect(0f, 0f, Screen.width, Screen.height), darkTexture);
-        subtitleStyle.fontSize = Mathf.RoundToInt(28f * UiScale());
-        GUI.Label(
-            new Rect(0f, Screen.height * 0.48f, Screen.width, 48f * UiScale()),
-            "ENTERING THE WEDDING...",
-            subtitleStyle);
     }
 
     void EnsureStyles()
@@ -447,6 +374,9 @@ public sealed class SplashScreenController : MonoBehaviour
 
     void OnDestroy()
     {
+        if (paused)
+            Time.timeScale = previousTimeScale > 0f ? previousTimeScale : 1f;
+
         if (darkTexture != null)
             Destroy(darkTexture);
         if (panelTexture != null)
