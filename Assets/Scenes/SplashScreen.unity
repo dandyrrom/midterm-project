@@ -473,9 +473,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nextScene: Backstory1
-  displayDuration: 3.5
-  inputDelay: 0.6
-  fadeDuration: 0.8
+  displayDuration: 8
+  inputDelay: 1.1
+  fadeDuration: 1.4
   cameraDrift: 0.35
   cameraDriftSpeed: 0.22
   darkTexture: {fileID: 0}
