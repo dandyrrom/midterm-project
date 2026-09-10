@@ -28257,12 +28257,81 @@ MonoBehaviour:
   ceilingLightIntensity: 4.5
   ceilingLightRange: 12
   groomDisturbedPosition: {x: 298.5, y: 3.07, z: 37.8}
-  elderRearAisleWaypoint: {x: 297.2, y: 2.53, z: 54.5}
-  elderFrontAisleWaypoint: {x: 297.2, y: 2.53, z: 45}
-  elderDestination: {x: 299, y: 2.53, z: 41.5}
+  elderStartPosition: {x: 303.46, y: 2.53, z: 58.2}
+  elderRearAisleWaypoint: {x: 303.46, y: 2.53, z: 52}
+  elderFrontAisleWaypoint: {x: 303.46, y: 2.53, z: 45.5}
+  elderDestination: {x: 300.2, y: 2.53, z: 41.1}
+  elderWatchCameraPosition: {x: 298.6, y: 4.15, z: 37.4}
   aswangDestination: {x: 309, y: 2.53, z: 48}
-  elderWalkDuration: 3.5
+  elderWalkDuration: 7.2
   aswangWalkDuration: 3
+  churchFloorY: 2.53
+  altarFloorY: 3.03
+  sittingRootY: 2.94
+  sittingHipY: 3.16
+  sittingSeatClearance: 0.08
+  sittingThighPad: 0.13
+  standingHipHeight: 0.9
+  altarFrontZ: 41.4
+  pewSeatOffset: 0.04
+  pewBackOffset: 0.05
+  groomHitHoldDuration: 2.35
+  brideShockStepDuration: 3
+  brideShockStepDistance: 1.15
+  sittingGuests:
+  - {fileID: 2148000101}
+  - {fileID: 2148000111}
+  - {fileID: 2148000121}
+  - {fileID: 2148000131}
+  - {fileID: 2148000141}
+  - {fileID: 2148000151}
+  - {fileID: 2148000161}
+  - {fileID: 2148000171}
+  - {fileID: 2148000181}
+  - {fileID: 2148000191}
+  - {fileID: 2148000221}
+  - {fileID: 2148000231}
+  - {fileID: 2148000241}
+  - {fileID: 2148000251}
+  - {fileID: 2148000261}
+  - {fileID: 2148000271}
+  - {fileID: 2148000281}
+  - {fileID: 2148000291}
+  - {fileID: 2148000301}
+  - {fileID: 2148000311}
+  - {fileID: 2148000321}
+  - {fileID: 2148000331}
+  - {fileID: 2148000341}
+  - {fileID: 2148000351}
+  - {fileID: 2148000361}
+  - {fileID: 2148000371}
+  - {fileID: 2148000381}
+  - {fileID: 2148000391}
+  - {fileID: 2148000401}
+  - {fileID: 2148000411}
+  - {fileID: 2148000421}
+  - {fileID: 2148000431}
+  - {fileID: 2148000441}
+  - {fileID: 2148000451}
+  - {fileID: 2148000461}
+  - {fileID: 2148000471}
+  - {fileID: 2148000481}
+  - {fileID: 2148000491}
+  - {fileID: 2148000501}
+  - {fileID: 2148000511}
+  guestSources: []
+  infectedRearGuests:
+  - {fileID: 2148000201}
+  - {fileID: 2148000211}
+  guestSitController: {fileID: 9100000, guid: 820f6afb0887e6a42ad92c726a4bfde8, type: 2}
+  spawnSittingGuests: 1
+  spawnInfectedRearGuests: 1
+  infectedRearStartPositions:
+  - {x: 300.4, y: 2.53, z: 57.2}
+  - {x: 306.3, y: 2.53, z: 56.8}
+  infectedRearDestinations:
+  - {x: 301, y: 2.53, z: 49.6}
+  - {x: 306.9, y: 2.53, z: 50.1}
 --- !u!1001 &2147000030
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -29027,6 +29096,3129 @@ PrefabInstance:
       addedObject: {fileID: 1192568318}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c4e18f72a9b14d6e8f3c0a51d7b2e904, type: 3}
+--- !u!1001 &2148000100
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 308.358
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.72
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 37.560
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.6650022107988031
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.7468413885375558
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_Name
+      value: Wedding Guest Ch01
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 820f6afb0887e6a42ad92c726a4bfde8, type: 2}
+    - target: {fileID: 5866666021909216657, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+--- !u!4 &2148000101 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+  m_PrefabInstance: {fileID: 2148000100}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2148000110
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 309.675
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.72
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 37.574
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.6650022107988031
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.7468413885375558
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_Name
+      value: Wedding Guest Ch12
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 820f6afb0887e6a42ad92c726a4bfde8, type: 2}
+    - target: {fileID: 5866666021909216657, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+--- !u!4 &2148000111 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+  m_PrefabInstance: {fileID: 2148000110}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2148000120
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 311.103
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.72
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 37.589
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.6650022107988031
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.7468413885375558
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_Name
+      value: Wedding Guest Ch13
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 820f6afb0887e6a42ad92c726a4bfde8, type: 2}
+    - target: {fileID: 5866666021909216657, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_WarningMessage
+      value: "\nBinding warning: Some generic clip(s) animate transforms that are
+        already bound by a Humanoid avatar. These transforms can only be changed
+        by Humanoid clips.\n\tTransform 'mixamorig:Hips'\n\tTransform 'mixamorig:LeftFoot'\n\tTransform
+        'mixamorig:LeftHandThumb2'\n\tTransform 'mixamorig:LeftHandIndex1'\n\tTransform
+        'mixamorig:LeftHandPinky2'\n\tTransform 'mixamorig:RightHandRing2'\n\tTransform
+        'mixamorig:Spine1'\n\tTransform 'mixamorig:LeftToeBase'\n\tTransform 'mixamorig:LeftHandThumb3'\n\tTransform
+        'mixamorig:RightArm'\n\tand more ...\n\tFrom animation clip 'kick-to-the-groin'\n\tFrom
+        animation clip 'getting-hit'\n\tFrom animation clip 'walking-backwards'\n\tFrom
+        animation clip 'female-sitting-pose'\n\tFrom animation clip 'sitting-and-pointing'\n\tFrom
+        animation clip 'sitting-rubbing-arm'"
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+--- !u!4 &2148000121 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+  m_PrefabInstance: {fileID: 2148000120}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2148000130
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 303.024
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.72
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 40.135
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9933737685784261
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.11492848167576056
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_Name
+      value: Wedding Guest Ch21
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 820f6afb0887e6a42ad92c726a4bfde8, type: 2}
+    - target: {fileID: 5866666021909216657, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_WarningMessage
+      value: "\nBinding warning: Some generic clip(s) animate transforms that are
+        already bound by a Humanoid avatar. These transforms can only be changed
+        by Humanoid clips.\n\tTransform 'mixamorig:Hips'\n\tTransform 'mixamorig:LeftFoot'\n\tTransform
+        'mixamorig:LeftHandThumb2'\n\tTransform 'mixamorig:LeftHandIndex1'\n\tTransform
+        'mixamorig:LeftHandPinky2'\n\tTransform 'mixamorig:RightHandRing2'\n\tTransform
+        'mixamorig:Spine1'\n\tTransform 'mixamorig:LeftToeBase'\n\tTransform 'mixamorig:LeftHandThumb3'\n\tTransform
+        'mixamorig:RightArm'\n\tand more ...\n\tFrom animation clip 'kick-to-the-groin'\n\tFrom
+        animation clip 'getting-hit'\n\tFrom animation clip 'walking-backwards'\n\tFrom
+        animation clip 'female-sitting-pose'\n\tFrom animation clip 'sitting-and-pointing'\n\tFrom
+        animation clip 'sitting-rubbing-arm'"
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+--- !u!4 &2148000131 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+  m_PrefabInstance: {fileID: 2148000130}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2148000140
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 304.181
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.72
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 40.925
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.8789794575945123
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.47685963671384146
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_Name
+      value: Wedding Guest Ch22
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 820f6afb0887e6a42ad92c726a4bfde8, type: 2}
+    - target: {fileID: 5866666021909216657, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+--- !u!4 &2148000141 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+  m_PrefabInstance: {fileID: 2148000140}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2148000150
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 305.278
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.72
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 41.882
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.4708271186715266
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.882225495167459
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_Name
+      value: Wedding Guest Ch28
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 820f6afb0887e6a42ad92c726a4bfde8, type: 2}
+    - target: {fileID: 5866666021909216657, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+--- !u!4 &2148000151 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+  m_PrefabInstance: {fileID: 2148000150}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2148000160
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 308.273
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.72
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 43.012
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7344884386556245
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.678621200288661
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_Name
+      value: Wedding Guest Ch41
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 820f6afb0887e6a42ad92c726a4bfde8, type: 2}
+    - target: {fileID: 5866666021909216657, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+--- !u!4 &2148000161 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+  m_PrefabInstance: {fileID: 2148000160}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2148000170
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 308.314
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.72
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 43.531
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7344884386556245
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.678621200288661
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_Name
+      value: Wedding Guest Ch01 B
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 820f6afb0887e6a42ad92c726a4bfde8, type: 2}
+    - target: {fileID: 5866666021909216657, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+--- !u!4 &2148000171 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+  m_PrefabInstance: {fileID: 2148000170}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2148000180
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 309.565
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.72
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 43.009
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.6854562602192502
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.7281138065757574
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_Name
+      value: Wedding Guest Ch12 B
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 820f6afb0887e6a42ad92c726a4bfde8, type: 2}
+    - target: {fileID: 5866666021909216657, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+--- !u!4 &2148000181 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+  m_PrefabInstance: {fileID: 2148000180}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2148000190
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 309.534
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.72
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 43.528
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.6854562602192502
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.7281138065757574
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_Name
+      value: Wedding Guest Ch13 B
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 820f6afb0887e6a42ad92c726a4bfde8, type: 2}
+    - target: {fileID: 5866666021909216657, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_WarningMessage
+      value: "\nBinding warning: Some generic clip(s) animate transforms that are
+        already bound by a Humanoid avatar. These transforms can only be changed
+        by Humanoid clips.\n\tTransform 'mixamorig:Hips'\n\tTransform 'mixamorig:LeftFoot'\n\tTransform
+        'mixamorig:LeftHandThumb2'\n\tTransform 'mixamorig:LeftHandIndex1'\n\tTransform
+        'mixamorig:LeftHandPinky2'\n\tTransform 'mixamorig:RightHandRing2'\n\tTransform
+        'mixamorig:Spine1'\n\tTransform 'mixamorig:LeftToeBase'\n\tTransform 'mixamorig:LeftHandThumb3'\n\tTransform
+        'mixamorig:RightArm'\n\tand more ...\n\tFrom animation clip 'kick-to-the-groin'\n\tFrom
+        animation clip 'getting-hit'\n\tFrom animation clip 'walking-backwards'\n\tFrom
+        animation clip 'female-sitting-pose'\n\tFrom animation clip 'sitting-and-pointing'\n\tFrom
+        animation clip 'sitting-rubbing-arm'"
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+--- !u!4 &2148000191 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+  m_PrefabInstance: {fileID: 2148000190}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2148000200
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 300.4
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.53
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 57.2
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 6.123233995736766e-17
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 1.0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
+      propertyPath: m_Name
+      value: Infected Rear Guest 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: b87992099698fd443997a96610934d09, type: 2}
+    - target: {fileID: 5866666021909216657, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
+--- !u!4 &2148000201 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
+  m_PrefabInstance: {fileID: 2148000200}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2148000210
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 306.3
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.53
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 56.8
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 6.123233995736766e-17
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 1.0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
+      propertyPath: m_Name
+      value: Infected Rear Guest 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: b87992099698fd443997a96610934d09, type: 2}
+    - target: {fileID: 5866666021909216657, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
+--- !u!4 &2148000211 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
+  m_PrefabInstance: {fileID: 2148000210}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2148000220
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 311.389
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.72
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 43.512
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.6136170325051551
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.7896037850843722
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_Name
+      value: Wedding Guest Ch01 C
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 820f6afb0887e6a42ad92c726a4bfde8, type: 2}
+    - target: {fileID: 5866666021909216657, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+--- !u!4 &2148000221 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+  m_PrefabInstance: {fileID: 2148000220}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2148000230
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 311.261
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.72
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 43.008
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.6136170325051551
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.7896037850843722
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_Name
+      value: Wedding Guest Ch12 C
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 820f6afb0887e6a42ad92c726a4bfde8, type: 2}
+    - target: {fileID: 5866666021909216657, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+--- !u!4 &2148000231 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+  m_PrefabInstance: {fileID: 2148000230}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2148000240
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 298.633
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.72
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 45.623
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9933737685784261
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.11492848167576056
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_Name
+      value: Wedding Guest Ch13 C
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 820f6afb0887e6a42ad92c726a4bfde8, type: 2}
+    - target: {fileID: 5866666021909216657, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+--- !u!4 &2148000241 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+  m_PrefabInstance: {fileID: 2148000240}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2148000250
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 299.140
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.72
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 45.504
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9933737685784261
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.11492848167576056
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_Name
+      value: Wedding Guest Ch21 C
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 820f6afb0887e6a42ad92c726a4bfde8, type: 2}
+    - target: {fileID: 5866666021909216657, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+--- !u!4 &2148000251 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+  m_PrefabInstance: {fileID: 2148000250}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2148000260
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 299.948
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.72
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 46.527
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.8013269058509495
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.5982267044853009
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_Name
+      value: Wedding Guest Ch22 C
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 820f6afb0887e6a42ad92c726a4bfde8, type: 2}
+    - target: {fileID: 5866666021909216657, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+--- !u!4 &2148000261 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+  m_PrefabInstance: {fileID: 2148000260}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2148000270
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 300.096
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.72
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 46.029
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.8013269058509495
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.5982267044853009
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_Name
+      value: Wedding Guest Ch28 C
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 820f6afb0887e6a42ad92c726a4bfde8, type: 2}
+    - target: {fileID: 5866666021909216657, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+--- !u!4 &2148000271 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+  m_PrefabInstance: {fileID: 2148000270}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2148000280
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 301.106
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.72
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 47.410
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.8013269058509495
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.5982267044853009
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_Name
+      value: Wedding Guest Ch41 C
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 820f6afb0887e6a42ad92c726a4bfde8, type: 2}
+    - target: {fileID: 5866666021909216657, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+--- !u!4 &2148000281 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+  m_PrefabInstance: {fileID: 2148000280}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2148000290
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 301.254
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.72
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 46.912
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.8013269058509495
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.5982267044853009
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_Name
+      value: Wedding Guest Ch01 D
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 820f6afb0887e6a42ad92c726a4bfde8, type: 2}
+    - target: {fileID: 5866666021909216657, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+--- !u!4 &2148000291 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+  m_PrefabInstance: {fileID: 2148000290}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2148000300
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 302.457
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.72
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 48.198
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.5261842404390321
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.8503705928085701
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_Name
+      value: Wedding Guest Ch12 C
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 820f6afb0887e6a42ad92c726a4bfde8, type: 2}
+    - target: {fileID: 5866666021909216657, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+--- !u!4 &2148000301 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+  m_PrefabInstance: {fileID: 2148000300}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2148000310
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 302.225
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.72
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 47.733
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.5261842404390321
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.8503705928085701
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_Name
+      value: Wedding Guest Ch13 C
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 820f6afb0887e6a42ad92c726a4bfde8, type: 2}
+    - target: {fileID: 5866666021909216657, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+--- !u!4 &2148000311 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+  m_PrefabInstance: {fileID: 2148000310}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2148000320
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 303.646
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.72
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 49.101
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.5261842404390321
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.8503705928085701
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_Name
+      value: Wedding Guest Ch21 C
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 820f6afb0887e6a42ad92c726a4bfde8, type: 2}
+    - target: {fileID: 5866666021909216657, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+--- !u!4 &2148000321 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+  m_PrefabInstance: {fileID: 2148000320}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2148000330
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 303.414
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.72
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 48.636
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.5261842404390321
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.8503705928085701
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_Name
+      value: Wedding Guest Ch22 D
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 820f6afb0887e6a42ad92c726a4bfde8, type: 2}
+    - target: {fileID: 5866666021909216657, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+--- !u!4 &2148000331 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+  m_PrefabInstance: {fileID: 2148000330}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2148000340
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 304.791
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.72
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 50.032
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.6125760205348224
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7904116769543077
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_Name
+      value: Wedding Guest Ch28 D
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 820f6afb0887e6a42ad92c726a4bfde8, type: 2}
+    - target: {fileID: 5866666021909216657, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+--- !u!4 &2148000341 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+  m_PrefabInstance: {fileID: 2148000340}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2148000350
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 304.661
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.72
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 49.528
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.6125760205348224
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7904116769543077
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_Name
+      value: Wedding Guest Ch41 D
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 820f6afb0887e6a42ad92c726a4bfde8, type: 2}
+    - target: {fileID: 5866666021909216657, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+--- !u!4 &2148000351 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+  m_PrefabInstance: {fileID: 2148000350}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2148000360
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 297.556
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.72
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 50.166
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.03338194559387393
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.9994426675444508
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_Name
+      value: Wedding Guest Ch01 E1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 820f6afb0887e6a42ad92c726a4bfde8, type: 2}
+    - target: {fileID: 5866666021909216657, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+--- !u!4 &2148000361 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+  m_PrefabInstance: {fileID: 2148000360}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2148000370
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 297.038
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.72
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 50.201
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.03338194559387393
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.9994426675444508
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_Name
+      value: Wedding Guest Ch12 E2
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 820f6afb0887e6a42ad92c726a4bfde8, type: 2}
+    - target: {fileID: 5866666021909216657, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+--- !u!4 &2148000371 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+  m_PrefabInstance: {fileID: 2148000370}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2148000380
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 306.012
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.72
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 50.519
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.12555833402151376
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.9920862385688767
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_Name
+      value: Wedding Guest Ch13 E3
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 820f6afb0887e6a42ad92c726a4bfde8, type: 2}
+    - target: {fileID: 5866666021909216657, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+--- !u!4 &2148000381 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+  m_PrefabInstance: {fileID: 2148000380}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2148000390
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 305.508
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.72
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 50.649
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.12555833402151376
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.9920862385688767
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_Name
+      value: Wedding Guest Ch21 E4
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 820f6afb0887e6a42ad92c726a4bfde8, type: 2}
+    - target: {fileID: 5866666021909216657, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+--- !u!4 &2148000391 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+  m_PrefabInstance: {fileID: 2148000390}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2148000400
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 307.004
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.72
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 51.353
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.5792669455905901
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.8151379059681548
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_Name
+      value: Wedding Guest Ch22 E5
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 820f6afb0887e6a42ad92c726a4bfde8, type: 2}
+    - target: {fileID: 5866666021909216657, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+--- !u!4 &2148000401 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+  m_PrefabInstance: {fileID: 2148000400}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2148000410
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 306.833
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.72
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 51.844
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.5792669455905901
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.8151379059681548
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_Name
+      value: Wedding Guest Ch28 E6
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 820f6afb0887e6a42ad92c726a4bfde8, type: 2}
+    - target: {fileID: 5866666021909216657, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+--- !u!4 &2148000411 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+  m_PrefabInstance: {fileID: 2148000410}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2148000420
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 296.914
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.72
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 51.817
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.03338194559387393
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.9994426675444508
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_Name
+      value: Wedding Guest Ch41 E7
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 820f6afb0887e6a42ad92c726a4bfde8, type: 2}
+    - target: {fileID: 5866666021909216657, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+--- !u!4 &2148000421 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+  m_PrefabInstance: {fileID: 2148000420}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2148000430
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 296.396
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.72
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 51.852
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.03338194559387393
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.9994426675444508
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_Name
+      value: Wedding Guest Ch01 E8
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 820f6afb0887e6a42ad92c726a4bfde8, type: 2}
+    - target: {fileID: 5866666021909216657, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+--- !u!4 &2148000431 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+  m_PrefabInstance: {fileID: 2148000430}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2148000440
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 308.163
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.72
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 52.807
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.8691153530318837
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.49460944504150367
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_Name
+      value: Wedding Guest Ch12 E9
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 820f6afb0887e6a42ad92c726a4bfde8, type: 2}
+    - target: {fileID: 5866666021909216657, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+--- !u!4 &2148000441 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+  m_PrefabInstance: {fileID: 2148000440}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2148000450
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 308.429
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.72
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 52.360
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.8691153530318837
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.49460944504150367
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_Name
+      value: Wedding Guest Ch13 E10
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 820f6afb0887e6a42ad92c726a4bfde8, type: 2}
+    - target: {fileID: 5866666021909216657, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+--- !u!4 &2148000451 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+  m_PrefabInstance: {fileID: 2148000450}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2148000460
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 300.961
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.72
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 53.380
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.03338194559387393
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.9994426675444508
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_Name
+      value: Wedding Guest Ch21 E11
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 820f6afb0887e6a42ad92c726a4bfde8, type: 2}
+    - target: {fileID: 5866666021909216657, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+--- !u!4 &2148000461 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
+  m_PrefabInstance: {fileID: 2148000460}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2148000470
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 300.443
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.72
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 53.415
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.03338194559387393
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.9994426675444508
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_Name
+      value: Wedding Guest Ch22 E12
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 820f6afb0887e6a42ad92c726a4bfde8, type: 2}
+    - target: {fileID: 5866666021909216657, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+--- !u!4 &2148000471 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
+  m_PrefabInstance: {fileID: 2148000470}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2148000480
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 296.940
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.72
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 53.413
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.03338194559387393
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.9994426675444508
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_Name
+      value: Wedding Guest Ch28 E13
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 820f6afb0887e6a42ad92c726a4bfde8, type: 2}
+    - target: {fileID: 5866666021909216657, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+--- !u!4 &2148000481 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
+  m_PrefabInstance: {fileID: 2148000480}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2148000490
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 296.422
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.72
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 53.448
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.03338194559387393
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.9994426675444508
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_Name
+      value: Wedding Guest Ch41 E14
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 820f6afb0887e6a42ad92c726a4bfde8, type: 2}
+    - target: {fileID: 5866666021909216657, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+--- !u!4 &2148000491 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
+  m_PrefabInstance: {fileID: 2148000490}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2148000500
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 300.989
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.72
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 55.139
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.03338194559387393
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.9994426675444508
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_Name
+      value: Wedding Guest Ch01 E15
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 820f6afb0887e6a42ad92c726a4bfde8, type: 2}
+    - target: {fileID: 5866666021909216657, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+--- !u!4 &2148000501 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+  m_PrefabInstance: {fileID: 2148000500}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2148000510
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.25223
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 300.471
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.72
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 55.174
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.03338194559387393
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.9994426675444508
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_Name
+      value: Wedding Guest Ch12 E16
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 820f6afb0887e6a42ad92c726a4bfde8, type: 2}
+    - target: {fileID: 5866666021909216657, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+--- !u!4 &2148000511 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+  m_PrefabInstance: {fileID: 2148000510}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -29193,3 +32385,45 @@ SceneRoots:
   - {fileID: 943662471}
   - {fileID: 938111633}
   - {fileID: 1363808775}
+  - {fileID: 2148000100}
+  - {fileID: 2148000110}
+  - {fileID: 2148000120}
+  - {fileID: 2148000130}
+  - {fileID: 2148000140}
+  - {fileID: 2148000150}
+  - {fileID: 2148000160}
+  - {fileID: 2148000170}
+  - {fileID: 2148000180}
+  - {fileID: 2148000190}
+  - {fileID: 2148000200}
+  - {fileID: 2148000210}
+  - {fileID: 2148000220}
+  - {fileID: 2148000230}
+  - {fileID: 2148000240}
+  - {fileID: 2148000250}
+  - {fileID: 2148000260}
+  - {fileID: 2148000270}
+  - {fileID: 2148000280}
+  - {fileID: 2148000290}
+  - {fileID: 2148000300}
+  - {fileID: 2148000310}
+  - {fileID: 2148000320}
+  - {fileID: 2148000330}
+  - {fileID: 2148000340}
+  - {fileID: 2148000350}
+  - {fileID: 2148000360}
+  - {fileID: 2148000370}
+  - {fileID: 2148000380}
+  - {fileID: 2148000390}
+  - {fileID: 2148000400}
+  - {fileID: 2148000410}
+  - {fileID: 2148000420}
+  - {fileID: 2148000430}
+  - {fileID: 2148000440}
+  - {fileID: 2148000450}
+  - {fileID: 2148000460}
+  - {fileID: 2148000470}
+  - {fileID: 2148000480}
+  - {fileID: 2148000490}
+  - {fileID: 2148000500}
+  - {fileID: 2148000510}
