@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -43,21 +44,55 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
 
     [Header("Blocking")]
     [SerializeField] Vector3 groomDisturbedPosition = new Vector3(298.5f, 3.07f, 37.8f);
-    [SerializeField] Vector3 elderRearAisleWaypoint = new Vector3(297.2f, 2.53f, 54.5f);
-    [SerializeField] Vector3 elderFrontAisleWaypoint = new Vector3(297.2f, 2.53f, 45f);
-    [SerializeField] Vector3 elderDestination = new Vector3(299f, 2.53f, 41.5f);
+    [SerializeField] Vector3 elderStartPosition = new Vector3(303.46f, 2.53f, 58.2f);
+    [SerializeField] Vector3 elderRearAisleWaypoint = new Vector3(303.46f, 2.53f, 52f);
+    [SerializeField] Vector3 elderFrontAisleWaypoint = new Vector3(303.46f, 2.53f, 45.5f);
+    [SerializeField] Vector3 elderDestination = new Vector3(300.2f, 2.53f, 41.1f);
+    [SerializeField] Vector3 elderWatchCameraPosition = new Vector3(298.6f, 4.15f, 37.4f);
     [SerializeField] Vector3 aswangDestination = new Vector3(309f, 2.53f, 48f);
-    [SerializeField, Min(0.1f)] float elderWalkDuration = 3.5f;
+    [SerializeField, Min(0.1f)] float elderWalkDuration = 7.2f;
     [SerializeField, Min(0.1f)] float aswangWalkDuration = 3f;
+
+    [Header("Infection Reactions")]
+    [SerializeField, Min(0.1f)] float groomHitHoldDuration = 2.35f;
+    [SerializeField, Min(0.1f)] float brideShockStepDuration = 1.35f;
+    [SerializeField, Min(0.2f)] float brideShockStepDistance = 0.75f;
+
+    [Header("Guests")]
+    [SerializeField] Transform[] guestSources;
+    [SerializeField] bool spawnSittingGuests = true;
+    [SerializeField] bool spawnInfectedRearGuests = true;
+    [SerializeField] Vector3[] infectedRearStartPositions =
+    {
+        new Vector3(300.4f, 2.53f, 57.2f),
+        new Vector3(306.3f, 2.53f, 56.8f)
+    };
+    [SerializeField] Vector3[] infectedRearDestinations =
+    {
+        new Vector3(301f, 2.53f, 49.6f),
+        new Vector3(306.9f, 2.53f, 50.1f)
+    };
 
     static readonly int SpeedHash = Animator.StringToHash("Speed");
     static readonly int HitHash = Animator.StringToHash("Hit");
+    static readonly int KickHash = Animator.StringToHash("Kick");
+    const string KickState = "kick-to-the-groin";
+    const string GettingHitState = "getting-hit";
+    const string WalkBackState = "walking-backwards";
+    static readonly string[] SittingStates =
+    {
+        "female-sitting-pose",
+        "sitting-and-pointing",
+        "sitting-rubbing-arm"
+    };
 
     Animator sherallAnimator;
     Animator groomAnimator;
     Animator priestAnimator;
     Animator elderAnimator;
     Animator aswangAnimator;
+    Transform[] infectedRearGuests;
+    Animator[] infectedRearAnimators;
     Camera sceneCamera;
     float gameplayFieldOfView;
     Texture2D panelTexture;
@@ -118,6 +153,9 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
             CreateCandleGlow();
         if (createCeilingWeddingLights)
             CreateCeilingLights();
+
+        SpawnSittingGuests();
+        SpawnInfectedRearGuests();
     }
 
     IEnumerator Start()
@@ -171,8 +209,7 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         yield return ShowLine("GROOM", "The bells... make them stop. They can hear us.", 3.8f);
         yield return groomActing;
 
-        TriggerReaction(sherallAnimator);
-        FaceEachOther(sherall, groom);
+        yield return StepBackInShock();
         yield return ShowCharacterLine(
             "SHERALL",
             "What is happening to you?",
@@ -186,29 +223,43 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
             groom,
             1f);
 
+        PlaceElderAtAisleStart();
         if (elder != null)
             elder.gameObject.SetActive(true);
 
+        if (elderAnimator != null)
+        {
+            elderAnimator.Rebind();
+            elderAnimator.Update(0f);
+            SetSpeed(elderAnimator, 0f);
+        }
+
+        RevealInfectedRearGuests();
+        StartCoroutine(WalkInfectedRearGuests());
+
         yield return MoveCamera(
-            elder.position + new Vector3(4.2f, 2.3f, 4.8f),
-            elder.position + Vector3.up * 1.4f,
-            0.9f,
-            44f);
+            elderWatchCameraPosition,
+            ElderApproachLookTarget(),
+            0.85f,
+            48f);
         Coroutine elderWalk = StartCoroutine(
             MoveCharacterAlongPath(
                 elder,
                 new[] { elderRearAisleWaypoint, elderFrontAisleWaypoint, elderDestination },
                 elderWalkDuration,
                 elderAnimator,
-                0.5f));
+                0.85f,
+                true));
         Coroutine elderCamera = StartCoroutine(
-            FollowCharacterCamera(elder, new Vector3(4.2f, 2.3f, 4.8f), elderWalkDuration, 44f));
+            WatchApproachFromAltar(elder, elderWalkDuration, 48f));
         yield return ShowLine(
             "NARRATION",
             "The church doors opened. An elder hurried down the aisle as the guests began to turn.",
             4.4f);
         yield return elderWalk;
         yield return elderCamera;
+        if (elder != null && sherall != null)
+            FaceEachOther(elder, sherall);
         yield return ShowCharacterLine(
             "ELDER",
             "Sherall! Huwag mong tapusin ang seremonya!",
@@ -439,19 +490,54 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         if (groom == null)
             yield break;
 
+        FaceEachOther(groom, sherall);
+        PlayState(groomAnimator, KickState);
+        if (groomAnimator != null)
+            groomAnimator.SetTrigger(KickHash);
+        yield return WaitUnscaled(groomHitHoldDuration);
+        PlayState(groomAnimator, GettingHitState);
         TriggerReaction(groomAnimator);
-        yield return WaitUnscaled(0.65f);
-        yield return MoveCharacter(
-            groom,
-            groomDisturbedPosition,
-            1.8f,
-            groomAnimator,
-            0.25f);
+        yield return WaitUnscaled(1.4f);
+        FaceEachOther(groom, sherall);
+    }
 
-        Vector3 direction = aswangDestination - groom.position;
-        direction.y = 0f;
-        if (direction.sqrMagnitude > 0.001f)
-            yield return RotateCharacter(groom, Quaternion.LookRotation(direction), 1.1f);
+    IEnumerator StepBackInShock()
+    {
+        if (sherall == null || groom == null)
+            yield break;
+
+        Vector3 start = sherall.position;
+        Vector3 away = start - groom.position;
+        away.y = 0f;
+        if (away.sqrMagnitude < 0.01f)
+            away = -sherall.forward;
+
+        Vector3 destination = start + away.normalized * brideShockStepDistance;
+        FaceTarget(sherall, groom.position);
+
+        CharacterController controller = sherall.GetComponent<CharacterController>();
+        bool controllerWasEnabled = controller != null && controller.enabled;
+        if (controllerWasEnabled)
+            controller.enabled = false;
+
+        PlayState(sherallAnimator, WalkBackState);
+
+        float elapsed = 0f;
+        while (elapsed < brideShockStepDuration && !sequenceComplete)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            float t = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(elapsed / brideShockStepDuration));
+            sherall.position = Vector3.Lerp(start, destination, t);
+            FaceTarget(sherall, groom.position);
+            yield return null;
+        }
+
+        sherall.position = destination;
+        RestoreAnimatorPlayback(sherallAnimator);
+        FaceTarget(sherall, groom.position);
+
+        if (controllerWasEnabled)
+            controller.enabled = true;
     }
 
     IEnumerator RotateCharacter(Transform character, Quaternion destination, float duration)
@@ -517,7 +603,8 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         Vector3[] waypoints,
         float duration,
         Animator animator,
-        float speed)
+        float speed,
+        bool ignoreCollision = false)
     {
         if (character == null || waypoints == null || waypoints.Length == 0)
             yield break;
@@ -534,6 +621,10 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
             yield break;
 
         CharacterController characterController = character.GetComponent<CharacterController>();
+        bool controllerWasEnabled = characterController != null && characterController.enabled;
+        if (ignoreCollision && controllerWasEnabled)
+            characterController.enabled = false;
+
         SetSpeed(animator, speed);
 
         foreach (Vector3 waypoint in waypoints)
@@ -555,17 +646,23 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
                 float linearT = Mathf.Clamp01(elapsed / Mathf.Max(segmentDuration, 0.01f));
                 float smoothT = Mathf.SmoothStep(0f, 1f, linearT);
                 character.rotation = Quaternion.Slerp(startRotation, targetRotation, smoothT);
-                MoveWithCollision(
-                    character,
-                    characterController,
-                    Vector3.Lerp(start, waypoint, smoothT));
+                Vector3 nextPosition = Vector3.Lerp(start, waypoint, smoothT);
+                if (ignoreCollision)
+                    character.position = nextPosition;
+                else
+                    MoveWithCollision(character, characterController, nextPosition);
                 yield return null;
             }
 
-            MoveWithCollision(character, characterController, waypoint);
+            if (ignoreCollision)
+                character.position = waypoint;
+            else
+                MoveWithCollision(character, characterController, waypoint);
         }
 
         SetSpeed(animator, 0f);
+        if (ignoreCollision && controllerWasEnabled)
+            characterController.enabled = false;
     }
 
     static void MoveWithCollision(
@@ -607,6 +704,46 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
                 sceneCamera.fieldOfView = Mathf.Lerp(startFieldOfView, fieldOfView, t);
             yield return null;
         }
+    }
+
+    IEnumerator WatchApproachFromAltar(Transform subject, float duration, float fieldOfView)
+    {
+        if (mainCamera == null || subject == null)
+            yield break;
+
+        float elapsed = 0f;
+        while (elapsed < duration && !sequenceComplete)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            SetShot(
+                elderWatchCameraPosition,
+                Vector3.Lerp(subject.position + Vector3.up * 1.45f, ElderApproachLookTarget(), 0.35f),
+                fieldOfView);
+            yield return null;
+        }
+    }
+
+    Vector3 ElderApproachLookTarget()
+    {
+        if (elder == null)
+            return elderWatchCameraPosition + Vector3.forward;
+
+        Vector3 elderChest = elder.position + Vector3.up * 1.45f;
+        Vector3 aisleAhead = new Vector3(elderStartPosition.x, elderChest.y, elder.position.z);
+        return Vector3.Lerp(elderChest, aisleAhead, 0.12f);
+    }
+
+    void PlaceElderAtAisleStart()
+    {
+        if (elder == null)
+            return;
+
+        CharacterController controller = elder.GetComponent<CharacterController>();
+        if (controller != null)
+            controller.enabled = false;
+
+        elder.position = elderStartPosition;
+        elder.rotation = Quaternion.Euler(0f, 180f, 0f);
     }
 
     IEnumerator FollowCharacterCamera(
@@ -651,10 +788,16 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         currentSpeaker = "";
         currentDialogue = "";
         dialogueAlpha = 0f;
-        SetSpeed(groomAnimator, 0f);
-        SetSpeed(priestAnimator, 0f);
-        SetSpeed(elderAnimator, 0f);
-        SetSpeed(aswangAnimator, 0f);
+        RestoreAnimatorPlayback(sherallAnimator);
+        RestoreAnimatorPlayback(groomAnimator);
+        RestoreAnimatorPlayback(priestAnimator);
+        RestoreAnimatorPlayback(elderAnimator);
+        RestoreAnimatorPlayback(aswangAnimator);
+        if (infectedRearAnimators != null)
+        {
+            for (int i = 0; i < infectedRearAnimators.Length; i++)
+                RestoreAnimatorPlayback(infectedRearAnimators[i]);
+        }
 
         if (sceneCamera != null)
             sceneCamera.fieldOfView = gameplayFieldOfView;
@@ -748,6 +891,191 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         EnsureCharacterController(aswangGuest);
     }
 
+    void SpawnSittingGuests()
+    {
+        if (!spawnSittingGuests)
+            return;
+
+        if (guestSources == null || guestSources.Length == 0)
+            return;
+
+        GuestSeat[] seats =
+        {
+            new GuestSeat(new Vector3(297.85f, 2.53f, 45.45f), 90f, 0),
+            new GuestSeat(new Vector3(297.55f, 2.53f, 50.30f), 90f, 1),
+            new GuestSeat(new Vector3(297.10f, 2.53f, 51.95f), 90f, 2),
+            new GuestSeat(new Vector3(297.10f, 2.53f, 53.55f), 88f, 0),
+            new GuestSeat(new Vector3(297.15f, 2.53f, 55.36f), 92f, 1),
+            new GuestSeat(new Vector3(307.95f, 2.53f, 43.26f), -90f, 2),
+            new GuestSeat(new Vector3(309.20f, 2.53f, 43.28f), -90f, 0),
+            new GuestSeat(new Vector3(306.55f, 2.53f, 50.70f), -90f, 1),
+            new GuestSeat(new Vector3(307.50f, 2.53f, 51.64f), -88f, 2),
+            new GuestSeat(new Vector3(307.70f, 2.53f, 52.52f), -92f, 0)
+        };
+
+        for (int i = 0; i < seats.Length; i++)
+        {
+            Transform source = guestSources[i % guestSources.Length];
+            if (IsForbiddenGuestSource(source))
+                continue;
+
+            Transform guest = InstantiateGuest(source, $"Wedding Guest {i + 1}", 0.98f + (i % 3) * 0.02f);
+            if (guest == null)
+                continue;
+
+            guest.position = seats[i].position;
+            guest.rotation = Quaternion.Euler(0f, seats[i].yaw, 0f);
+            Animator animator = FindAnimator(guest);
+            if (animator != null)
+            {
+                animator.applyRootMotion = false;
+                animator.speed = 0.85f + (i % 4) * 0.08f;
+                animator.Play(SittingStates[seats[i].sitIndex % SittingStates.Length], 0, (i * 0.13f) % 1f);
+            }
+        }
+    }
+
+    void SpawnInfectedRearGuests()
+    {
+        if (!spawnInfectedRearGuests || aswangGuest == null)
+            return;
+
+        int startCount = infectedRearStartPositions != null ? infectedRearStartPositions.Length : 0;
+        int destinationCount = infectedRearDestinations != null ? infectedRearDestinations.Length : 0;
+        int count = Mathf.Min(startCount, destinationCount);
+        if (count < 2)
+            return;
+        infectedRearGuests = new Transform[count];
+        infectedRearAnimators = new Animator[count];
+
+        for (int i = 0; i < count; i++)
+        {
+            Transform guest = InstantiateGuest(aswangGuest, $"Infected Rear Guest {i + 1}", 1f);
+            if (guest == null)
+                continue;
+
+            guest.position = infectedRearStartPositions[i];
+            Vector3 look = infectedRearDestinations[i] - infectedRearStartPositions[i];
+            look.y = 0f;
+            if (look.sqrMagnitude > 0.001f)
+                guest.rotation = Quaternion.LookRotation(look);
+
+            infectedRearGuests[i] = guest;
+            infectedRearAnimators[i] = FindAnimator(guest);
+            SetSpeed(infectedRearAnimators[i], 0f);
+            guest.gameObject.SetActive(false);
+        }
+    }
+
+    void RevealInfectedRearGuests()
+    {
+        if (infectedRearGuests == null)
+            return;
+
+        for (int i = 0; i < infectedRearGuests.Length; i++)
+        {
+            if (infectedRearGuests[i] != null)
+                infectedRearGuests[i].gameObject.SetActive(true);
+        }
+    }
+
+    IEnumerator WalkInfectedRearGuests()
+    {
+        if (infectedRearGuests == null)
+            yield break;
+
+        List<Coroutine> walks = new List<Coroutine>();
+        for (int i = 0; i < infectedRearGuests.Length; i++)
+        {
+            if (infectedRearGuests[i] == null)
+                continue;
+
+            walks.Add(StartCoroutine(
+                MoveCharacter(
+                    infectedRearGuests[i],
+                    infectedRearDestinations[i],
+                    aswangWalkDuration + 0.8f + i * 0.35f,
+                    infectedRearAnimators[i],
+                    0.55f)));
+        }
+
+        for (int i = 0; i < walks.Count; i++)
+            yield return walks[i];
+    }
+
+    Transform InstantiateGuest(Transform source, string guestName, float uniformScale)
+    {
+        if (source == null)
+            return null;
+
+        GameObject clone = Instantiate(source.gameObject);
+        clone.name = guestName;
+        clone.tag = "Untagged";
+        clone.SetActive(true);
+        StripGameplayFromGuest(clone);
+
+        Transform guest = clone.transform;
+        guest.SetParent(transform, true);
+        guest.localScale = Vector3.one * uniformScale;
+        return guest;
+    }
+
+    static void StripGameplayFromGuest(GameObject guest)
+    {
+        foreach (CharacterController controller in guest.GetComponentsInChildren<CharacterController>(true))
+            Destroy(controller);
+
+        foreach (Camera camera in guest.GetComponentsInChildren<Camera>(true))
+            Destroy(camera);
+
+        foreach (AudioListener listener in guest.GetComponentsInChildren<AudioListener>(true))
+            Destroy(listener);
+
+        Behaviour[] behaviours = guest.GetComponentsInChildren<Behaviour>(true);
+        for (int i = 0; i < behaviours.Length; i++)
+        {
+            Behaviour behaviour = behaviours[i];
+            if (behaviour == null || behaviour is Animator)
+                continue;
+
+            string typeName = behaviour.GetType().Name;
+            if (typeName.Contains("Player") ||
+                typeName.Contains("Input") ||
+                typeName.Contains("Cinemachine") ||
+                typeName.Contains("Starter") ||
+                typeName.Contains("Brain"))
+            {
+                behaviour.enabled = false;
+            }
+        }
+    }
+
+    bool IsForbiddenGuestSource(Transform source)
+    {
+        if (source == null)
+            return true;
+
+        return source == sherall ||
+            source == groom ||
+            source == elder ||
+            source == aswangGuest ||
+            source == priest;
+    }
+
+    struct GuestSeat
+    {
+        public Vector3 position;
+        public float yaw;
+        public int sitIndex;
+
+        public GuestSeat(Vector3 position, float yaw, int sitIndex)
+        {
+            this.position = position;
+            this.yaw = yaw;
+            this.sitIndex = sitIndex;
+        }
+    }
+
     static void EnsureCharacterController(Transform character)
     {
         if (character == null || character.GetComponent<CharacterController>() != null)
@@ -772,6 +1100,33 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
     {
         if (animator != null)
             animator.SetFloat(SpeedHash, speed);
+    }
+
+    static void PlayState(Animator animator, string stateName)
+    {
+        if (animator != null && !string.IsNullOrEmpty(stateName))
+            animator.Play(stateName, 0, 0f);
+    }
+
+    static void RestoreAnimatorPlayback(Animator animator)
+    {
+        if (animator == null)
+            return;
+
+        animator.speed = 1f;
+        animator.SetFloat(SpeedHash, 0f);
+        animator.Play("Blend Tree", 0, 0f);
+    }
+
+    static void FaceTarget(Transform character, Vector3 worldTarget)
+    {
+        if (character == null)
+            return;
+
+        Vector3 direction = worldTarget - character.position;
+        direction.y = 0f;
+        if (direction.sqrMagnitude > 0.001f)
+            character.rotation = Quaternion.LookRotation(direction);
     }
 
     static void TriggerReaction(Animator animator)
