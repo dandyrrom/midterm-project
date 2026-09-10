@@ -59,7 +59,9 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
     [SerializeField, Min(0.2f)] float brideShockStepDistance = 0.75f;
 
     [Header("Guests")]
+    [SerializeField] Transform[] sittingGuests;
     [SerializeField] Transform[] guestSources;
+    [SerializeField] Transform[] infectedRearGuests;
     [SerializeField] bool spawnSittingGuests = true;
     [SerializeField] bool spawnInfectedRearGuests = true;
     [SerializeField] Vector3[] infectedRearStartPositions =
@@ -91,7 +93,6 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
     Animator priestAnimator;
     Animator elderAnimator;
     Animator aswangAnimator;
-    Transform[] infectedRearGuests;
     Animator[] infectedRearAnimators;
     Camera sceneCamera;
     float gameplayFieldOfView;
@@ -896,6 +897,27 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         if (!spawnSittingGuests)
             return;
 
+        if (sittingGuests != null && sittingGuests.Length > 0)
+        {
+            for (int i = 0; i < sittingGuests.Length; i++)
+            {
+                Transform guest = sittingGuests[i];
+                if (guest == null)
+                    continue;
+
+                guest.gameObject.SetActive(true);
+                Animator animator = FindAnimator(guest);
+                if (animator == null)
+                    continue;
+
+                animator.applyRootMotion = false;
+                animator.speed = 0.85f + (i % 4) * 0.08f;
+                animator.Play(SittingStates[i % SittingStates.Length], 0, (i * 0.13f) % 1f);
+            }
+
+            return;
+        }
+
         if (guestSources == null || guestSources.Length == 0)
             return;
 
@@ -937,7 +959,27 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
 
     void SpawnInfectedRearGuests()
     {
-        if (!spawnInfectedRearGuests || aswangGuest == null)
+        if (!spawnInfectedRearGuests)
+            return;
+
+        if (infectedRearGuests != null && infectedRearGuests.Length >= 2)
+        {
+            infectedRearAnimators = new Animator[infectedRearGuests.Length];
+            for (int i = 0; i < infectedRearGuests.Length; i++)
+            {
+                Transform guest = infectedRearGuests[i];
+                if (guest == null)
+                    continue;
+
+                guest.gameObject.SetActive(false);
+                infectedRearAnimators[i] = FindAnimator(guest);
+                SetSpeed(infectedRearAnimators[i], 0f);
+            }
+
+            return;
+        }
+
+        if (aswangGuest == null)
             return;
 
         int startCount = infectedRearStartPositions != null ? infectedRearStartPositions.Length : 0;

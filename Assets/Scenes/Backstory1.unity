@@ -28268,14 +28268,21 @@ MonoBehaviour:
   groomHitHoldDuration: 2.35
   brideShockStepDuration: 1.35
   brideShockStepDistance: 0.75
-  guestSources:
-  - {fileID: 2147200101}
-  - {fileID: 2147200111}
-  - {fileID: 2147200121}
-  - {fileID: 2147200131}
-  - {fileID: 2147200141}
-  - {fileID: 2147200151}
-  - {fileID: 2147200161}
+  sittingGuests:
+  - {fileID: 2148000101}
+  - {fileID: 2148000111}
+  - {fileID: 2148000121}
+  - {fileID: 2148000131}
+  - {fileID: 2148000141}
+  - {fileID: 2148000151}
+  - {fileID: 2148000161}
+  - {fileID: 2148000171}
+  - {fileID: 2148000181}
+  - {fileID: 2148000191}
+  guestSources: []
+  infectedRearGuests:
+  - {fileID: 2148000201}
+  - {fileID: 2148000211}
   spawnSittingGuests: 1
   spawnInfectedRearGuests: 1
   infectedRearStartPositions:
@@ -29048,8 +29055,7 @@ PrefabInstance:
       addedObject: {fileID: 1192568318}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c4e18f72a9b14d6e8f3c0a51d7b2e904, type: 3}
---- !u!1660057539 &9223372036854775807
---- !u!1001 &2147200100
+--- !u!1001 &2148000100
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -29059,19 +29065,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 280
+      value: 297.85
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -12
+      value: 2.53
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 50
+      value: 45.45
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.7071067811865476
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
       propertyPath: m_LocalRotation.x
@@ -29079,7 +29085,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: 0.7071067811865475
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
       propertyPath: m_LocalRotation.z
@@ -29087,11 +29093,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: d588284a8e9981341bd7f13670398d08, type: 3}
       propertyPath: m_Name
-      value: Guest Source Ch01
+      value: Wedding Guest Ch01
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: d588284a8e9981341bd7f13670398d08, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: d588284a8e9981341bd7f13670398d08, type: 3}
       propertyPath: m_Controller
@@ -29106,12 +29112,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d588284a8e9981341bd7f13670398d08, type: 3}
---- !u!4 &2147200101 stripped
+--- !u!4 &2148000101 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
-  m_PrefabInstance: {fileID: 2147200100}
+  m_PrefabInstance: {fileID: 2148000100}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &2147200110
+--- !u!1001 &2148000110
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -29121,19 +29127,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 280
+      value: 297.55
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -12
+      value: 2.53
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 50
+      value: 50.3
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.7071067811865476
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
       propertyPath: m_LocalRotation.x
@@ -29141,7 +29147,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: 0.7071067811865475
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
       propertyPath: m_LocalRotation.z
@@ -29149,11 +29155,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: a64da0474856b744d8b788c332bdd012, type: 3}
       propertyPath: m_Name
-      value: Guest Source Ch12
+      value: Wedding Guest Ch12
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: a64da0474856b744d8b788c332bdd012, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: a64da0474856b744d8b788c332bdd012, type: 3}
       propertyPath: m_Controller
@@ -29168,12 +29174,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a64da0474856b744d8b788c332bdd012, type: 3}
---- !u!4 &2147200111 stripped
+--- !u!4 &2148000111 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
-  m_PrefabInstance: {fileID: 2147200110}
+  m_PrefabInstance: {fileID: 2148000110}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &2147200120
+--- !u!1001 &2148000120
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -29183,19 +29189,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 280
+      value: 297.1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -12
+      value: 2.53
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 50
+      value: 51.95
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.7071067811865476
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
       propertyPath: m_LocalRotation.x
@@ -29203,7 +29209,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: 0.7071067811865475
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
       propertyPath: m_LocalRotation.z
@@ -29211,11 +29217,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
       propertyPath: m_Name
-      value: Guest Source Ch13
+      value: Wedding Guest Ch13
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
       propertyPath: m_Controller
@@ -29230,12 +29236,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
---- !u!4 &2147200121 stripped
+--- !u!4 &2148000121 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
-  m_PrefabInstance: {fileID: 2147200120}
+  m_PrefabInstance: {fileID: 2148000120}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &2147200130
+--- !u!1001 &2148000130
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -29245,19 +29251,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 280
+      value: 297.1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -12
+      value: 2.53
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 50
+      value: 53.55
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.7193398003386512
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
       propertyPath: m_LocalRotation.x
@@ -29265,7 +29271,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: 0.6946583704589973
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
       propertyPath: m_LocalRotation.z
@@ -29273,11 +29279,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
       propertyPath: m_Name
-      value: Guest Source Ch21
+      value: Wedding Guest Ch21
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
       propertyPath: m_Controller
@@ -29292,12 +29298,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
---- !u!4 &2147200131 stripped
+--- !u!4 &2148000131 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: c8369b7e50360e343b6afde4836de3b6, type: 3}
-  m_PrefabInstance: {fileID: 2147200130}
+  m_PrefabInstance: {fileID: 2148000130}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &2147200140
+--- !u!1001 &2148000140
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -29307,19 +29313,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 280
+      value: 297.15
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -12
+      value: 2.53
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 50
+      value: 55.36
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.6946583704589973
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
       propertyPath: m_LocalRotation.x
@@ -29327,7 +29333,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: 0.7193398003386511
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
       propertyPath: m_LocalRotation.z
@@ -29335,11 +29341,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
       propertyPath: m_Name
-      value: Guest Source Ch22
+      value: Wedding Guest Ch22
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
       propertyPath: m_Controller
@@ -29354,12 +29360,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
---- !u!4 &2147200141 stripped
+--- !u!4 &2148000141 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 182b581167f36954587e02c2c5d4ed53, type: 3}
-  m_PrefabInstance: {fileID: 2147200140}
+  m_PrefabInstance: {fileID: 2148000140}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &2147200150
+--- !u!1001 &2148000150
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -29369,19 +29375,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 280
+      value: 307.95
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -12
+      value: 2.53
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 50
+      value: 43.26
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.7071067811865476
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
       propertyPath: m_LocalRotation.x
@@ -29389,7 +29395,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0.7071067811865475
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
       propertyPath: m_LocalRotation.z
@@ -29397,11 +29403,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: a7077211e58dce542ac664155dc9680a, type: 3}
       propertyPath: m_Name
-      value: Guest Source Ch28
+      value: Wedding Guest Ch28
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: a7077211e58dce542ac664155dc9680a, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: a7077211e58dce542ac664155dc9680a, type: 3}
       propertyPath: m_Controller
@@ -29416,12 +29422,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7077211e58dce542ac664155dc9680a, type: 3}
---- !u!4 &2147200151 stripped
+--- !u!4 &2148000151 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a7077211e58dce542ac664155dc9680a, type: 3}
-  m_PrefabInstance: {fileID: 2147200150}
+  m_PrefabInstance: {fileID: 2148000150}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &2147200160
+--- !u!1001 &2148000160
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -29431,19 +29437,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 280
+      value: 309.2
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -12
+      value: 2.53
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 50
+      value: 43.28
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.7071067811865476
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
       propertyPath: m_LocalRotation.x
@@ -29451,7 +29457,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0.7071067811865475
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
       propertyPath: m_LocalRotation.z
@@ -29459,11 +29465,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
       propertyPath: m_Name
-      value: Guest Source Ch41
+      value: Wedding Guest Ch41
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
       propertyPath: m_Controller
@@ -29478,11 +29484,322 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
---- !u!4 &2147200161 stripped
+--- !u!4 &2148000161 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 7290b4348d53d5846acc10f4e4c2f76a, type: 3}
-  m_PrefabInstance: {fileID: 2147200160}
+  m_PrefabInstance: {fileID: 2148000160}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2148000170
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 306.55
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.53
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 50.7
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071067811865476
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.7071067811865475
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_Name
+      value: Wedding Guest Ch01 B
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 820f6afb0887e6a42ad92c726a4bfde8, type: 2}
+    - target: {fileID: 5866666021909216657, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+--- !u!4 &2148000171 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: d588284a8e9981341bd7f13670398d08, type: 3}
+  m_PrefabInstance: {fileID: 2148000170}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2148000180
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 307.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.53
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 51.64
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7193398003386512
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.6946583704589973
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_Name
+      value: Wedding Guest Ch12 B
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 820f6afb0887e6a42ad92c726a4bfde8, type: 2}
+    - target: {fileID: 5866666021909216657, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+--- !u!4 &2148000181 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a64da0474856b744d8b788c332bdd012, type: 3}
+  m_PrefabInstance: {fileID: 2148000180}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2148000190
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 307.7
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.53
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 52.52
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.6946583704589973
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.7193398003386511
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_Name
+      value: Wedding Guest Ch13 B
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 820f6afb0887e6a42ad92c726a4bfde8, type: 2}
+    - target: {fileID: 5866666021909216657, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+--- !u!4 &2148000191 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: aa0b7597f4849384483d1936c5c33a8a, type: 3}
+  m_PrefabInstance: {fileID: 2148000190}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2148000200
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 300.4
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.53
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 57.2
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 6.123233995736766e-17
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 1.0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
+      propertyPath: m_Name
+      value: Infected Rear Guest 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: b87992099698fd443997a96610934d09, type: 2}
+    - target: {fileID: 5866666021909216657, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
+--- !u!4 &2148000201 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
+  m_PrefabInstance: {fileID: 2148000200}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2148000210
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 306.3
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.53
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 56.8
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 6.123233995736766e-17
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 1.0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
+      propertyPath: m_Name
+      value: Infected Rear Guest 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: b87992099698fd443997a96610934d09, type: 2}
+    - target: {fileID: 5866666021909216657, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
+--- !u!4 &2148000211 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 303fdde0b09675e43888eb8b6456209a, type: 3}
+  m_PrefabInstance: {fileID: 2148000210}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
@@ -29648,10 +29965,15 @@ SceneRoots:
   - {fileID: 943662471}
   - {fileID: 938111633}
   - {fileID: 1363808775}
-  - {fileID: 2147200100}
-  - {fileID: 2147200110}
-  - {fileID: 2147200120}
-  - {fileID: 2147200130}
-  - {fileID: 2147200140}
-  - {fileID: 2147200150}
-  - {fileID: 2147200160}
+  - {fileID: 2148000100}
+  - {fileID: 2148000110}
+  - {fileID: 2148000120}
+  - {fileID: 2148000130}
+  - {fileID: 2148000140}
+  - {fileID: 2148000150}
+  - {fileID: 2148000160}
+  - {fileID: 2148000170}
+  - {fileID: 2148000180}
+  - {fileID: 2148000190}
+  - {fileID: 2148000200}
+  - {fileID: 2148000210}
