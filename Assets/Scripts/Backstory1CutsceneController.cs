@@ -76,6 +76,7 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
     [SerializeField] Transform[] infectedRearGuests;
     [SerializeField] RuntimeAnimatorController guestSitController;
     [SerializeField] RuntimeAnimatorController guestStandController;
+    [SerializeField] RuntimeAnimatorController cutsceneActorController;
     [SerializeField] bool spawnSittingGuests = true;
     [SerializeField] bool spawnInfectedRearGuests = true;
     [SerializeField] Vector3[] infectedRearStartPositions =
@@ -540,6 +541,13 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         if (controllerWasEnabled)
             controller.enabled = false;
 
+        EnsureCutsceneAnimator(groomAnimator);
+        if (groomAnimator != null)
+        {
+            groomAnimator.ResetTrigger(HitHash);
+            groomAnimator.SetTrigger(HitHash);
+        }
+
         yield return PlayStandingClip(
             groom,
             groomAnimator,
@@ -637,7 +645,11 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         animator.applyRootMotion = false;
         animator.speed = 1f;
         animator.SetFloat(SpeedHash, 0f);
-        animator.Play("Blend Tree", 0, 0f);
+        // Prefer dedicated idle; fall back to blend tree controllers.
+        if (animator.HasState(0, Animator.StringToHash("idle")))
+            animator.Play("idle", 0, 0f);
+        else
+            animator.Play("Blend Tree", 0, 0f);
         animator.Update(0f);
     }
 
@@ -1097,7 +1109,7 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
             for (int i = 0; i < sittingGuests.Length; i++)
             {
                 Transform guest = sittingGuests[i];
-                if (guest == null)
+                if (guest == null || IsWeddingCastMember(guest))
                     continue;
 
                 CaptureGuestHomePose(guest, i);
@@ -1290,6 +1302,13 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         return value;
     }
 
+    bool IsWeddingCastMember(Transform guest)
+    {
+        if (guest == null)
+            return false;
+        return guest == sherall || guest == groom || guest == priest || guest == elder || guest == aswangGuest;
+    }
+
     void CaptureGuestHomePose(Transform guest, int index)
     {
         if (guest == null || seatedGuestPositions == null || index < 0 || index >= seatedGuestPositions.Length)
@@ -1303,6 +1322,8 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
     void ApplyStandingPoseInPlace(Transform guest, int index)
     {
         if (guest == null)
+            return;
+        if (IsWeddingCastMember(guest))
             return;
 
         guest.gameObject.SetActive(true);
@@ -1350,7 +1371,7 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         for (int i = 0; i < sittingGuests.Length; i++)
         {
             Transform guest = sittingGuests[i];
-            if (guest == null)
+            if (guest == null || IsWeddingCastMember(guest))
                 continue;
 
             if (seatedGuestPositions[i] == Vector3.zero)
@@ -1364,6 +1385,8 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
     void ApplySittingPoseInPlace(Transform guest, int index)
     {
         if (guest == null)
+            return;
+        if (IsWeddingCastMember(guest))
             return;
 
         guest.gameObject.SetActive(true);
@@ -1386,8 +1409,33 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         animator.speed = 0.9f + (index % 4) * 0.05f;
         animator.Play(SittingStates[index % SittingStates.Length], 0, 0.2f + (index * 0.07f) % 0.6f);
         animator.Update(0f);
-        // Do not settle/move them — keep the exact scene placement.
+
+        // Keep XZ/yaw, but lift so the sit pose does not sink through the floor/pew.
         KeepGuestAtHomePose(guest, index);
+        float floorY = seatedGuestPositions[index].y;
+        RaiseGuestAboveFloor(guest, floorY);
+        CaptureGuestHomePose(guest, index);
+    }
+
+    static void RaiseGuestAboveFloor(Transform guest, float floorY)
+    {
+        if (guest == null)
+            return;
+
+        float lowest = float.PositiveInfinity;
+        SkinnedMeshRenderer[] meshes = guest.GetComponentsInChildren<SkinnedMeshRenderer>();
+        for (int i = 0; i < meshes.Length; i++)
+        {
+            if (meshes[i] != null)
+                lowest = Mathf.Min(lowest, meshes[i].bounds.min.y);
+        }
+
+        if (float.IsPositiveInfinity(lowest))
+            return;
+
+        float lift = (floorY + 0.02f) - lowest;
+        if (lift > 0.001f)
+            guest.position += Vector3.up * lift;
     }
 
     void KeepGuestAtHomePose(Transform character, int index)
@@ -1955,7 +2003,10 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         if (animator == null)
             return;
 
-        RuntimeAnimatorController controller = guestSitController;
+        // Never force the guest sit controller onto bride/groom/cast.
+        RuntimeAnimatorController controller = cutsceneActorController;
+        if (controller == null)
+            controller = animator.runtimeAnimatorController;
         if (controller == null && sherallAnimator != null)
             controller = sherallAnimator.runtimeAnimatorController;
         if (controller != null && animator.runtimeAnimatorController != controller)
