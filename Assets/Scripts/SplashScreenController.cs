@@ -31,13 +31,15 @@ public sealed class SplashScreenController : MonoBehaviour
     Texture2D darkTexture;
     Texture2D panelTexture;
     Texture2D goldTexture;
-    Texture2D logoTexture;
+    Texture2D discTexture;
+    Texture2D ringTexture;
     GUIStyle titleStyle;
     GUIStyle subtitleStyle;
     GUIStyle menuStyle;
     GUIStyle selectedMenuStyle;
     GUIStyle bodyStyle;
     GUIStyle promptStyle;
+    GUIStyle markStyle;
     Vector3 cameraStart;
     ScreenState state;
     float stateStartedAt;
@@ -56,8 +58,9 @@ public sealed class SplashScreenController : MonoBehaviour
 
         darkTexture = MakeTexture(new Color(0.008f, 0.006f, 0.012f, 0.97f));
         panelTexture = MakeTexture(new Color(0.035f, 0.006f, 0.012f, 0.9f));
-        goldTexture = MakeTexture(new Color(0.72f, 0.035f, 0.055f, 1f));
-        logoTexture = Resources.Load<Texture2D>("Splash/lunas-emblem");
+        goldTexture = MakeTexture(new Color(0.86f, 0.16f, 0.18f, 1f));
+        discTexture = MakeDisc(256, new Color(0.1f, 0.02f, 0.03f, 1f));
+        ringTexture = MakeRing(256, new Color(0.92f, 0.78f, 0.55f, 1f), 0.78f, 0.97f);
     }
 
     void ResolveMenuFont()
@@ -206,15 +209,9 @@ public sealed class SplashScreenController : MonoBehaviour
         subtitleStyle.fontSize = Mathf.RoundToInt(28f * scale);
         promptStyle.fontSize = Mathf.RoundToInt(18f * scale);
 
-        if (logoTexture != null)
-        {
-            float logoSize = 168f * scale;
-            GUI.DrawTexture(
-                new Rect(width * 0.5f - logoSize * 0.5f, height * 0.08f, logoSize, logoSize),
-                logoTexture,
-                ScaleMode.ScaleToFit,
-                true);
-        }
+        DrawMark(
+            new Rect(width * 0.5f - 78f * scale, height * 0.07f, 156f * scale, 156f * scale),
+            156f * scale);
 
         GUI.Label(
             new Rect(0f, height * 0.34f, width, 210f * scale),
@@ -250,15 +247,7 @@ public sealed class SplashScreenController : MonoBehaviour
 
         titleStyle.fontSize = Mathf.RoundToInt(96f * scale);
         subtitleStyle.fontSize = Mathf.RoundToInt(18f * scale);
-        if (logoTexture != null)
-        {
-            float logoSize = 72f * scale;
-            GUI.DrawTexture(
-                new Rect(68f * scale, 36f * scale, logoSize, logoSize),
-                logoTexture,
-                ScaleMode.ScaleToFit,
-                true);
-        }
+        DrawMark(new Rect(68f * scale, 28f * scale, 70f * scale, 70f * scale), 70f * scale);
 
         GUI.Label(
             new Rect(62f * scale, 112f * scale, panelWidth - 100f * scale, 120f * scale),
@@ -350,6 +339,7 @@ public sealed class SplashScreenController : MonoBehaviour
         bodyStyle = CreateStyle(FontStyle.Normal, new Color(0.94f, 0.91f, 0.86f), TextAnchor.UpperLeft);
         bodyStyle.wordWrap = true;
         promptStyle = CreateStyle(FontStyle.Normal, new Color(0.62f, 0.58f, 0.54f), TextAnchor.MiddleCenter);
+        markStyle = CreateStyle(FontStyle.Bold, new Color(0.95f, 0.12f, 0.14f), TextAnchor.MiddleCenter);
 
         if (bloodVictimZombieFont != null)
         {
@@ -357,6 +347,25 @@ public sealed class SplashScreenController : MonoBehaviour
             subtitleStyle.font = bloodVictimZombieFont;
             menuStyle.font = bloodVictimZombieFont;
             selectedMenuStyle.font = bloodVictimZombieFont;
+            markStyle.font = bloodVictimZombieFont;
+        }
+    }
+
+    void DrawMark(Rect area, float size)
+    {
+        if (discTexture != null)
+            GUI.DrawTexture(area, discTexture, ScaleMode.ScaleToFit, true);
+        if (ringTexture != null)
+            GUI.DrawTexture(area, ringTexture, ScaleMode.ScaleToFit, true);
+
+        float cx = area.x + area.width * 0.5f;
+        float cy = area.y + area.height * 0.52f;
+        GUI.DrawTexture(new Rect(cx - size * 0.018f, cy - size * 0.28f, size * 0.036f, size * 0.2f), goldTexture);
+        GUI.DrawTexture(new Rect(cx - size * 0.028f, cy - size * 0.34f, size * 0.056f, size * 0.06f), goldTexture);
+        if (markStyle != null)
+        {
+            markStyle.fontSize = Mathf.RoundToInt(size * 0.52f);
+            GUI.Label(area, "L", markStyle);
         }
     }
 
@@ -393,6 +402,49 @@ public sealed class SplashScreenController : MonoBehaviour
         return texture;
     }
 
+    static Texture2D MakeDisc(int size, Color color)
+    {
+        Texture2D texture = new Texture2D(size, size, TextureFormat.RGBA32, false);
+        texture.wrapMode = TextureWrapMode.Clamp;
+        float center = (size - 1) * 0.5f;
+        float radius = center - 1f;
+        for (int y = 0; y < size; y++)
+        {
+            for (int x = 0; x < size; x++)
+            {
+                float dx = x - center;
+                float dy = y - center;
+                float t = dx * dx + dy * dy;
+                texture.SetPixel(x, y, t <= radius * radius ? color : Color.clear);
+            }
+        }
+
+        texture.Apply();
+        return texture;
+    }
+
+    static Texture2D MakeRing(int size, Color color, float inner, float outer)
+    {
+        Texture2D texture = new Texture2D(size, size, TextureFormat.RGBA32, false);
+        texture.wrapMode = TextureWrapMode.Clamp;
+        float center = (size - 1) * 0.5f;
+        float outerR = center * outer;
+        float innerR = center * inner;
+        for (int y = 0; y < size; y++)
+        {
+            for (int x = 0; x < size; x++)
+            {
+                float dx = x - center;
+                float dy = y - center;
+                float d = Mathf.Sqrt(dx * dx + dy * dy);
+                texture.SetPixel(x, y, d <= outerR && d >= innerR ? color : Color.clear);
+            }
+        }
+
+        texture.Apply();
+        return texture;
+    }
+
     void OnDestroy()
     {
         if (darkTexture != null)
@@ -401,6 +453,9 @@ public sealed class SplashScreenController : MonoBehaviour
             Destroy(panelTexture);
         if (goldTexture != null)
             Destroy(goldTexture);
-        logoTexture = null;
+        if (discTexture != null)
+            Destroy(discTexture);
+        if (ringTexture != null)
+            Destroy(ringTexture);
     }
 }
