@@ -304,6 +304,10 @@ public class Level1GameFlow : MonoBehaviour
         SetTextActive(objectiveText, false);
         SetTextActive(goalText, false);
 
+        PlayModeBackgroundMusic bgm = FindFirstObjectByType<PlayModeBackgroundMusic>();
+        if (bgm != null)
+            bgm.NotifyLevelEnded();
+
         FreezeGameplay(true);
 
         int killed = killScore != null ? killScore.Killed : 0;

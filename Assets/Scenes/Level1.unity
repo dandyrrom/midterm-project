@@ -35571,6 +35571,60 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &769360200
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 769360202}
+  - component: {fileID: 769360201}
+  m_Layer: 0
+  m_Name: PlayModeBackgroundMusic
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &769360201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 769360200}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7a1c4b92f6d4e8a9b0c1d2e3f4a5b6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayModeBackgroundMusic
+  musicClip: {fileID: 8300000, guid: 01f4cdecd240c6d469fa093cbe1a7fbb, type: 3}
+  playOnStart: 1
+  loop: 1
+  volume: 0.35
+  pitch: 1
+  muted: 0
+  fadeInOnStart: 1
+  fadeInDuration: 2
+  fadeOutDuration: 1.25
+  fadeOutOnLevelEnd: 1
+--- !u!4 &769360202
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 769360200}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &769360103
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -91123,6 +91177,7 @@ SceneRoots:
   - {fileID: 1675826750}
   - {fileID: 769359839}
   - {fileID: 769360102}
+  - {fileID: 769360202}
   - {fileID: 676578646}
   - {fileID: 1443694225}
   - {fileID: 282251677}
