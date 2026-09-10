@@ -79,7 +79,7 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
     [SerializeField] RuntimeAnimatorController guestStandController;
     [SerializeField] RuntimeAnimatorController cutsceneActorController;
     [SerializeField] bool spawnSittingGuests = true;
-    [SerializeField] bool spawnInfectedRearGuests = true;
+    [SerializeField] bool spawnInfectedRearGuests = false;
     [SerializeField] Vector3[] infectedRearStartPositions =
     {
         new Vector3(300.4f, 2.53f, 57.2f),
@@ -197,6 +197,9 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
 
         SpawnSittingGuests();
         SpawnInfectedRearGuests();
+        HideInfectedRearGuests();
+        if (aswangGuest != null)
+            aswangGuest.gameObject.SetActive(false);
         OpenAisleForBride();
         LockAllAnimatorsToGround();
     }
@@ -209,6 +212,8 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
             TakeCinematicControl();
 
         FaceEachOther(sherall, groom);
+        ForceBrideStandingPose();
+        ForbidCoupleSitAnimation(groomAnimator);
         SetShot(
             Midpoint(sherall, groom, 0f) + new Vector3(0f, 2.4f, 4.8f),
             Midpoint(sherall, groom, 1.35f),
@@ -272,6 +277,8 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
             false);
         yield return brideShock;
         yield return shockCamera;
+        ForceBrideStandingPose();
+        ForbidCoupleSitAnimation(groomAnimator);
 
         PlaceElderAtAisleStart();
         if (elder != null)
@@ -285,10 +292,10 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         }
 
         yield return MoveCamera(
-            elderWatchCameraPosition,
-            ElderApproachLookTarget(),
-            0.85f,
-            48f);
+            ElderCounselCameraPosition(),
+            ElderCounselLookTarget(),
+            0.7f,
+            42f);
         Coroutine elderWalk = StartCoroutine(
             MoveCharacterAlongPath(
                 elder,
@@ -298,20 +305,18 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
                 0.85f,
                 false,
                 CoupleLookPoint()));
-        Coroutine elderCamera = StartCoroutine(
-            WatchApproachFromAltar(elder, elderWalkDuration, 48f));
+        // Hold the altar framing on elder / bride / groom — do not swing to the rear doors.
         yield return ShowLine(
             "NARRATION",
             "The church doors opened. An elder hurried down the aisle as the guests began to turn.",
             4.4f);
         yield return elderWalk;
-        yield return elderCamera;
         faceBrideTowardElder = true;
         FaceBrideAndElder();
         yield return MoveCamera(
             ElderCounselCameraPosition(),
             ElderCounselLookTarget(),
-            0.7f,
+            0.45f,
             42f);
         FaceBrideAndElder();
 
@@ -365,29 +370,15 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
             1f,
             false);
 
-        faceBrideTowardElder = false;
-        yield return MoveCamera(
-            aswangGuest.position + new Vector3(-4f, 2.1f, 4.5f),
-            aswangGuest.position + Vector3.up * 1.4f,
-            0.8f,
-            42f);
-        Coroutine aswangWalk = StartCoroutine(
-            MoveCharacter(
-                aswangGuest,
-                aswangDestination,
-                aswangWalkDuration,
-                aswangAnimator,
-                1f));
-        yield return ShowLine(
-            "NARRATION",
-            "Behind them, one of the wedding guests answered the groom's whisper with an inhuman step.",
-            4.8f);
-        yield return aswangWalk;
+        // Keep the camera on elder / bride / groom — no rear zombie walk cutaway.
+        if (aswangGuest != null)
+            aswangGuest.gameObject.SetActive(false);
+        HideInfectedRearGuests();
 
         yield return MoveCamera(
             ElderCounselCameraPosition(),
             ElderCounselLookTarget(),
-            0.7f,
+            0.55f,
             42f);
         faceBrideTowardElder = true;
         FaceBrideAndElder();
@@ -560,56 +551,15 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         ForbidCoupleSitAnimation(groomAnimator);
 
         Vector3 bridePoint = sherall != null ? sherall.position : groom.position + groom.forward;
-        Vector3 toBride = Horizontal(bridePoint - groom.position);
-        if (toBride.sqrMagnitude < 0.0001f)
-            toBride = groom.forward;
-        toBride.Normalize();
+        FaceTarget(groom, bridePoint);
 
-        // Infection takes hold: turn away, scream like a zombie, then snap back toward Sherall.
-        Quaternion faceBride = Quaternion.LookRotation(toBride);
-        Quaternion turnAside = Quaternion.LookRotation(Quaternion.Euler(0f, 95f, 0f) * toBride);
-        groom.rotation = faceBride;
-
-        float turnDuration = 0.9f;
-        float elapsed = 0f;
-        while (elapsed < turnDuration && !sequenceComplete)
-        {
-            HoldLoopingState(groomAnimator, ZombieScreamState);
-            ForbidCoupleSitAnimation(groomAnimator);
-            elapsed += Time.unscaledDeltaTime;
-            float t = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(elapsed / turnDuration));
-            groom.rotation = Quaternion.Slerp(faceBride, turnAside, t);
-            KeepStandingOnFloor(groom, standingHipHeight);
-            yield return null;
-        }
-
-        yield return PlayStandingClip(
-            groom,
-            groomAnimator,
-            ZombieScreamState,
-            Mathf.Max(1.1f, groomHitHoldDuration));
-
-        Quaternion infectedStare = Quaternion.LookRotation(toBride);
-        elapsed = 0f;
-        float snapBack = 0.75f;
-        Quaternion fromAside = groom.rotation;
-        while (elapsed < snapBack && !sequenceComplete)
-        {
-            HoldLoopingState(groomAnimator, ZombieScreamState);
-            ForbidCoupleSitAnimation(groomAnimator);
-            elapsed += Time.unscaledDeltaTime;
-            float t = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(elapsed / snapBack));
-            groom.rotation = Quaternion.Slerp(fromAside, infectedStare, t);
-            KeepStandingOnFloor(groom, standingHipHeight);
-            yield return null;
-        }
+        // Subtle infection: a short standing hit spasm while still facing Sherall.
+        // No big turn, scream, kick, or sit pose.
+        float hold = Mathf.Clamp(groomHitHoldDuration, 1.1f, 1.8f);
+        yield return PlayStandingClip(groom, groomAnimator, GettingHitState, hold);
 
         FaceTarget(groom, bridePoint);
         KeepStandingOnFloor(groom, standingHipHeight);
-        // Stay on the scream end-pose briefly so it does not pop into a sit clip.
-        HoldAnimatorState(groomAnimator, ZombieScreamState);
-        ForbidCoupleSitAnimation(groomAnimator);
-        yield return null;
         RestoreStandingIdle(groomAnimator);
         ForbidCoupleSitAnimation(groomAnimator);
 
@@ -639,6 +589,8 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
 
         EnsureCutsceneAnimator(sherallAnimator);
         ForbidCoupleSitAnimation(sherallAnimator);
+        // Hard-clear any sit controller/pose before she steps back.
+        ForceBrideStandingPose();
 
         float elapsed = 0f;
         float duration = Mathf.Max(2.4f, brideShockStepDuration);
@@ -658,11 +610,44 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         sherall.position = destination;
         KeepStandingOnFloor(sherall, standingHipHeight);
         FaceTarget(sherall, groom.position);
-        RestoreStandingIdle(sherallAnimator);
-        ForbidCoupleSitAnimation(sherallAnimator);
+        ForceBrideStandingPose();
 
         if (controllerWasEnabled)
             controller.enabled = true;
+    }
+
+    void ForceBrideStandingPose()
+    {
+        if (sherall == null)
+            return;
+
+        EnsureCutsceneAnimator(sherallAnimator);
+        ForbidCoupleSitAnimation(sherallAnimator);
+        if (guestSitController != null &&
+            sherallAnimator != null &&
+            sherallAnimator.runtimeAnimatorController == guestSitController)
+        {
+            if (cutsceneActorController != null)
+                sherallAnimator.runtimeAnimatorController = cutsceneActorController;
+            else if (guestStandController != null)
+                sherallAnimator.runtimeAnimatorController = guestStandController;
+        }
+
+        RestoreStandingIdle(sherallAnimator);
+        KeepStandingOnFloor(sherall, standingHipHeight);
+        ForbidCoupleSitAnimation(sherallAnimator);
+    }
+
+    void HideInfectedRearGuests()
+    {
+        if (infectedRearGuests == null)
+            return;
+
+        for (int i = 0; i < infectedRearGuests.Length; i++)
+        {
+            if (infectedRearGuests[i] != null)
+                infectedRearGuests[i].gameObject.SetActive(false);
+        }
     }
 
     IEnumerator PlayStandingClip(Transform body, Animator animator, string stateName, float duration)
