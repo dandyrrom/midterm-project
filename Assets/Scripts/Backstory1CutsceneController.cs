@@ -292,10 +292,10 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         }
 
         yield return MoveCamera(
-            ElderCounselCameraPosition(),
-            ElderCounselLookTarget(),
-            0.7f,
-            42f);
+            elderWatchCameraPosition,
+            ElderApproachLookTarget(),
+            0.85f,
+            48f);
         Coroutine elderWalk = StartCoroutine(
             MoveCharacterAlongPath(
                 elder,
@@ -305,18 +305,21 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
                 0.85f,
                 false,
                 CoupleLookPoint()));
-        // Hold the altar framing on elder / bride / groom — do not swing to the rear doors.
+        // Front/altar POV watching the elder walk toward the bride and groom.
+        Coroutine elderCamera = StartCoroutine(
+            WatchApproachFromAltar(elder, elderWalkDuration, 48f));
         yield return ShowLine(
             "NARRATION",
             "The church doors opened. An elder hurried down the aisle as the guests began to turn.",
             4.4f);
         yield return elderWalk;
+        yield return elderCamera;
         faceBrideTowardElder = true;
         FaceBrideAndElder();
         yield return MoveCamera(
             ElderCounselCameraPosition(),
             ElderCounselLookTarget(),
-            0.45f,
+            0.7f,
             42f);
         FaceBrideAndElder();
 
