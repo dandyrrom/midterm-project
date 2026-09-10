@@ -383,10 +383,14 @@ public sealed class SplashScreenController : MonoBehaviour
         y += 8f * scale;
         GUI.Label(new Rect(contentLeft, y, contentWidth, 28f * scale), "GOAL", sectionStyle);
         y += 30f * scale;
+        actionStyle.fontSize = Mathf.RoundToInt(24f * scale);
+        actionStyle.normal.textColor = new Color(1f, 0.28f, 0.3f);
         GUI.Label(
-            new Rect(contentLeft, y, contentWidth, 28f * scale),
-            "Kill every aswang on the wedding grounds.",
+            new Rect(contentLeft, y, contentWidth, 34f * scale),
+            "KILL ALL THE ASWANG",
             actionStyle);
+        actionStyle.fontSize = Mathf.RoundToInt(20f * scale);
+        actionStyle.normal.textColor = new Color(0.94f, 0.91f, 0.86f);
 
         GUI.Label(
             new Rect(contentLeft, box.yMax - 52f * scale, contentWidth, 28f * scale),
