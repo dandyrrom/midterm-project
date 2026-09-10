@@ -117,6 +117,8 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
     GUIStyle speakerStyle;
     GUIStyle dialogueStyle;
     GUIStyle promptStyle;
+    GUIStyle loadingStyle;
+    Font loadingFont;
     string currentSpeaker = "";
     string currentDialogue = "";
     float dialogueAlpha;
@@ -168,6 +170,7 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
 
         panelTexture = MakeTexture(new Color(0.015f, 0.012f, 0.018f, 0.92f));
         accentTexture = MakeTexture(new Color(0.78f, 0.58f, 0.24f, 1f));
+        ResolveLoadingFont();
 
         if (createWarmCandleGlow)
             CreateCandleGlow();
@@ -964,6 +967,10 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
             screenFade = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(elapsed / transitionDuration));
             yield return null;
         }
+
+        screenFade = 1f;
+        // Hold so LOADING... is readable before Level1 starts.
+        yield return new WaitForSecondsRealtime(0.85f);
 
         if (Application.CanStreamedLevelBeLoaded(gameplayScene))
         {
@@ -1894,6 +1901,9 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
             GUI.color = new Color(1f, 1f, 1f, screenFade);
             GUI.DrawTexture(new Rect(0f, 0f, Screen.width, Screen.height), panelTexture);
             GUI.color = previous;
+
+            if (isTransitioning && screenFade > 0.45f)
+                DrawLoadingText(Mathf.Clamp01((screenFade - 0.45f) / 0.55f));
         }
 
         if (awaitingCeremonyStart)
@@ -1937,6 +1947,21 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         GUI.color = previousColor;
     }
 
+    void DrawLoadingText(float alpha)
+    {
+        EnsureStyles();
+        float scale = Mathf.Clamp(Mathf.Min(Screen.width / 1920f, Screen.height / 1080f), 0.7f, 1.4f);
+        loadingStyle.fontSize = Mathf.RoundToInt(40f * scale);
+
+        Color previous = GUI.color;
+        GUI.color = new Color(1f, 1f, 1f, alpha);
+        GUI.Label(
+            new Rect(0f, Screen.height * 0.46f, Screen.width, 70f * scale),
+            "LOADING...",
+            loadingStyle);
+        GUI.color = previous;
+    }
+
     void DrawCeremonyPrompt()
     {
         EnsureStyles();
@@ -1972,6 +1997,29 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         dialogueStyle.wordWrap = true;
         dialogueStyle.alignment = TextAnchor.UpperLeft;
         promptStyle = CreateStyle(FontStyle.Normal, new Color(0.62f, 0.58f, 0.54f));
+        loadingStyle = CreateStyle(FontStyle.Normal, new Color(0.92f, 0.78f, 0.7f));
+        loadingStyle.alignment = TextAnchor.MiddleCenter;
+        if (loadingFont != null)
+            loadingStyle.font = loadingFont;
+    }
+
+    void ResolveLoadingFont()
+    {
+        if (loadingFont != null)
+            return;
+
+        loadingFont = Resources.Load<Font>("Blood Victim Zombie");
+#if UNITY_EDITOR
+        if (loadingFont == null)
+        {
+            string[] fontGuids = UnityEditor.AssetDatabase.FindAssets("Blood Victim Zombie t:Font");
+            if (fontGuids.Length > 0)
+            {
+                string fontPath = UnityEditor.AssetDatabase.GUIDToAssetPath(fontGuids[0]);
+                loadingFont = UnityEditor.AssetDatabase.LoadAssetAtPath<Font>(fontPath);
+            }
+        }
+#endif
     }
 
     static GUIStyle CreateStyle(FontStyle fontStyle, Color color)
