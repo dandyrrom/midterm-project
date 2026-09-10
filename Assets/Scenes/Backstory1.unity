@@ -28276,8 +28276,8 @@ MonoBehaviour:
   pewSeatOffset: 0.04
   pewBackOffset: 0.05
   groomHitHoldDuration: 2.35
-  brideShockStepDuration: 1.35
-  brideShockStepDistance: 0.75
+  brideShockStepDuration: 1.8
+  brideShockStepDistance: 1.15
   sittingGuests:
   - {fileID: 2148000101}
   - {fileID: 2148000111}

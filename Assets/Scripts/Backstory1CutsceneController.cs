@@ -67,8 +67,8 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
 
     [Header("Infection Reactions")]
     [SerializeField, Min(0.1f)] float groomHitHoldDuration = 2.35f;
-    [SerializeField, Min(0.1f)] float brideShockStepDuration = 1.35f;
-    [SerializeField, Min(0.2f)] float brideShockStepDistance = 0.75f;
+    [SerializeField, Min(0.1f)] float brideShockStepDuration = 1.8f;
+    [SerializeField, Min(0.2f)] float brideShockStepDistance = 1.15f;
 
     [Header("Guests")]
     [SerializeField] Transform[] sittingGuests;
@@ -124,6 +124,7 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
     bool isTransitioning;
     bool sequenceComplete;
     bool awaitingCeremonyStart;
+    bool faceBrideTowardElder;
 
     void Awake()
     {
@@ -230,19 +231,20 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         yield return ShowLine("GROOM", "The bells... make them stop. They can hear us.", 3.8f);
         yield return groomActing;
 
-        yield return StepBackInShock();
-        yield return ShowCharacterLine(
-            "SHERALL",
-            "What is happening to you?",
-            3f,
-            sherall,
-            -1f);
         yield return ShowCharacterLine(
             "GROOM",
             "Sherall... get away from me.",
             3.2f,
             groom,
             1f);
+        Coroutine brideShock = StartCoroutine(StepBackInShock());
+        yield return ShowCharacterLine(
+            "SHERALL",
+            "What is happening to you?",
+            3f,
+            sherall,
+            -1f);
+        yield return brideShock;
 
         PlaceElderAtAisleStart();
         if (elder != null)
@@ -254,9 +256,6 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
             elderAnimator.Update(0f);
             SetSpeed(elderAnimator, 0f);
         }
-
-        RevealInfectedRearGuests();
-        StartCoroutine(WalkInfectedRearGuests());
 
         yield return MoveCamera(
             elderWatchCameraPosition,
@@ -280,12 +279,14 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
             4.4f);
         yield return elderWalk;
         yield return elderCamera;
-        FaceTarget(elder, CoupleLookPoint());
+        faceBrideTowardElder = true;
+        FaceBrideAndElder();
         yield return MoveCamera(
             ElderCounselCameraPosition(),
             ElderCounselLookTarget(),
             0.7f,
             42f);
+        FaceBrideAndElder();
 
         yield return ShowCharacterLine(
             "ELDER",
@@ -337,6 +338,7 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
             1f,
             false);
 
+        faceBrideTowardElder = false;
         yield return MoveCamera(
             aswangGuest.position + new Vector3(-4f, 2.1f, 4.5f),
             aswangGuest.position + Vector3.up * 1.4f,
@@ -360,6 +362,8 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
             ElderCounselLookTarget(),
             0.7f,
             42f);
+        faceBrideTowardElder = true;
+        FaceBrideAndElder();
         yield return ShowCharacterLine(
             "ELDER",
             "Go. Find the bawang and candle. Kill every last aswang.",
@@ -519,15 +523,13 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         if (groom == null)
             yield break;
 
-        FaceEachOther(groom, sherall);
+        FaceTarget(groom, sherall != null ? sherall.position : groom.position + groom.forward);
+        EnsureCutsceneAnimator(groomAnimator);
         PlayState(groomAnimator, KickState);
-        if (groomAnimator != null)
-            groomAnimator.SetTrigger(KickHash);
         yield return WaitUnscaled(groomHitHoldDuration);
         PlayState(groomAnimator, GettingHitState);
-        TriggerReaction(groomAnimator);
         yield return WaitUnscaled(1.4f);
-        FaceEachOther(groom, sherall);
+        FaceTarget(groom, sherall != null ? sherall.position : groom.position + groom.forward);
     }
 
     IEnumerator StepBackInShock()
@@ -535,7 +537,7 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         if (sherall == null || groom == null)
             yield break;
 
-        Vector3 start = sherall.position;
+        Vector3 start = SnapToChurchFloor(sherall.position);
         Vector3 away = start - groom.position;
         away.y = 0f;
         if (away.sqrMagnitude < 0.01f)
@@ -549,6 +551,7 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         if (controllerWasEnabled)
             controller.enabled = false;
 
+        EnsureCutsceneAnimator(sherallAnimator);
         PlayState(sherallAnimator, WalkBackState);
 
         float elapsed = 0f;
@@ -556,12 +559,15 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         {
             elapsed += Time.unscaledDeltaTime;
             float t = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(elapsed / brideShockStepDuration));
-            sherall.position = Vector3.Lerp(start, destination, t);
+            Vector3 next = Vector3.Lerp(start, destination, t);
+            sherall.position = SnapToChurchFloor(next);
             FaceTarget(sherall, groom.position);
+            KeepStandingOnFloor(sherall, standingHipHeight);
             yield return null;
         }
 
         sherall.position = destination;
+        KeepStandingOnFloor(sherall, standingHipHeight);
         RestoreAnimatorPlayback(sherallAnimator);
         FaceTarget(sherall, groom.position);
 
@@ -1405,6 +1411,8 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         KeepStandingOnFloor(priest, standingHipHeight);
         KeepStandingOnFloor(elder, standingHipHeight);
         KeepStandingOnFloor(aswangGuest, standingHipHeight);
+        if (faceBrideTowardElder)
+            FaceBrideAndElder();
         if (sittingGuests != null)
         {
             for (int i = 0; i < sittingGuests.Length; i++)
@@ -1532,7 +1540,7 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         Vector3 position = character.position;
         position.y = floorY;
         character.position = position;
-        LiftHipsToMinimum(character, floorY + hipHeight);
+        LiftMeshAbove(character, floorY);
     }
 
     void KeepSittingOnBench(Transform character, int index)
@@ -1668,8 +1676,13 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
 
     static void PlayState(Animator animator, string stateName)
     {
-        if (animator != null && !string.IsNullOrEmpty(stateName))
-            animator.Play(stateName, 0, 0f);
+        if (animator == null || string.IsNullOrEmpty(stateName))
+            return;
+
+        animator.applyRootMotion = false;
+        animator.speed = 1f;
+        animator.Play(stateName, 0, 0f);
+        animator.Update(0f);
     }
 
     static void RestoreAnimatorPlayback(Animator animator)
@@ -1680,6 +1693,31 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         animator.speed = 1f;
         animator.SetFloat(SpeedHash, 0f);
         animator.Play("Blend Tree", 0, 0f);
+    }
+
+    void FaceBrideAndElder()
+    {
+        if (sherall != null && elder != null)
+        {
+            FaceTarget(sherall, elder.position);
+            FaceTarget(elder, sherall.position);
+        }
+    }
+
+    void EnsureCutsceneAnimator(Animator animator)
+    {
+        if (animator == null)
+            return;
+
+        RuntimeAnimatorController controller = guestSitController;
+        if (controller == null && sherallAnimator != null)
+            controller = sherallAnimator.runtimeAnimatorController;
+        if (controller != null)
+            animator.runtimeAnimatorController = controller;
+
+        animator.applyRootMotion = false;
+        animator.cullingMode = AnimatorCullingMode.AlwaysAnimate;
+        animator.speed = 1f;
     }
 
     static void FaceTarget(Transform character, Vector3 worldTarget)
