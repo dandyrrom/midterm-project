@@ -7,9 +7,9 @@ public sealed class SplashScreenController : MonoBehaviour
 {
     [Header("Flow")]
     [SerializeField] string nextScene = "Backstory1";
-    [SerializeField, Min(1f)] float displayDuration = 3.5f;
-    [SerializeField, Min(0f)] float inputDelay = 0.6f;
-    [SerializeField, Min(0.1f)] float fadeDuration = 0.8f;
+    [SerializeField, Min(1f)] float displayDuration = 8f;
+    [SerializeField, Min(0f)] float inputDelay = 1.1f;
+    [SerializeField, Min(0.1f)] float fadeDuration = 1.4f;
 
     [Header("Camera")]
     [SerializeField] float cameraDrift = 0.35f;
@@ -31,6 +31,7 @@ public sealed class SplashScreenController : MonoBehaviour
     Texture2D darkTexture;
     Texture2D panelTexture;
     Texture2D goldTexture;
+    Texture2D logoTexture;
     GUIStyle titleStyle;
     GUIStyle subtitleStyle;
     GUIStyle menuStyle;
@@ -56,6 +57,7 @@ public sealed class SplashScreenController : MonoBehaviour
         darkTexture = MakeTexture(new Color(0.008f, 0.006f, 0.012f, 0.97f));
         panelTexture = MakeTexture(new Color(0.035f, 0.006f, 0.012f, 0.9f));
         goldTexture = MakeTexture(new Color(0.72f, 0.035f, 0.055f, 1f));
+        logoTexture = Resources.Load<Texture2D>("Splash/lunas-emblem");
     }
 
     void ResolveMenuFont()
@@ -200,19 +202,29 @@ public sealed class SplashScreenController : MonoBehaviour
 
         Color previous = GUI.color;
         GUI.color = new Color(1f, 1f, 1f, alpha);
-        titleStyle.fontSize = Mathf.RoundToInt(122f * scale);
-        subtitleStyle.fontSize = Mathf.RoundToInt(22f * scale);
-        promptStyle.fontSize = Mathf.RoundToInt(16f * scale);
+        titleStyle.fontSize = Mathf.RoundToInt(176f * scale);
+        subtitleStyle.fontSize = Mathf.RoundToInt(28f * scale);
+        promptStyle.fontSize = Mathf.RoundToInt(18f * scale);
+
+        if (logoTexture != null)
+        {
+            float logoSize = 168f * scale;
+            GUI.DrawTexture(
+                new Rect(width * 0.5f - logoSize * 0.5f, height * 0.08f, logoSize, logoSize),
+                logoTexture,
+                ScaleMode.ScaleToFit,
+                true);
+        }
 
         GUI.Label(
-            new Rect(0f, height * 0.31f, width, 150f * scale),
+            new Rect(0f, height * 0.34f, width, 210f * scale),
             "LUNAS",
             titleStyle);
         GUI.DrawTexture(
-            new Rect(width * 0.5f - 75f * scale, height * 0.49f, 150f * scale, 3f * scale),
+            new Rect(width * 0.5f - 90f * scale, height * 0.56f, 180f * scale, 3f * scale),
             goldTexture);
         GUI.Label(
-            new Rect(0f, height * 0.515f, width, 44f * scale),
+            new Rect(0f, height * 0.58f, width, 50f * scale),
             "THE WEDDING NIGHT",
             subtitleStyle);
         GUI.Label(
@@ -236,14 +248,24 @@ public sealed class SplashScreenController : MonoBehaviour
         GUI.DrawTexture(new Rect(0f, 0f, panelWidth, height), panelTexture);
         GUI.DrawTexture(new Rect(panelWidth, 0f, 2f * scale, height), goldTexture);
 
-        titleStyle.fontSize = Mathf.RoundToInt(82f * scale);
-        subtitleStyle.fontSize = Mathf.RoundToInt(17f * scale);
+        titleStyle.fontSize = Mathf.RoundToInt(96f * scale);
+        subtitleStyle.fontSize = Mathf.RoundToInt(18f * scale);
+        if (logoTexture != null)
+        {
+            float logoSize = 72f * scale;
+            GUI.DrawTexture(
+                new Rect(68f * scale, 36f * scale, logoSize, logoSize),
+                logoTexture,
+                ScaleMode.ScaleToFit,
+                true);
+        }
+
         GUI.Label(
-            new Rect(62f * scale, 82f * scale, panelWidth - 100f * scale, 100f * scale),
+            new Rect(62f * scale, 112f * scale, panelWidth - 100f * scale, 120f * scale),
             "LUNAS",
             LeftAligned(titleStyle));
         GUI.Label(
-            new Rect(68f * scale, 172f * scale, panelWidth - 100f * scale, 34f * scale),
+            new Rect(68f * scale, 228f * scale, panelWidth - 100f * scale, 34f * scale),
             "A FILIPINO ASWANG SURVIVAL STORY",
             LeftAligned(subtitleStyle));
 
@@ -379,5 +401,6 @@ public sealed class SplashScreenController : MonoBehaviour
             Destroy(panelTexture);
         if (goldTexture != null)
             Destroy(goldTexture);
+        logoTexture = null;
     }
 }

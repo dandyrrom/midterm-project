@@ -28267,11 +28267,12 @@ MonoBehaviour:
   aswangWalkDuration: 3
   churchFloorY: 2.53
   altarFloorY: 3.03
-  sittingRootY: 2.72
-  sittingHipY: 3.12
+  sittingRootY: 2.78
+  sittingHipY: 3.28
   standingHipHeight: 0.9
   altarFrontZ: 41.4
-  pewSeatOffset: 0.12
+  pewSeatOffset: 0.04
+  pewBackOffset: 0.1
   groomHitHoldDuration: 2.35
   brideShockStepDuration: 1.35
   brideShockStepDistance: 0.75

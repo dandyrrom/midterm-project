@@ -56,11 +56,12 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
     [Header("Church Ground")]
     [SerializeField] float churchFloorY = 2.53f;
     [SerializeField] float altarFloorY = 3.03f;
-    [SerializeField] float sittingRootY = 2.72f;
-    [SerializeField] float sittingHipY = 3.12f;
+    [SerializeField] float sittingRootY = 2.78f;
+    [SerializeField] float sittingHipY = 3.28f;
     [SerializeField] float standingHipHeight = 0.9f;
     [SerializeField] float altarFrontZ = 41.4f;
-    [SerializeField] float pewSeatOffset = 0.12f;
+    [SerializeField] float pewSeatOffset = 0.04f;
+    [SerializeField] float pewBackOffset = 0.1f;
 
     [Header("Infection Reactions")]
     [SerializeField, Min(0.1f)] float groomHitHoldDuration = 2.35f;
@@ -106,6 +107,7 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
     Animator[] infectedRearAnimators;
     Vector3[] seatedGuestPositions;
     float[] seatedGuestYaws;
+    float[] seatedGuestHipYs;
     Camera sceneCamera;
     float gameplayFieldOfView;
     Texture2D panelTexture;
@@ -140,6 +142,7 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         elderAnimator = FindAnimator(elder);
         aswangAnimator = FindAnimator(aswangGuest);
         EnsureEnvironmentColliders();
+        EnsurePewSeatColliders();
         EnsureChurchFloor();
         EnsureCharacterColliders();
         OpenExteriorChurchOpenings();
@@ -914,6 +917,44 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         EnsureCharacterController(aswangGuest);
     }
 
+    void EnsurePewSeatColliders()
+    {
+        Transform[] pews = FindOriginalWeddingPews();
+        for (int i = 0; i < pews.Length; i++)
+        {
+            Transform pew = pews[i];
+            if (pew.Find("PewSeatCollider") != null)
+                continue;
+
+            GameObject seat = new GameObject("PewSeatCollider");
+            seat.transform.SetParent(pew, false);
+            seat.transform.localPosition = Vector3.zero;
+            seat.transform.localRotation = Quaternion.identity;
+            BoxCollider box = seat.AddComponent<BoxCollider>();
+            box.center = new Vector3(0f, 0.06f, 0.08f);
+            box.size = new Vector3(1.85f, 0.58f, 0.16f);
+        }
+
+        Physics.SyncTransforms();
+    }
+
+    static void AttachSittingCollider(Transform guest)
+    {
+        if (guest == null)
+            return;
+
+        DisableCharacterController(guest);
+        CapsuleCollider capsule = guest.GetComponent<CapsuleCollider>();
+        if (capsule == null)
+            capsule = guest.gameObject.AddComponent<CapsuleCollider>();
+
+        capsule.direction = 1;
+        capsule.center = new Vector3(0f, 0.58f, 0.04f);
+        capsule.height = 1.05f;
+        capsule.radius = 0.22f;
+        capsule.enabled = true;
+    }
+
     void SpawnSittingGuests()
     {
         if (!spawnSittingGuests)
@@ -924,6 +965,7 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         {
             seatedGuestPositions = new Vector3[sittingGuests.Length];
             seatedGuestYaws = new float[sittingGuests.Length];
+            seatedGuestHipYs = new float[sittingGuests.Length];
             for (int i = 0; i < sittingGuests.Length; i++)
             {
                 Transform guest = sittingGuests[i];
@@ -956,6 +998,7 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
 
     GuestSeat[] BuildPewSeats()
     {
+        Physics.SyncTransforms();
         var seats = new List<GuestSeat>(40);
         Transform[] pews = FindOriginalWeddingPews();
         int sitIndex = 0;
@@ -969,20 +1012,39 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
             along.Normalize();
             face.Normalize();
             float yaw = Quaternion.LookRotation(face).eulerAngles.y;
-            int guestCount = pew.position.z >= 43.2f ? 2 : 1;
+            bool longPew = pew.lossyScale.x >= 1.05f && pew.position.z >= 43.2f;
+            int guestCount = longPew ? 2 : 1;
             if (seats.Count + guestCount > 40)
                 guestCount = 40 - seats.Count;
 
             for (int i = 0; i < guestCount; i++)
             {
-                float slot = guestCount == 1 ? 0f : (i - (guestCount - 1) * 0.5f) * 0.52f;
-                Vector3 position = pew.position + along * slot + face * pewSeatOffset;
+                float slot = guestCount == 1 ? 0f : (i - (guestCount - 1) * 0.5f) * 0.4f;
+                Vector3 probe = pew.position + along * slot + face * pewSeatOffset - face * pewBackOffset;
+                Vector3 position = probe;
+                float hipY = sittingHipY;
+                if (TryFindSeatSurface(probe, out RaycastHit hit))
+                {
+                    position = hit.point - face * pewBackOffset * 0.35f;
+                    hipY = hit.point.y + 0.22f;
+                }
+
                 position.y = sittingRootY;
-                seats.Add(new GuestSeat(position, yaw, sitIndex++));
+                seats.Add(new GuestSeat(position, yaw, hipY, sitIndex++));
             }
         }
 
         return seats.ToArray();
+    }
+
+    bool TryFindSeatSurface(Vector3 pewPoint, out RaycastHit hit)
+    {
+        Vector3 origin = new Vector3(pewPoint.x, pewPoint.y + 1.6f, pewPoint.z);
+        if (Physics.Raycast(origin, Vector3.down, out hit, 2.8f) && hit.normal.y > 0.35f)
+            return true;
+
+        origin.x += 0.1f;
+        return Physics.Raycast(origin, Vector3.down, out hit, 2.8f) && hit.normal.y > 0.35f;
     }
 
     Transform[] FindOriginalWeddingPews()
@@ -1044,10 +1106,12 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         Vector3 seated = new Vector3(seat.position.x, sittingRootY, seat.position.z);
         guest.position = seated;
         guest.rotation = Quaternion.Euler(0f, seat.yaw, 0f);
+        AttachSittingCollider(guest);
         if (seatedGuestPositions != null && index < seatedGuestPositions.Length)
         {
             seatedGuestPositions[index] = seated;
             seatedGuestYaws[index] = seat.yaw;
+            seatedGuestHipYs[index] = seat.hipY;
         }
 
         Animator animator = FindAnimator(guest);
@@ -1218,12 +1282,14 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
     {
         public Vector3 position;
         public float yaw;
+        public float hipY;
         public int sitIndex;
 
-        public GuestSeat(Vector3 position, float yaw, int sitIndex)
+        public GuestSeat(Vector3 position, float yaw, float hipY, int sitIndex)
         {
             this.position = position;
             this.yaw = yaw;
+            this.hipY = hipY;
             this.sitIndex = sitIndex;
         }
     }
@@ -1343,7 +1409,10 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         seated.y = sittingRootY;
         character.position = seated;
         character.rotation = Quaternion.Euler(0f, yaw, 0f);
-        PinHipsTo(character, sittingHipY);
+        float hipY = sittingHipY;
+        if (seatedGuestHipYs != null && index < seatedGuestHipYs.Length && seatedGuestHipYs[index] > 0.1f)
+            hipY = seatedGuestHipYs[index];
+        PinHipsTo(character, hipY);
     }
 
     static void LiftHipsToMinimum(Transform character, float minHipY)
