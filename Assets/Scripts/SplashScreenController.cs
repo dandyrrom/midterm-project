@@ -293,23 +293,23 @@ public sealed class SplashScreenController : MonoBehaviour
         float width = Screen.width;
         float height = Screen.height;
         float scale = UiScale();
-        Rect box = new Rect(width * 0.5f, height * 0.16f, width * 0.43f, height * 0.68f);
+        Rect box = new Rect(width * 0.48f, height * 0.12f, width * 0.46f, height * 0.76f);
         GUI.DrawTexture(box, darkTexture);
 
         subtitleStyle.fontSize = Mathf.RoundToInt(25f * scale);
-        bodyStyle.fontSize = Mathf.RoundToInt(20f * scale);
+        bodyStyle.fontSize = Mathf.RoundToInt(18f * scale);
         promptStyle.fontSize = Mathf.RoundToInt(15f * scale);
 
         GUI.Label(
-            new Rect(box.x + 38f * scale, box.y + 32f * scale, box.width - 76f * scale, 42f * scale),
+            new Rect(box.x + 38f * scale, box.y + 28f * scale, box.width - 76f * scale, 42f * scale),
             "HOW TO PLAY",
             LeftAligned(subtitleStyle));
         GUI.DrawTexture(
-            new Rect(box.x + 38f * scale, box.y + 84f * scale, 80f * scale, 3f * scale),
+            new Rect(box.x + 38f * scale, box.y + 78f * scale, 80f * scale, 3f * scale),
             goldTexture);
         GUI.Label(
-            new Rect(box.x + 38f * scale, box.y + 112f * scale, box.width - 76f * scale, box.height - 190f * scale),
-            "WASD     Move\nSHIFT      Run\nSPACE      Jump\nMOUSE      Look\n\nStay quiet. The aswang hunt by sound.\nCollect bawang and a candle.\nUse them to kill every aswang.\n\nGOAL: KILL ALL ASWANGS.",
+            new Rect(box.x + 38f * scale, box.y + 100f * scale, box.width - 76f * scale, box.height - 170f * scale),
+            "WASD              Move\nCTRL + WASD     Sneak\nSHIFT               Run\nSPACE               Jump\nMOUSE               Look\nE                       Collect candle / bawang\nF                       Throw bawang\nG                       Throw candle\n\nStay quiet. The aswang hunt by sound.\nUse bawang and candles to kill every aswang.\n\nGOAL: KILL ALL ASWANGS.",
             bodyStyle);
         GUI.Label(
             new Rect(box.x + 38f * scale, box.yMax - 58f * scale, box.width - 76f * scale, 28f * scale),
