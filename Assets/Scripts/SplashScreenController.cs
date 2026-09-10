@@ -401,7 +401,7 @@ public sealed class SplashScreenController : MonoBehaviour
         subtitleStyle.fontSize = Mathf.RoundToInt(40f * scale);
         GUI.Label(
             new Rect(0f, Screen.height * 0.46f, Screen.width, 70f * scale),
-            "ENTERING THE WEDDING...",
+            "LOADING...",
             subtitleStyle);
     }
 
