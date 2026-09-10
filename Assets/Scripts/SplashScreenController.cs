@@ -169,7 +169,7 @@ public sealed class SplashScreenController : MonoBehaviour
     static void QuitGame()
     {
 #if UNITY_EDITOR
-        Debug.Log("Quit selected. Application.Quit only closes a built game.");
+        UnityEditor.EditorApplication.isPlaying = false;
 #else
         Application.Quit();
 #endif
