@@ -913,9 +913,14 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
 
             string objectName = meshFilter.gameObject.name.ToLowerInvariant();
             bool needsCollider =
+                objectName.Contains("bench") ||
                 objectName.Contains("owenground") ||
                 objectName.Contains("ground") ||
-                objectName.Contains("floor");
+                objectName.Contains("floor") ||
+                objectName.Contains("flowerstand") ||
+                objectName.Contains("foliageplant") ||
+                objectName.Contains("sm_flowers") ||
+                objectName.Contains("flower");
             if (!needsCollider || meshFilter.GetComponent<Collider>() != null)
                 continue;
 
@@ -1349,46 +1354,19 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         if (bride == null)
             return;
 
+        float aisleX = brideEntryPosition.x;
         Transform[] pews = FindOriginalWeddingPews();
         for (int i = 0; i < pews.Length; i++)
         {
-            IgnoreColliders(bride, pews[i]);
-            DisableSolidColliders(pews[i]);
-        }
-
-        Transform[] props = FindObjectsByType<Transform>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
-        for (int i = 0; i < props.Length; i++)
-        {
-            Transform prop = props[i];
-            if (prop == null || !InWeddingNave(prop.position))
+            Transform pew = pews[i];
+            if (pew == null)
                 continue;
 
-            string objectName = prop.name.ToLowerInvariant();
-            if (objectName.Contains("flower") ||
-                objectName.Contains("foliage") ||
-                objectName.Contains("plant") ||
-                objectName.Contains("bench"))
-            {
-                IgnoreColliders(bride, prop);
-                DisableSolidColliders(prop);
-            }
+            // Only the pews sitting in the flower lane stay passable so she
+            // can walk to the altar. Side benches and flowers stay solid.
+            if (Mathf.Abs(pew.position.x - aisleX) <= 1.15f)
+                IgnoreColliders(bride, pew);
         }
-
-        if (sittingGuests != null)
-        {
-            for (int i = 0; i < sittingGuests.Length; i++)
-                IgnoreColliders(bride, sittingGuests[i]);
-        }
-
-        IgnoreColliders(bride, groom);
-        IgnoreColliders(bride, priest);
-    }
-
-    static bool InWeddingNave(Vector3 position)
-    {
-        return position.x >= 290f && position.x <= 320f &&
-            position.z >= 35f && position.z <= 65f &&
-            position.y >= 2f && position.y <= 6f;
     }
 
     static void IgnoreColliders(CharacterController bride, Transform root)
@@ -1403,21 +1381,6 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
             if (other == null || other == bride)
                 continue;
             Physics.IgnoreCollision(bride, other, true);
-        }
-    }
-
-    static void DisableSolidColliders(Transform root)
-    {
-        if (root == null)
-            return;
-
-        Collider[] colliders = root.GetComponentsInChildren<Collider>(true);
-        for (int i = 0; i < colliders.Length; i++)
-        {
-            Collider other = colliders[i];
-            if (other == null || other.isTrigger || other is CharacterController)
-                continue;
-            other.enabled = false;
         }
     }
 
@@ -1688,7 +1651,7 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         EnsureStyles();
         float scale = Mathf.Clamp(Mathf.Min(Screen.width / 1920f, Screen.height / 1080f), 0.7f, 1.4f);
         float panelWidth = Mathf.Min(Screen.width * 0.78f, 1380f * scale);
-        float panelHeight = 190f * scale;
+        float panelHeight = 220f * scale;
         float panelX = (Screen.width - panelWidth) * 0.5f;
         float panelY = Screen.height - panelHeight - 42f * scale;
 
@@ -1698,20 +1661,20 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         GUI.DrawTexture(new Rect(panelX, panelY, 6f * scale, panelHeight), accentTexture);
 
         speakerStyle.fontSize = Mathf.RoundToInt(22f * scale);
-        dialogueStyle.fontSize = Mathf.RoundToInt(28f * scale);
+        dialogueStyle.fontSize = Mathf.RoundToInt(26f * scale);
         promptStyle.fontSize = Mathf.RoundToInt(16f * scale);
 
         float left = panelX + 38f * scale;
         GUI.Label(
-            new Rect(left, panelY + 22f * scale, panelWidth - 70f * scale, 32f * scale),
+            new Rect(left, panelY + 18f * scale, panelWidth - 70f * scale, 32f * scale),
             currentSpeaker,
             speakerStyle);
         GUI.Label(
-            new Rect(left, panelY + 58f * scale, panelWidth - 76f * scale, 92f * scale),
+            new Rect(left, panelY + 54f * scale, panelWidth - 76f * scale, 122f * scale),
             currentDialogue,
             dialogueStyle);
         GUI.Label(
-            new Rect(left, panelY + 151f * scale, panelWidth - 76f * scale, 24f * scale),
+            new Rect(left, panelY + 182f * scale, panelWidth - 76f * scale, 24f * scale),
             "SPACE / ENTER  Continue     ESC  Skip",
             promptStyle);
         GUI.color = previousColor;
@@ -1721,8 +1684,8 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
     {
         EnsureStyles();
         float scale = Mathf.Clamp(Mathf.Min(Screen.width / 1920f, Screen.height / 1080f), 0.7f, 1.4f);
-        float panelWidth = Mathf.Min(Screen.width * 0.62f, 980f * scale);
-        float panelHeight = 108f * scale;
+        float panelWidth = Mathf.Min(Screen.width * 0.72f, 1100f * scale);
+        float panelHeight = 168f * scale;
         float panelX = (Screen.width - panelWidth) * 0.5f;
         float panelY = Screen.height - panelHeight - 48f * scale;
 
@@ -1730,14 +1693,14 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         GUI.DrawTexture(new Rect(panelX, panelY, 6f * scale, panelHeight), accentTexture);
 
         speakerStyle.fontSize = Mathf.RoundToInt(20f * scale);
-        dialogueStyle.fontSize = Mathf.RoundToInt(24f * scale);
+        dialogueStyle.fontSize = Mathf.RoundToInt(22f * scale);
         float left = panelX + 34f * scale;
         GUI.Label(
-            new Rect(left, panelY + 14f * scale, panelWidth - 60f * scale, 28f * scale),
+            new Rect(left, panelY + 14f * scale, panelWidth - 68f * scale, 28f * scale),
             "BRIDAL ENTRANCE",
             speakerStyle);
         GUI.Label(
-            new Rect(left, panelY + 44f * scale, panelWidth - 60f * scale, 50f * scale),
+            new Rect(left, panelY + 46f * scale, panelWidth - 68f * scale, 108f * scale),
             "Use WASD to walk Sherall down the flower aisle. The ceremony begins when you reach the front, before the groom.",
             dialogueStyle);
     }
