@@ -72509,7 +72509,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 1
   m_VoxelSize: 0.022
   m_MinRegionArea: 5
-  m_NavMeshData: {fileID: 23800000, guid: 3eefcc54d3eea2c428725b45ba381666, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 765d62a659ee3d84388cbf22a894b1a4, type: 2}
   m_BuildHeightMesh: 1
 --- !u!4 &1705347928
 Transform:
@@ -76447,7 +76447,7 @@ Light:
   serializedVersion: 13
   m_Type: 1
   m_Color: {r: 0.40675676, g: 0.41893998, b: 0.5245282, a: 1}
-  m_Intensity: 11
+  m_Intensity: 0.6
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -88253,8 +88253,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2109876543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.000000014901161, y: 0.000000059604645, z: -0.000000029802322, w: -1}
-  m_LocalPosition: {x: 9.648415, y: 4.0640097, z: -107.58038}
+  m_LocalRotation: {x: 0.000000022351742, y: -0.000000029802322, z: 0.000000029802322, w: -1}
+  m_LocalPosition: {x: 9.648415, y: 4.0640097, z: -107.580376}
   m_LocalScale: {x: 60.478302, y: 60.478302, z: 60.478302}
   m_ConstrainProportionsScale: 0
   m_Children: []
