@@ -83,9 +83,9 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
 
     [Header("Dialogue Babble")]
     [SerializeField] bool playDialogueBabble = true;
-    [SerializeField, Range(0f, 1f)] float dialogueBabbleVolume = 0.42f;
-    [SerializeField, Min(0.05f)] float babbleSyllableSeconds = 0.11f;
-    [SerializeField, Min(0.02f)] float babbleGapSeconds = 0.045f;
+    [SerializeField, Range(0f, 1f)] float dialogueBabbleVolume = 0.55f;
+    [SerializeField] AudioClip maleBabbleClip;
+    [SerializeField] AudioClip femaleBabbleClip;
     [SerializeField] Vector3[] infectedRearStartPositions =
     {
         new Vector3(300.4f, 2.53f, 57.2f),
@@ -153,7 +153,6 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
     bool faceBrideTowardElder;
     AudioSource dialogueAudio;
     Coroutine dialogueBabbleRoutine;
-    readonly Dictionary<string, AudioClip[]> babbleClipsBySpeaker = new Dictionary<string, AudioClip[]>();
 
     void Awake()
     {
@@ -2488,6 +2487,51 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         dialogueAudio.loop = false;
         dialogueAudio.spatialBlend = 0f;
         dialogueAudio.volume = dialogueBabbleVolume;
+        ResolveFreesoundBabbleClips();
+    }
+
+    void ResolveFreesoundBabbleClips()
+    {
+        if (maleBabbleClip != null && femaleBabbleClip != null)
+            return;
+
+#if UNITY_EDITOR
+        string[] guids = UnityEditor.AssetDatabase.FindAssets("freesound t:AudioClip", new[] { "Assets/Audio" });
+        for (int i = 0; i < guids.Length; i++)
+        {
+            string assetPath = UnityEditor.AssetDatabase.GUIDToAssetPath(guids[i]);
+            AudioClip clip = UnityEditor.AssetDatabase.LoadAssetAtPath<AudioClip>(assetPath);
+            if (clip == null)
+                continue;
+
+            string name = clip.name.ToLowerInvariant();
+            if (maleBabbleClip == null && name.Contains("male"))
+                maleBabbleClip = clip;
+            else if (femaleBabbleClip == null && name.Contains("female"))
+                femaleBabbleClip = clip;
+        }
+
+        // If names are generic freesound_* without male/female, take first two.
+        if ((maleBabbleClip == null || femaleBabbleClip == null) && guids.Length > 0)
+        {
+            for (int i = 0; i < guids.Length; i++)
+            {
+                string assetPath = UnityEditor.AssetDatabase.GUIDToAssetPath(guids[i]);
+                AudioClip clip = UnityEditor.AssetDatabase.LoadAssetAtPath<AudioClip>(assetPath);
+                if (clip == null)
+                    continue;
+                if (maleBabbleClip == null)
+                    maleBabbleClip = clip;
+                else if (femaleBabbleClip == null && clip != maleBabbleClip)
+                    femaleBabbleClip = clip;
+            }
+        }
+#endif
+
+        if (maleBabbleClip == null)
+            maleBabbleClip = Resources.Load<AudioClip>("freesound-male-babble");
+        if (femaleBabbleClip == null)
+            femaleBabbleClip = Resources.Load<AudioClip>("freesound-female-babble");
     }
 
     void StartDialogueBabble(string speaker, string dialogue, float duration)
@@ -2496,7 +2540,7 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         if (!playDialogueBabble || dialogueAudio == null)
             return;
 
-        dialogueBabbleRoutine = StartCoroutine(PlayDialogueBabble(speaker, dialogue, duration));
+        dialogueBabbleRoutine = StartCoroutine(PlayDialogueBabble(speaker, duration));
     }
 
     void StopDialogueBabble()
@@ -2509,73 +2553,65 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
 
         if (dialogueAudio != null && dialogueAudio.isPlaying)
             dialogueAudio.Stop();
+        if (dialogueAudio != null)
+        {
+            dialogueAudio.clip = null;
+            dialogueAudio.pitch = 1f;
+            dialogueAudio.loop = false;
+        }
     }
 
-    IEnumerator PlayDialogueBabble(string speaker, string dialogue, float duration)
+    IEnumerator PlayDialogueBabble(string speaker, float duration)
     {
-        AudioClip[] clips = GetBabbleClipsForSpeaker(speaker);
-        if (clips == null || clips.Length == 0)
+        AudioClip clip = GetBabbleClipForSpeaker(speaker);
+        if (clip == null)
             yield break;
 
-        // Roughly match babble length to how much text is on screen.
-        int letters = 0;
-        if (!string.IsNullOrEmpty(dialogue))
+        float pitch = GetBabblePitchForSpeaker(speaker);
+        dialogueAudio.clip = clip;
+        dialogueAudio.pitch = pitch;
+        dialogueAudio.volume = dialogueBabbleVolume;
+        dialogueAudio.loop = clip.length + 0.05f < Mathf.Max(0.4f, duration - 0.2f);
+        dialogueAudio.time = 0f;
+        dialogueAudio.Play();
+
+        float endAt = Time.unscaledTime + Mathf.Max(0.25f, duration - 0.15f);
+        while (Time.unscaledTime < endAt && !sequenceComplete)
         {
-            for (int i = 0; i < dialogue.Length; i++)
-            {
-                if (char.IsLetterOrDigit(dialogue[i]))
-                    letters++;
-            }
+            if (!dialogueAudio.isPlaying && dialogueAudio.loop)
+                dialogueAudio.Play();
+            yield return null;
         }
 
-        int syllables = Mathf.Clamp(Mathf.Max(3, letters / 3), 3, 28);
-        float available = Mathf.Max(0.35f, duration - 0.25f);
-        float step = Mathf.Clamp(available / syllables, 0.08f, babbleSyllableSeconds + babbleGapSeconds);
-        float started = Time.unscaledTime;
-        int clipIndex = UnityEngine.Random.Range(0, clips.Length);
-
-        for (int i = 0; i < syllables; i++)
-        {
-            if (sequenceComplete || Time.unscaledTime - started >= available)
-                yield break;
-
-            AudioClip clip = clips[clipIndex % clips.Length];
-            clipIndex++;
-            if (clip != null)
-            {
-                dialogueAudio.pitch = UnityEngine.Random.Range(0.94f, 1.06f);
-                dialogueAudio.PlayOneShot(clip, dialogueBabbleVolume);
-            }
-
-            float wait = step * UnityEngine.Random.Range(0.75f, 1.2f);
-            float waited = 0f;
-            while (waited < wait)
-            {
-                if (sequenceComplete)
-                    yield break;
-                waited += Time.unscaledDeltaTime;
-                yield return null;
-            }
-        }
+        if (dialogueAudio != null)
+            dialogueAudio.Stop();
     }
 
-    AudioClip[] GetBabbleClipsForSpeaker(string speaker)
+    AudioClip GetBabbleClipForSpeaker(string speaker)
     {
         string key = NormalizeSpeakerKey(speaker);
-        if (babbleClipsBySpeaker.TryGetValue(key, out AudioClip[] cached) && cached != null)
-            return cached;
+        bool female = key == "SHERALL";
+        AudioClip preferred = female ? femaleBabbleClip : maleBabbleClip;
+        if (preferred != null)
+            return preferred;
+        return femaleBabbleClip != null ? femaleBabbleClip : maleBabbleClip;
+    }
 
-        GetSpeakerVoiceProfile(key, out float baseFreq, out float vibrato, out float softness);
-        AudioClip[] clips = new AudioClip[5];
-        for (int i = 0; i < clips.Length; i++)
+    static float GetBabblePitchForSpeaker(string speaker)
+    {
+        switch (NormalizeSpeakerKey(speaker))
         {
-            float freq = baseFreq * UnityEngine.Random.Range(0.88f, 1.14f);
-            float seconds = babbleSyllableSeconds * UnityEngine.Random.Range(0.75f, 1.2f);
-            clips[i] = BuildBabbleClip($"{key}-babble-{i}", freq, vibrato, softness, seconds);
+            case "SHERALL":
+                return 1.12f;
+            case "GROOM":
+                return 0.96f;
+            case "OFFICIANT":
+                return 1.0f;
+            case "ELDER":
+                return 0.84f;
+            default:
+                return 0.92f;
         }
-
-        babbleClipsBySpeaker[key] = clips;
-        return clips;
     }
 
     static string NormalizeSpeakerKey(string speaker)
@@ -2596,73 +2632,6 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
             return "NARRATION";
         return key;
     }
-
-    static void GetSpeakerVoiceProfile(string key, out float baseFreq, out float vibrato, out float softness)
-    {
-        switch (key)
-        {
-            case "SHERALL":
-                baseFreq = 460f;
-                vibrato = 12f;
-                softness = 0.7f;
-                break;
-            case "GROOM":
-                baseFreq = 210f;
-                vibrato = 7f;
-                softness = 0.55f;
-                break;
-            case "OFFICIANT":
-                baseFreq = 250f;
-                vibrato = 5f;
-                softness = 0.6f;
-                break;
-            case "ELDER":
-                baseFreq = 160f;
-                vibrato = 4f;
-                softness = 0.5f;
-                break;
-            default:
-                baseFreq = 190f;
-                vibrato = 3f;
-                softness = 0.85f;
-                break;
-        }
-    }
-
-    static AudioClip BuildBabbleClip(string clipName, float baseFreq, float vibrato, float softness, float seconds)
-    {
-        int sampleRate = 22050;
-        int sampleCount = Mathf.Max(256, Mathf.RoundToInt(sampleRate * Mathf.Max(0.05f, seconds)));
-        float[] samples = new float[sampleCount];
-        float randSeed = UnityEngine.Random.Range(0.1f, 100f);
-
-        for (int i = 0; i < sampleCount; i++)
-        {
-            float t = i / (float)sampleRate;
-            float env = SyllableEnvelope(i, sampleCount, softness);
-            float wobble = Mathf.Sin((t + randSeed) * vibrato * Mathf.PI * 2f) * (baseFreq * 0.035f);
-            float freq = baseFreq + wobble;
-            float vowel =
-                Mathf.Sin(t * freq * Mathf.PI * 2f) * 0.55f +
-                Mathf.Sin(t * freq * 2.05f * Mathf.PI * 2f) * 0.22f +
-                Mathf.Sin(t * freq * 3.1f * Mathf.PI * 2f) * 0.08f;
-            float breath = (Mathf.PerlinNoise(randSeed, t * 38f) * 2f - 1f) * 0.08f * (1f - softness * 0.5f);
-            samples[i] = Mathf.Clamp(vowel + breath, -1f, 1f) * env * 0.55f;
-        }
-
-        AudioClip clip = AudioClip.Create(clipName, sampleCount, 1, sampleRate, false);
-        clip.SetData(samples, 0);
-        return clip;
-    }
-
-    static float SyllableEnvelope(int index, int count, float softness)
-    {
-        float t = index / (float)Mathf.Max(1, count - 1);
-        float attack = Mathf.Clamp01(t / Mathf.Lerp(0.08f, 0.18f, softness));
-        float release = Mathf.Clamp01((1f - t) / Mathf.Lerp(0.16f, 0.32f, softness));
-        return attack * release;
-    }
-
 
     void EnsureStyles()
     {
