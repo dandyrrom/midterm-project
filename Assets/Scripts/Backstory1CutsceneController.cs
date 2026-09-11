@@ -77,7 +77,8 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
     [SerializeField] Transform[] infectedRearGuests;
     [SerializeField] RuntimeAnimatorController guestSitController;
     [SerializeField] RuntimeAnimatorController guestStandController;
-    [SerializeField] RuntimeAnimatorController cutsceneActorController;
+    [SerializeField] RuntimeAnimatorController brideCutsceneController;
+    [SerializeField] RuntimeAnimatorController groomCutsceneController;
     [SerializeField] bool spawnSittingGuests = true;
     [SerializeField] bool spawnInfectedRearGuests = false;
 
@@ -643,8 +644,8 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
             sherallAnimator != null &&
             sherallAnimator.runtimeAnimatorController == guestSitController)
         {
-            if (cutsceneActorController != null)
-                sherallAnimator.runtimeAnimatorController = cutsceneActorController;
+            if (brideCutsceneController != null)
+                sherallAnimator.runtimeAnimatorController = brideCutsceneController;
             else if (guestStandController != null)
                 sherallAnimator.runtimeAnimatorController = guestStandController;
         }
@@ -2311,15 +2312,23 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         if (animator == null)
             return;
 
-        // Never force the guest sit controller onto bride/groom/cast.
-        RuntimeAnimatorController controller = cutsceneActorController;
+        // Dedicated bride/groom cutscene controllers only — not CutsceneActor_Controller.
+        RuntimeAnimatorController controller = null;
+        if (animator == sherallAnimator)
+            controller = brideCutsceneController;
+        else if (animator == groomAnimator)
+            controller = groomCutsceneController;
+
         if (controller == null)
             controller = animator.runtimeAnimatorController;
         if (guestSitController != null && controller == guestSitController)
-            controller = cutsceneActorController;
-        if (controller == null && sherallAnimator != null &&
-            sherallAnimator.runtimeAnimatorController != guestSitController)
-            controller = sherallAnimator.runtimeAnimatorController;
+        {
+            if (animator == sherallAnimator)
+                controller = brideCutsceneController;
+            else if (animator == groomAnimator)
+                controller = groomCutsceneController;
+        }
+
         if (controller != null && animator.runtimeAnimatorController != controller)
             animator.runtimeAnimatorController = controller;
 
