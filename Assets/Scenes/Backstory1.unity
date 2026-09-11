@@ -28352,7 +28352,8 @@ MonoBehaviour:
   - {fileID: 2148000211}
   guestSitController: {fileID: 9100000, guid: 5bfdcfbb64544cf6b4e818324bfb41f7, type: 2}
   guestStandController: {fileID: 9100000, guid: 7c1e9a2b4d8f40c3a6e5b1928374650f, type: 2}
-  cutsceneActorController: {fileID: 9100000, guid: a1b2c3d4e5f60718293a4b5c6d7e8f90, type: 2}
+  brideCutsceneController: {fileID: 9100000, guid: c3d4e5f60718293a4b5c6d7e8f90a1b2, type: 2}
+  groomCutsceneController: {fileID: 9100000, guid: b2c3d4e5f60718293a4b5c6d7e8f90a1, type: 2}
   playDialogueBabble: 1
   dialogueBabbleVolume: 0.55
   maleBabbleClip: {fileID: 8300000, guid: 63fd093d98794db3a2e69c724db26269, type: 3}
