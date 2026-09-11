@@ -256,6 +256,7 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
             -1f);
         yield return ShowCharacterLine("GROOM", "I... do.", 2.8f, groom, 1f);
 
+        // Infection reaction runs during narration only — never while the groom talks.
         Coroutine groomActing = StartCoroutine(ActStrangely());
         yield return MoveCamera(
             groom.position + new Vector3(2.4f, 1.65f, 3f),
@@ -266,8 +267,9 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
             "NARRATION",
             "His hand tightened around hers. His breathing changed, and his eyes followed a sound no one else could hear.",
             5.2f);
-        yield return ShowLine("GROOM", "The bells... make them stop. They can hear us.", 3.8f);
         yield return groomActing;
+
+        yield return ShowLine("GROOM", "The bells... make them stop. They can hear us.", 3.8f);
 
         yield return ShowCharacterLine(
             "GROOM",
@@ -275,8 +277,7 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
             3.2f,
             groom,
             1f);
-        Coroutine shockCamera = StartCoroutine(WatchBrideShock(Mathf.Max(brideShockStepDuration, 3f)));
-        Coroutine brideShock = StartCoroutine(StepBackInShock());
+        // Bride stays still while she speaks; step-back reaction plays after the line.
         yield return ShowCharacterLine(
             "SHERALL",
             "What is happening to you?",
@@ -284,7 +285,8 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
             sherall,
             -1f,
             false);
-        yield return brideShock;
+        Coroutine shockCamera = StartCoroutine(WatchBrideShock(Mathf.Max(brideShockStepDuration, 3f)));
+        yield return StepBackInShock();
         yield return shockCamera;
         ForceBrideStandingPose();
         ForbidCoupleSitAnimation(groomAnimator);
@@ -506,6 +508,10 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         currentSpeaker = speaker;
         currentDialogue = dialogue;
         dialogueAlpha = 0f;
+        // Safest couple dialogue: hold a still standing pose — no talk/idle motion.
+        Animator talkingAnimator = GetCoupleAnimatorForSpeaker(speaker);
+        if (talkingAnimator != null)
+            FreezeCoupleTalkingPose(talkingAnimator);
         StartDialogueBabble(speaker, dialogue, duration);
 
         float started = Time.unscaledTime;
@@ -516,6 +522,9 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
             dialogueAlpha = Mathf.Min(
                 Mathf.Clamp01(elapsed / 0.25f),
                 Mathf.Clamp01(remaining / 0.35f));
+
+            if (talkingAnimator != null)
+                FreezeCoupleTalkingPose(talkingAnimator);
 
             if (SkipSequencePressed())
             {
@@ -750,6 +759,43 @@ public sealed class Backstory1CutsceneController : MonoBehaviour
         else
             animator.Play("Blend Tree", 0, 0f);
         animator.Update(0f);
+    }
+
+    Animator GetCoupleAnimatorForSpeaker(string speaker)
+    {
+        switch (NormalizeSpeakerKey(speaker))
+        {
+            case "SHERALL":
+                return sherallAnimator;
+            case "GROOM":
+                return groomAnimator;
+            default:
+                return null;
+        }
+    }
+
+    void FreezeCoupleTalkingPose(Animator animator)
+    {
+        if (animator == null)
+            return;
+
+        ForbidCoupleSitAnimation(animator);
+        animator.applyRootMotion = false;
+        animator.SetFloat(SpeedHash, 0f);
+
+        // Pin a standing idle frame, then freeze so nothing plays while they talk.
+        AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
+        bool onIdle = info.IsName(IdleState) || info.IsName("Blend Tree");
+        if (!onIdle)
+        {
+            if (animator.HasState(0, Animator.StringToHash(IdleState)))
+                animator.Play(IdleState, 0, 0f);
+            else
+                animator.Play("Blend Tree", 0, 0f);
+            animator.Update(0f);
+        }
+
+        animator.speed = 0f;
     }
 
     IEnumerator WatchBrideShock(float duration)
